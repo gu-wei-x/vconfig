@@ -1,0 +1,15 @@
+[package]
+name = "variants"
+version = "0.1.0"
+edition = "2024"
+description = """
+A native Rust encoder and decoder of TOML-formatted files and streams. Provides
+implementations of the standard Serialize/Deserialize traits for TOML data to
+facilitate deserializing and serializing Rust structures with variant context.
+"""
+
+[dependencies]
+indexmap = "2.10.0"
+serde = { version = "1.0.219", features = ["derive"] }
+winnow = "0.7.11"
+

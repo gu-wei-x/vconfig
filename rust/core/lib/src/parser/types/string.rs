@@ -5,7 +5,7 @@ use crate::{
     parser::types::Result,
     tokenizer::{
         stream::{self, TokenStream},
-        token::TokenKind,
+        token::Kind,
     },
 };
 
@@ -30,16 +30,16 @@ pub(crate) fn variants_from<'a>(
     let start_token = token_stream.next_token().unwrap(); // consume current.
     if let Some(end_token) = stream::get_next_token_if(token_stream, |k| {
         !vec![
-            TokenKind::WHITESPACE,
-            TokenKind::NEWLINE,
-            TokenKind::EQUALS,
-            TokenKind::GREATTHAN,
-            TokenKind::RSQUARBRACKET,
+            Kind::WHITESPACE,
+            Kind::NEWLINE,
+            Kind::EQUALS,
+            Kind::GREATTHAN,
+            Kind::RSQUARBRACKET,
         ]
         .contains(&k)
     }) {
         let token = Token::new(
-            TokenKind::OTHER,
+            Kind::OTHER,
             start_token.range().start,
             end_token.range().start,
         );

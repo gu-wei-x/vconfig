@@ -3,7 +3,7 @@ mod parser;
 
 use crate::parser::{
     Token,
-    tokenizer::{self, token::TokenKind},
+    tokenizer::{self, token::Kind},
     types::table::Table,
 };
 use std::collections::HashMap;
@@ -19,7 +19,7 @@ where
             // For now, we will return an error indicating that this is not implemented yet.
             // T::deserialize(Deserializer::parse(s)?)
             //T::deserialize(table)?
-            let token = Token::new(TokenKind::UNKNOWN, 0, 0);
+            let token = Token::new(Kind::UNKNOWN, 0, 0);
             crate::parser::types::Result::from(token)
         }
         Err(token) => crate::parser::types::Result::from(token),

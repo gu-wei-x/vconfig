@@ -5,7 +5,7 @@ use std::ops::Range;
 
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Debug)]
 #[repr(u8)]
-pub enum TokenKind {
+pub enum Kind {
     AMPERSAND = b'&',
     COMMA = b',',
     COMMENT = b'#',
@@ -34,19 +34,19 @@ pub enum TokenKind {
 
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Debug)]
 pub struct Token {
-    pub kind: TokenKind,
+    pub kind: Kind,
     // pub(super) span: Span,
     pub start: usize,
     pub end: usize,
 }
 
 impl Token {
-    pub fn new(kind: TokenKind, start: usize, end: usize) -> Self {
+    pub fn new(kind: Kind, start: usize, end: usize) -> Self {
         Self { kind, start, end }
     }
 
     #[inline(always)]
-    pub fn kind(&self) -> TokenKind {
+    pub fn kind(&self) -> Kind {
         self.kind
     }
 
@@ -64,7 +64,7 @@ impl std::fmt::Display for Token {
 impl Default for Token {
     fn default() -> Self {
         Self {
-            kind: TokenKind::UNKNOWN,
+            kind: Kind::UNKNOWN,
             start: 0,
             end: 0,
         }
@@ -74,24 +74,24 @@ impl Default for Token {
 pub fn tokenize(stream: &mut StrStream<'_>) -> Token {
     let Some(peeked_byte) = stream.as_bstr().first() else {
         let start = stream.current_token_start();
-        let token = Token::new(TokenKind::EOF, start, start);
+        let token = Token::new(Kind::EOF, start, start);
         return token;
     };
 
     let token = match peeked_byte {
-        b'&' => tokenize_symbol(stream, TokenKind::AMPERSAND),
-        b',' => tokenize_symbol(stream, TokenKind::COMMA),
+        b'&' => tokenize_symbol(stream, Kind::AMPERSAND),
+        b',' => tokenize_symbol(stream, Kind::COMMA),
         b'#' => tokenize_comment(stream),
-        b':' => tokenize_symbol(stream, TokenKind::COLON),
+        b':' => tokenize_symbol(stream, Kind::COLON),
         b'"' => tokenize_double_quotated_string(stream),
-        b'.' => tokenize_symbol(stream, TokenKind::DOT),
-        b'=' => tokenize_symbol(stream, TokenKind::EQUALS),
-        b'<' => tokenize_symbol(stream, TokenKind::LESSTHAN),
-        b'>' => tokenize_symbol(stream, TokenKind::GREATTHAN),
-        b'[' => tokenize_symbol(stream, TokenKind::LSQUARBRACKET),
-        b']' => tokenize_symbol(stream, TokenKind::RSQUARBRACKET),
-        b'{' => tokenize_symbol(stream, TokenKind::LCURLYBRACKET),
-        b'}' => tokenize_symbol(stream, TokenKind::RCURLYBRACKET),
+        b'.' => tokenize_symbol(stream, Kind::DOT),
+        b'=' => tokenize_symbol(stream, Kind::EQUALS),
+        b'<' => tokenize_symbol(stream, Kind::LESSTHAN),
+        b'>' => tokenize_symbol(stream, Kind::GREATTHAN),
+        b'[' => tokenize_symbol(stream, Kind::LSQUARBRACKET),
+        b']' => tokenize_symbol(stream, Kind::RSQUARBRACKET),
+        b'{' => tokenize_symbol(stream, Kind::LCURLYBRACKET),
+        b'}' => tokenize_symbol(stream, Kind::RCURLYBRACKET),
         b' ' => tokenize_whitespace(stream),
         b'\n' => tokenize_newline(stream),
         b'\'' => tokenize_single_quotated_string(stream),
@@ -101,7 +101,7 @@ pub fn tokenize(stream: &mut StrStream<'_>) -> Token {
     token
 }
 
-fn tokenize_symbol(stream: &mut StrStream<'_>, token_type: TokenKind) -> Token {
+fn tokenize_symbol(stream: &mut StrStream<'_>, token_type: Kind) -> Token {
     let start = stream.current_token_start();
 
     // symbol is a single character token.
@@ -120,7 +120,7 @@ fn tokenize_whitespace(stream: &mut StrStream<'_>) -> Token {
         .unwrap_or(stream.eof_offset());
     stream.next_slice(offset);
     let end = stream.previous_token_end();
-    Token::new(TokenKind::WHITESPACE, start, end)
+    Token::new(Kind::WHITESPACE, start, end)
 }
 
 fn tokenize_comment(stream: &mut StrStream<'_>) -> Token {
@@ -132,7 +132,7 @@ fn tokenize_comment(stream: &mut StrStream<'_>) -> Token {
         .unwrap_or_else(|| stream.eof_offset());
     stream.next_slice(offset);
     let end = stream.previous_token_end();
-    Token::new(TokenKind::COMMENT, start, end)
+    Token::new(Kind::COMMENT, start, end)
 }
 
 fn tokenize_newline(stream: &mut StrStream<'_>) -> Token {
@@ -144,7 +144,7 @@ fn tokenize_newline(stream: &mut StrStream<'_>) -> Token {
     }
     stream.next_slice(offset);
     let end = stream.previous_token_end();
-    Token::new(TokenKind::NEWLINE, start, end)
+    Token::new(Kind::NEWLINE, start, end)
 }
 
 fn tokenize_other(stream: &mut StrStream<'_>) -> Token {
@@ -156,7 +156,7 @@ fn tokenize_other(stream: &mut StrStream<'_>) -> Token {
         .unwrap_or_else(|| stream.eof_offset());
     stream.next_slice(offset);
     let end = stream.previous_token_end();
-    Token::new(TokenKind::OTHER, start, end)
+    Token::new(Kind::OTHER, start, end)
 }
 
 /// string = string-delim *literal-char string-delim
@@ -165,11 +165,11 @@ fn tokenize_single_quotated_string(stream: &mut StrStream<'_>) -> Token {
     let ml_string_delim = "'''";
     let start = stream.current_token_start();
     let mut offset = 1; // skip the opening quote
-    let mut token_type = TokenKind::SINGLEQUOTEDSTRING;
+    let mut token_type = Kind::SINGLEQUOTEDSTRING;
     let is_ml = stream.starts_with(ml_string_delim);
     if is_ml {
         offset = 3;
-        token_type = TokenKind::MLSINGLEQUOTEDSTRING;
+        token_type = Kind::MLSINGLEQUOTEDSTRING;
     }
 
     stream.next_slice(offset);
@@ -205,11 +205,11 @@ fn tokenize_double_quotated_string(stream: &mut StrStream<'_>) -> Token {
     let ml_string_delim = "\"\"\"";
     let start = stream.current_token_start();
     let mut offset = 1; // skip the opening quote
-    let mut token_type = TokenKind::DOUBLEQUOTEDSTRING;
+    let mut token_type = Kind::DOUBLEQUOTEDSTRING;
     let is_ml = stream.starts_with(ml_string_delim);
     if is_ml {
         offset = 3;
-        token_type = TokenKind::MLDOUBLEQUOTEDSTRING;
+        token_type = Kind::MLDOUBLEQUOTEDSTRING;
     }
 
     stream.next_slice(offset);
@@ -248,7 +248,7 @@ mod test {
         let input = "[";
         let mut stream = StrStream::new(input);
         let token = token::tokenize(&mut stream);
-        assert_eq!(token.kind, token::TokenKind::LSQUARBRACKET);
+        assert_eq!(token.kind, token::Kind::LSQUARBRACKET);
         assert_eq!(token.start, 0);
         assert_eq!(token.end, 1);
     }

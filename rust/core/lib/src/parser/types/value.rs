@@ -7,7 +7,7 @@ use crate::parser::types::array::Array;
 use crate::parser::types::string;
 use crate::parser::types::table::Table;
 use crate::tokenizer::stream::TokenStream;
-use crate::tokenizer::token::TokenKind;
+use crate::tokenizer::token::Kind;
 
 #[derive(Clone /*, Debug*/)]
 pub enum Value {
@@ -59,10 +59,10 @@ impl Value {
     ) -> Result<Value> {
         if let Some(token) = token_stream.peek_token() {
             match token.kind() {
-                TokenKind::DOUBLEQUOTEDSTRING
-                | TokenKind::SINGLEQUOTEDSTRING
-                | TokenKind::MLDOUBLEQUOTEDSTRING
-                | TokenKind::MLSINGLEQUOTEDSTRING => {
+                Kind::DOUBLEQUOTEDSTRING
+                | Kind::SINGLEQUOTEDSTRING
+                | Kind::MLDOUBLEQUOTEDSTRING
+                | Kind::MLSINGLEQUOTEDSTRING => {
                     // must be string.
                     let raw_value = string::from(source, token);
                     token_stream.next_token(); // consume the token.
@@ -71,18 +71,18 @@ impl Value {
                         _ => Result::from(token),
                     }
                 }
-                TokenKind::LESSTHAN => {
+                Kind::LESSTHAN => {
                     // inlined array.
                     Array::from(source, token_stream, token)
                 }
-                TokenKind::LCURLYBRACKET => {
+                Kind::LCURLYBRACKET => {
                     let table_result = Table::from(source, token_stream, token, false);
                     match table_result {
                         Ok(table) => Ok(table),
                         _ => Result::from(token),
                     }
                 }
-                TokenKind::EOF => Result::from(token), // no value.
+                Kind::EOF => Result::from(token), // no value.
                 _ => {
                     // invalid token.
                     Result::from(token)

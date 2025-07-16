@@ -1,24 +1,27 @@
 mod de;
-pub mod parser;
-pub use crate::parser::error::Error;
-pub use crate::parser::tokenizer;
+mod parser;
+
+use crate::parser::{
+    Token,
+    tokenizer::{self, token::TokenKind},
+    types::table::Table,
+};
 use std::collections::HashMap;
 
-pub fn from_str<'a, T>(source: &'a str, _variants: &'a HashMap<String, String>) -> Result<T, String>
+pub fn from_str<'a, T>(source: &'a str, _variants: &'a HashMap<String, String>) -> Result<T, Token>
 where
     T: serde::de::Deserialize<'a>,
 {
-    let result = parser::parse_str(source);
+    let result: crate::parser::types::Result<Table> = parser::parse_str(source);
     match result {
-        Ok(table) => {
+        Ok(_table) => {
             // todo: Implement deserialization from table to type T
             // For now, we will return an error indicating that this is not implemented yet.
             // T::deserialize(Deserializer::parse(s)?)
-            Err(format!(
-                "Deserialization from table to type T is not implemented yet: {:?}",
-                table
-            ))
+            //T::deserialize(table)?
+            let token = Token::new(TokenKind::UNKNOWN, 0, 0);
+            crate::parser::types::Result::from(token)
         }
-        Err(e) => Err(format!("Parsing error: {:?}", e)),
+        Err(token) => crate::parser::types::Result::from(token),
     }
 }

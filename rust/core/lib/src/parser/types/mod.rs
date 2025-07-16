@@ -1,0 +1,48 @@
+pub mod array;
+pub mod entry;
+pub mod string;
+pub mod table;
+pub mod value;
+
+#[cfg(test)]
+pub mod tests;
+
+use winnow::stream::{Stream as _, TokenSlice};
+
+use crate::parser::types::table::Table;
+use crate::parser::{Token, tokenizer};
+
+pub(crate) type Result<T> = core::result::Result<T, Token>;
+
+pub fn parse_str<'a>(source: &'a str) -> Result<Table> {
+    let tokenizer = tokenizer::Tokenizer::new(source);
+    let tokens = tokenizer.into_vec();
+    let mut token_stream: TokenSlice<'_, Token> = TokenSlice::new(&tokens);
+    if let Some(token) = token_stream.next_token() {
+        let value_result = Table::from(source, &mut token_stream, token, false);
+        match value_result {
+            Ok(value) => {
+                if let value::Value::Table(table) = value {
+                    Ok(table)
+                } else {
+                    Result::from(token)
+                }
+            }
+            _ => Result::from(token),
+        }
+    } else {
+        Ok(Table::default())
+    }
+}
+
+impl<T> From<Token> for Result<T> {
+    fn from(token: Token) -> Self {
+        Err(token)
+    }
+}
+
+impl<T> From<&Token> for Result<T> {
+    fn from(token: &Token) -> Self {
+        Err(*token)
+    }
+}

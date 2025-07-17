@@ -52,7 +52,7 @@ impl<'a> Iterator for Tokenizer<'a> {
 
         let token = token::tokenize(&mut self.stream);
         match token.kind {
-            token::TokenKind::EOF => {
+            token::Kind::EOF => {
                 self.eof = true;
                 None
             }

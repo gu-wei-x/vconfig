@@ -1,43 +1,15 @@
-use crate::parser::types::array::Array;
-use crate::parser::types::{Result, entry, string};
+use crate::parser::types::{Result, string};
+use crate::types::array::Array;
+use crate::types::table::Table;
+use crate::types::value::Value;
 use crate::{
-    parser::{Token, types::value::Value},
+    parser::Token,
     tokenizer::{
         stream::{self, TokenStream},
-        token::TokenKind,
+        token::Kind,
     },
 };
-use indexmap::map;
 use winnow::stream::Stream;
-
-#[derive(Clone, Debug)]
-pub struct Table {
-    // OrderedHashMap.
-    data: map::IndexMap<String, entry::VariantEntry>,
-}
-
-impl Default for Table {
-    fn default() -> Self {
-        Self {
-            data: map::IndexMap::new(),
-        }
-    }
-}
-
-// ops.
-impl Table {
-    pub(crate) fn get_or_create(&mut self, key: &str) -> Option<&mut entry::VariantEntry> {
-        self.data
-            .entry(key.to_owned())
-            .or_insert(entry::VariantEntry::default());
-        //self.data.get_mut(key)
-        self.get_mut(key)
-    }
-
-    pub(crate) fn get_mut(&mut self, key: &str) -> Option<&mut entry::VariantEntry> {
-        self.data.get_mut(key)
-    }
-}
 
 impl Table {
     pub(crate) fn from<'a>(
@@ -46,7 +18,7 @@ impl Table {
         token: &Token,
         is_nested_table: bool,
     ) -> Result<Value> {
-        if token.kind() == TokenKind::LCURLYBRACKET {
+        if token.kind() == Kind::LCURLYBRACKET {
             token_stream.next_token(); // TokenKind::LCURLYBRACKET.
         }
         _ = stream::skip_meanlingless(token_stream);
@@ -56,7 +28,7 @@ impl Table {
                 /*TokenKind::LSQUARBRACKET => {
                     Self::on_sub_container(source, token_stream, current_token, &mut table)?;
                 }*/
-                TokenKind::LSQUARBRACKET => {
+                Kind::LSQUARBRACKET => {
                     if !is_nested_table {
                         Self::on_sub_container(source, token_stream, current_token, &mut table)?;
                     } else {
@@ -64,30 +36,22 @@ impl Table {
                         break;
                     }
                 }
-                TokenKind::RCURLYBRACKET => {
+                Kind::RCURLYBRACKET => {
                     // consume and break.
                     token_stream.next_token();
                     break;
                 }
-                TokenKind::OTHER => {
+                Kind::OTHER => {
                     // key value.
                     on_key_value_expression(source, token_stream, current_token, &mut table)?;
                 }
-                TokenKind::WHITESPACE
-                | TokenKind::NEWLINE
-                | TokenKind::COMMENT
-                | TokenKind::COMMA => {
+                Kind::WHITESPACE | Kind::NEWLINE | Kind::COMMENT | Kind::COMMA => {
                     stream::skip_next_token_if(token_stream, |k| {
-                        vec![
-                            TokenKind::COMMA,
-                            TokenKind::COMMENT,
-                            TokenKind::NEWLINE,
-                            TokenKind::WHITESPACE,
-                        ]
-                        .contains(&k)
+                        vec![Kind::COMMA, Kind::COMMENT, Kind::NEWLINE, Kind::WHITESPACE]
+                            .contains(&k)
                     });
                 }
-                TokenKind::EOF => break,
+                Kind::EOF => break,
                 _ => {
                     // value.
                     return Result::from(current_token);
@@ -113,7 +77,7 @@ impl Table {
         let mut variant_result: Result<&str> = Result::from(start_token);
         while let Some(token) = token_stream.next_token() {
             match token.kind() {
-                TokenKind::DOT => {
+                Kind::DOT => {
                     // create parent entry.
                     if let Ok(key) = key_result {
                         let entry = table.get_or_create(key).unwrap();
@@ -127,14 +91,14 @@ impl Table {
                         return Result::from(token);
                     }
                 }
-                TokenKind::OTHER => {
+                Kind::OTHER => {
                     key_result = string::key_from(source, token);
                 }
-                TokenKind::AMPERSAND => {
+                Kind::AMPERSAND => {
                     variant_result = string::variants_from(source, token_stream, token);
                     _ = stream::skip_whitespace(token_stream);
                 }
-                TokenKind::RSQUARBRACKET => {
+                Kind::RSQUARBRACKET => {
                     // end.
                     token_stream.next_token();
                     break;
@@ -150,8 +114,8 @@ impl Table {
         if let Ok(key) = key_result {
             if let Some(next_token) = token_stream.peek_token() {
                 let value_result = match next_token.kind() {
-                    TokenKind::OTHER => Table::from(source, token_stream, next_token, true),
-                    TokenKind::LESSTHAN => Array::from(source, token_stream, next_token),
+                    Kind::OTHER => Table::from(source, token_stream, next_token, true),
+                    Kind::LESSTHAN => Array::from(source, token_stream, next_token),
                     _ => {
                         return Result::from(next_token);
                     }
@@ -194,7 +158,7 @@ fn on_key_value_expression<'a>(
     _ = stream::skip_whitespace(token_stream);
     if let Some(next_token) = token_stream.peek_token() {
         match next_token.kind() {
-            TokenKind::DOT => {
+            Kind::DOT => {
                 // here we know it will be a table varaint without varaint value.
                 // table variant: find the entry->find the variant->find the table
                 let mut new_table = Table::default();
@@ -204,12 +168,12 @@ fn on_key_value_expression<'a>(
                 entry.add_item("", Value::Table(new_table));
                 return Ok(());
             }
-            TokenKind::AMPERSAND => {
+            Kind::AMPERSAND => {
                 let ampersand_token = token_stream.next_token().unwrap();
                 variant_result = string::variants_from(source, token_stream, ampersand_token);
                 _ = stream::skip_whitespace(token_stream);
                 if let Some(end_token) = token_stream.next_token() {
-                    if end_token.kind == TokenKind::EQUALS {
+                    if end_token.kind == Kind::EQUALS {
                         let next_token = token_stream.next_token().unwrap();
                         value_result = Value::from(source, token_stream, next_token);
                     }
@@ -218,7 +182,7 @@ fn on_key_value_expression<'a>(
                     return Result::from(token);
                 }
             }
-            TokenKind::EQUALS => {
+            Kind::EQUALS => {
                 // consume =
                 let equal_token = token_stream.next_token().unwrap();
                 _ = stream::skip_whitespace_and_newline(token_stream);

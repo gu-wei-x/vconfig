@@ -1,33 +1,17 @@
 #![allow(dead_code)]
-use crate::parser::types::{Result, string, table::Table};
+use crate::parser::types::{Result, string};
+use crate::types::array::Array;
+use crate::types::table::Table;
+use crate::types::value::Value;
 use winnow::stream::Stream;
 
 use crate::{
-    parser::{Token, types::value::Value},
+    parser::Token,
     tokenizer::{
         stream::{self, TokenStream},
-        token::TokenKind,
+        token::Kind,
     },
 };
-
-#[derive(Clone, Debug)]
-pub struct Array {
-    // todo: all items should be some type for an entry.
-    items: Vec<Value>,
-}
-
-impl Default for Array {
-    fn default() -> Self {
-        Self { items: Vec::new() }
-    }
-}
-
-impl Array {
-    pub(crate) fn add_item(&mut self, value: Value) -> &mut Self {
-        self.items.push(value);
-        self
-    }
-}
 
 impl Array {
     pub(crate) fn from<'a>(
@@ -45,46 +29,44 @@ impl Array {
         let mut array = Array::default();
         while let Some(current_token) = token_stream.peek_token() {
             match current_token.kind() {
-                TokenKind::LESSTHAN => {
+                Kind::LESSTHAN => {
                     // array again
                     let array_value = Some(Array::from(source, token_stream, current_token)?);
                     if let Some(data) = array_value {
                         array.add_item(data);
                         stream::skip_next_token_if(token_stream, |k| {
-                            vec![TokenKind::COMMA, TokenKind::WHITESPACE, TokenKind::NEWLINE]
-                                .contains(&k)
+                            vec![Kind::COMMA, Kind::WHITESPACE, Kind::NEWLINE].contains(&k)
                         });
                     } else {
                         return Result::from(current_token);
                     }
                 }
-                TokenKind::LCURLYBRACKET => {
+                Kind::LCURLYBRACKET => {
                     // table
                     let table_value =
                         Some(Table::from(source, token_stream, current_token, false)?);
                     if let Some(data) = table_value {
                         array.add_item(data);
                         stream::skip_next_token_if(token_stream, |k| {
-                            vec![TokenKind::COMMA, TokenKind::WHITESPACE, TokenKind::NEWLINE]
-                                .contains(&k)
+                            vec![Kind::COMMA, Kind::WHITESPACE, Kind::NEWLINE].contains(&k)
                         });
                     } else {
                         return Result::from(current_token);
                     }
                 }
-                TokenKind::GREATTHAN => {
+                Kind::GREATTHAN => {
                     // consume and break.
                     token_stream.next_token();
                     break;
                 }
-                TokenKind::COMMENT | TokenKind::NEWLINE | TokenKind::WHITESPACE => {
+                Kind::COMMENT | Kind::NEWLINE | Kind::WHITESPACE => {
                     token_stream.next_token();
                     continue;
                 }
-                TokenKind::MLDOUBLEQUOTEDSTRING
-                | TokenKind::DOUBLEQUOTEDSTRING
-                | TokenKind::MLSINGLEQUOTEDSTRING
-                | TokenKind::SINGLEQUOTEDSTRING => {
+                Kind::MLDOUBLEQUOTEDSTRING
+                | Kind::DOUBLEQUOTEDSTRING
+                | Kind::MLSINGLEQUOTEDSTRING
+                | Kind::SINGLEQUOTEDSTRING => {
                     let raw_value = string::from(source, current_token);
                     match raw_value {
                         Ok(str) => {
@@ -92,8 +74,7 @@ impl Array {
                             array.add_item(Value::String(str.to_owned()));
                             // skip whitespace, nl, comma
                             stream::skip_next_token_if(token_stream, |k| {
-                                vec![TokenKind::COMMA, TokenKind::WHITESPACE, TokenKind::NEWLINE]
-                                    .contains(&k)
+                                vec![Kind::COMMA, Kind::WHITESPACE, Kind::NEWLINE].contains(&k)
                             });
                         }
                         _ => return Result::from(current_token),

@@ -1,5 +1,4 @@
 pub mod array;
-pub mod entry;
 pub mod string;
 pub mod table;
 pub mod value;
@@ -9,8 +8,9 @@ pub mod tests;
 
 use winnow::stream::{Stream as _, TokenSlice};
 
-use crate::parser::types::table::Table;
 use crate::parser::{Token, tokenizer};
+use crate::types::table::Table;
+use crate::types::value::Value;
 
 pub(crate) type Result<T> = core::result::Result<T, Token>;
 
@@ -22,7 +22,7 @@ pub fn parse_str<'a>(source: &'a str) -> Result<Table> {
         let value_result = Table::from(source, &mut token_stream, token, false);
         match value_result {
             Ok(value) => {
-                if let value::Value::Table(table) = value {
+                if let Value::Table(table) = value {
                     Ok(table)
                 } else {
                     Result::from(token)

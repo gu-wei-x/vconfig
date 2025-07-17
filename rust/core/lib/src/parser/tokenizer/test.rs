@@ -28,33 +28,30 @@ tokenizer_test_case!(
     test_tokenizer_symbols,
     vec!["&", ",", ":", ".", "=", "<", ">", "[", "]", "{", "}"],
     vec![
-        token::TokenKind::AMPERSAND,
-        token::TokenKind::COMMA,
-        token::TokenKind::COLON,
-        token::TokenKind::DOT,
-        token::TokenKind::EQUALS,
-        token::TokenKind::LESSTHAN,
-        token::TokenKind::GREATTHAN,
-        token::TokenKind::LSQUARBRACKET,
-        token::TokenKind::RSQUARBRACKET,
-        token::TokenKind::LCURLYBRACKET,
-        token::TokenKind::RCURLYBRACKET
+        token::Kind::AMPERSAND,
+        token::Kind::COMMA,
+        token::Kind::COLON,
+        token::Kind::DOT,
+        token::Kind::EQUALS,
+        token::Kind::LESSTHAN,
+        token::Kind::GREATTHAN,
+        token::Kind::LSQUARBRACKET,
+        token::Kind::RSQUARBRACKET,
+        token::Kind::LCURLYBRACKET,
+        token::Kind::RCURLYBRACKET
     ]
 );
 
 tokenizer_test_case!(
     test_tokenizer_comment,
     vec!["# This is a comment", "\n"],
-    vec![token::TokenKind::COMMENT, token::TokenKind::NEWLINE]
+    vec![token::Kind::COMMENT, token::Kind::NEWLINE]
 );
 
 tokenizer_test_case!(
     test_tokenizer_sl_double_quoted_string,
     vec!["\"This is a double quoted string\"", "\n"],
-    vec![
-        token::TokenKind::DOUBLEQUOTEDSTRING,
-        token::TokenKind::NEWLINE
-    ]
+    vec![token::Kind::DOUBLEQUOTEDSTRING, token::Kind::NEWLINE]
 );
 
 tokenizer_test_case!(
@@ -63,26 +60,17 @@ tokenizer_test_case!(
         "\"\"\"This is a multi-line double quoted string\n\"\"\"",
         "\n"
     ],
-    vec![
-        token::TokenKind::MLDOUBLEQUOTEDSTRING,
-        token::TokenKind::NEWLINE
-    ]
+    vec![token::Kind::MLDOUBLEQUOTEDSTRING, token::Kind::NEWLINE]
 );
 
 tokenizer_test_case!(
     test_tokenizer_sl_single_quoted_string,
     vec!["'This is a single quoted string'", "\n"],
-    vec![
-        token::TokenKind::SINGLEQUOTEDSTRING,
-        token::TokenKind::NEWLINE
-    ]
+    vec![token::Kind::SINGLEQUOTEDSTRING, token::Kind::NEWLINE]
 );
 
 tokenizer_test_case!(
     test_tokenizer_ml_single_quoted_string,
     vec!["'''\nThis is a multi-line single quoted string\n'''", "\n"],
-    vec![
-        token::TokenKind::MLSINGLEQUOTEDSTRING,
-        token::TokenKind::NEWLINE
-    ]
+    vec![token::Kind::MLSINGLEQUOTEDSTRING, token::Kind::NEWLINE]
 );

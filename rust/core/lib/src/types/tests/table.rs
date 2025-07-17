@@ -2,7 +2,7 @@
 
 #[test]
 fn test_table_ops_logic() {
-    use crate::parser::types::{array::Array, table::Table, value::Value};
+    use crate::types::{array::Array, table::Table, value::Value};
 
     let mut root = Table::default();
 

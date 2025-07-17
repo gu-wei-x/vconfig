@@ -1,7 +1,6 @@
 #![cfg(test)]
 pub mod array;
 pub mod table;
-pub mod table_ops;
 
 #[macro_use]
 mod macros {

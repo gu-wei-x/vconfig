@@ -1,6 +1,6 @@
 #![allow(dead_code)]
-use crate::parser::types::table::Table;
-use crate::parser::types::value::Value;
+use crate::types::table::Table;
+use crate::types::value::Value;
 use indexmap::map;
 
 #[derive(Clone /*, Debug*/)]

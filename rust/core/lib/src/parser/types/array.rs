@@ -1,33 +1,17 @@
 #![allow(dead_code)]
-use crate::parser::types::{Result, string, table::Table};
+use crate::parser::types::{Result, string};
+use crate::types::array::Array;
+use crate::types::table::Table;
+use crate::types::value::Value;
 use winnow::stream::Stream;
 
 use crate::{
-    parser::{Token, types::value::Value},
+    parser::Token,
     tokenizer::{
         stream::{self, TokenStream},
         token::Kind,
     },
 };
-
-#[derive(Clone, Debug)]
-pub struct Array {
-    // todo: all items should be some type for an entry.
-    items: Vec<Value>,
-}
-
-impl Default for Array {
-    fn default() -> Self {
-        Self { items: Vec::new() }
-    }
-}
-
-impl Array {
-    pub(crate) fn add_item(&mut self, value: Value) -> &mut Self {
-        self.items.push(value);
-        self
-    }
-}
 
 impl Array {
     pub(crate) fn from<'a>(

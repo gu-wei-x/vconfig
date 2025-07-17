@@ -1,10 +1,12 @@
-mod de;
+mod deserializer;
 mod parser;
+mod types;
+
+use types::table::Table;
 
 use crate::parser::{
     Token,
     tokenizer::{self, token::Kind},
-    types::table::Table,
 };
 use std::collections::HashMap;
 

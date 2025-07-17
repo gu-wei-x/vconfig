@@ -1,43 +1,15 @@
-use crate::parser::types::array::Array;
-use crate::parser::types::{Result, entry, string};
+use crate::parser::types::{Result, string};
+use crate::types::array::Array;
+use crate::types::table::Table;
+use crate::types::value::Value;
 use crate::{
-    parser::{Token, types::value::Value},
+    parser::Token,
     tokenizer::{
         stream::{self, TokenStream},
         token::Kind,
     },
 };
-use indexmap::map;
 use winnow::stream::Stream;
-
-#[derive(Clone, Debug)]
-pub struct Table {
-    // OrderedHashMap.
-    data: map::IndexMap<String, entry::VariantEntry>,
-}
-
-impl Default for Table {
-    fn default() -> Self {
-        Self {
-            data: map::IndexMap::new(),
-        }
-    }
-}
-
-// ops.
-impl Table {
-    pub(crate) fn get_or_create(&mut self, key: &str) -> Option<&mut entry::VariantEntry> {
-        self.data
-            .entry(key.to_owned())
-            .or_insert(entry::VariantEntry::default());
-        //self.data.get_mut(key)
-        self.get_mut(key)
-    }
-
-    pub(crate) fn get_mut(&mut self, key: &str) -> Option<&mut entry::VariantEntry> {
-        self.data.get_mut(key)
-    }
-}
 
 impl Table {
     pub(crate) fn from<'a>(

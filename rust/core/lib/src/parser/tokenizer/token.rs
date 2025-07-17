@@ -24,6 +24,9 @@ pub enum Kind {
     RCURLYBRACKET = b'}',
     WHITESPACE = b' ',
     NEWLINE = b'\n',
+
+    // todo: add QUOTEDSTR here
+    // QUOTEDSTR: "", '', ml
     SINGLEQUOTEDSTRING = b'\'',
     MLDOUBLEQUOTEDSTRING = 1,
     MLSINGLEQUOTEDSTRING,

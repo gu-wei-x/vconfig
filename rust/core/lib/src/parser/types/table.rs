@@ -151,8 +151,8 @@ fn on_key_value_expression<'a>(
     // 1. key=; variant=; value=;
     let key = string::key_from(source, token).unwrap();
     token_stream.next_token();
-    let mut variant_result: Result<&str> = Err(*token);
-    let mut value_result: Result<Value> = Err(*token);
+    let mut variant_result: Result<&str> = Result::from(*token);
+    let mut value_result: Result<Value> = Result::from(*token);
 
     // consume current and check next token.
     _ = stream::skip_whitespace(token_stream);

@@ -9,10 +9,9 @@ pub mod tests;
 use winnow::stream::{Stream as _, TokenSlice};
 
 use crate::parser::{Token, tokenizer};
+use crate::types::result::Result;
 use crate::types::table::Table;
 use crate::types::value::Value;
-
-pub(crate) type Result<T> = core::result::Result<T, Token>;
 
 pub fn parse_str<'a>(source: &'a str) -> Result<Table> {
     let tokenizer = tokenizer::Tokenizer::new(source);
@@ -32,17 +31,5 @@ pub fn parse_str<'a>(source: &'a str) -> Result<Table> {
         }
     } else {
         Ok(Table::default())
-    }
-}
-
-impl<T> From<Token> for Result<T> {
-    fn from(token: Token) -> Self {
-        Err(token)
-    }
-}
-
-impl<T> From<&Token> for Result<T> {
-    fn from(token: &Token) -> Self {
-        Err(*token)
     }
 }

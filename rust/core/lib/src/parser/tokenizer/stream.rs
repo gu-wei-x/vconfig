@@ -1,7 +1,7 @@
 #![allow(dead_code)]
-use crate::parser::types::Result;
 use crate::tokenizer::token::Kind;
 use crate::tokenizer::token::Token;
+use crate::types::result::Result;
 use winnow::stream::LocatingSlice;
 use winnow::stream::Stream;
 use winnow::stream::TokenSlice;

@@ -1,6 +1,7 @@
 #![allow(dead_code)]
-use crate::parser::types::{Result, string};
+use crate::parser::types::string;
 use crate::types::array::Array;
+use crate::types::result::Result;
 use crate::types::table::Table;
 use crate::types::value::Value;
 use winnow::stream::Stream;

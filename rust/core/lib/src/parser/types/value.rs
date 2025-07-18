@@ -2,11 +2,11 @@
 use winnow::stream::Stream;
 
 use crate::parser::Token;
-use crate::parser::types::Result;
 use crate::parser::types::string;
 use crate::tokenizer::stream::TokenStream;
 use crate::tokenizer::token::Kind;
 use crate::types::array::Array;
+use crate::types::result::Result;
 use crate::types::table::Table;
 use crate::types::value::Value;
 

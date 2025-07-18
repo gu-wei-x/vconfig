@@ -1,6 +1,5 @@
-#![allow(dead_code)]
-
 use crate::{
+    deserializer::types::array_seqaccess::ArraySeqAccess,
     parser::Token,
     types::{array::Array, traits::Variants},
 };
@@ -25,33 +24,34 @@ where
 {
     type Error = Token;
 
-    fn deserialize_any<V>(self, _visitor: V) -> Result<V::Value, Self::Error>
+    fn deserialize_any<V>(self, visitor: V) -> Result<V::Value, Self::Error>
     where
         V: serde::de::Visitor<'de>,
     {
-        todo!()
+        let map_access = ArraySeqAccess::new(&self);
+        visitor.visit_seq(map_access)
     }
     fn deserialize_newtype_struct<V>(
         self,
         _name: &'static str,
-        _visitor: V,
+        visitor: V,
     ) -> Result<V::Value, Self::Error>
     where
         V: serde::de::Visitor<'de>,
     {
-        todo!()
+        self.deserialize_any(visitor)
     }
 
     fn deserialize_struct<V>(
         self,
         _name: &'static str,
         _fields: &'static [&'static str],
-        _visitor: V,
+        visitor: V,
     ) -> Result<V::Value, Self::Error>
     where
         V: serde::de::Visitor<'de>,
     {
-        todo!()
+        self.deserialize_any(visitor)
     }
 
     serde::forward_to_deserialize_any! {

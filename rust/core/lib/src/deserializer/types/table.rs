@@ -1,11 +1,9 @@
-#![allow(dead_code)]
-
 use crate::{
     parser::Token,
     types::{table::Table, traits::Variants},
 };
 
-use crate::deserializer::types::table_map_access::MapAccess;
+use crate::deserializer::types::table_mapaccess::MapAccess;
 
 pub(crate) type TableDeserializer<'a, V> = crate::deserializer::types::Deserializer<'a, V, Table>;
 

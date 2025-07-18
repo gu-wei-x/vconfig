@@ -1,7 +1,7 @@
 use crate::deserializer::types::table::TableDeserializer;
 use crate::deserializer::types::value::ValueDeserializer;
-use crate::parser::Token;
 use crate::types::entry::VariantEntry;
+use crate::types::error;
 use crate::types::traits::Variants;
 use serde::de::IntoDeserializer;
 
@@ -28,7 +28,7 @@ impl<'a, 'de, V> serde::de::MapAccess<'de> for MapAccess<'a, 'de, V>
 where
     V: Variants,
 {
-    type Error = Token;
+    type Error = error::Error;
 
     fn next_key_seed<K>(&mut self, seed: K) -> Result<Option<K::Value>, Self::Error>
     where

@@ -1,3 +1,3 @@
 #![cfg(test)]
 
-pub mod table;
+pub(crate) mod table;

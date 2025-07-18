@@ -19,9 +19,9 @@ fn test_deserializing_config_simple() {
     let mut variants = HashMap::new();
     variants.insert("variant1".to_string(), "v1".to_string());
     variants.insert("variant2".to_string(), "v2".to_string());
-    let result = variants::from_str_with_variants::<Config>(raw_str, &variants);
+    let result =
+        variants::from_str_with_variants::<Config, HashMap<String, String>>(raw_str, &variants);
     assert!(result.is_ok());
-
     let config = result.unwrap();
     assert_eq!(config.key1, "v1".to_owned());
     assert_eq!(config.key2, 5);
@@ -57,7 +57,8 @@ fn test_deserializing_config_with_sub_config() {
     let mut variants = HashMap::new();
     variants.insert("variant1".to_string(), "v1".to_string());
     variants.insert("variant2".to_string(), "v2".to_string());
-    let result = variants::from_str_with_variants::<Config>(raw_str, &variants);
+    let result =
+        variants::from_str_with_variants::<Config, HashMap<String, String>>(raw_str, &variants);
     assert!(result.is_ok());
 
     let config = result.unwrap();
@@ -81,7 +82,8 @@ fn test_deserializing_config_with_array() {
     "#;
 
     let variants = HashMap::new();
-    let result = variants::from_str_with_variants::<Config>(raw_str, &variants);
+    let result =
+        variants::from_str_with_variants::<Config, HashMap<String, String>>(raw_str, &variants);
 
     assert!(result.is_ok());
 

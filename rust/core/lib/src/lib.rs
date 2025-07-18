@@ -8,7 +8,7 @@ use crate::{
     deserializer::Deserializer,
     parser::tokenizer::{self},
 };
-use std::collections::HashMap;
+// use std::collections::HashMap;
 
 /*pub fn from_str<'s, T>(source: &'s str) -> Result<T, Token>
 where
@@ -18,12 +18,14 @@ where
     from_str_with_variants(source, variants)
 }*/
 
-pub fn from_str_with_variants<'s: 'v, 'v, T>(
-    source: &'s str,
-    variants: &'v HashMap<String, String>,
-) -> Result<T>
+pub mod traits {
+    pub use crate::types::traits::Variants;
+}
+
+pub fn from_str_with_variants<'s: 'v, 'v, T, V>(source: &'s str, variants: &'v V) -> Result<T>
 where
     T: serde::de::Deserialize<'v>,
+    V: types::traits::Variants,
 {
     let result = parser::parse_str(source);
     match result {

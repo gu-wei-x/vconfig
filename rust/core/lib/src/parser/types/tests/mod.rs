@@ -1,8 +1,9 @@
 #![cfg(test)]
-pub mod array;
-pub mod table;
+pub(crate) mod array;
+pub(crate) mod table;
 
-#[macro_use]
+#[doc(hidden)]
+//#[macro_use]
 mod macros {
     #[macro_export]
     macro_rules! parser_test_case {
@@ -27,7 +28,7 @@ mod macros {
             }
         };
     }
-    pub use parser_test_case;
+    pub(crate) use parser_test_case;
 }
 
 // use following command to show output:

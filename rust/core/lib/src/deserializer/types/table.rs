@@ -1,7 +1,4 @@
-use crate::{
-    parser::Token,
-    types::{table::Table, traits::Variants},
-};
+use crate::types::{error, table::Table, traits::Variants};
 
 use crate::deserializer::types::table_mapaccess::MapAccess;
 
@@ -23,7 +20,7 @@ impl<'de, T> serde::Deserializer<'de> for TableDeserializer<'de, T>
 where
     T: Variants,
 {
-    type Error = Token;
+    type Error = error::Error;
 
     fn deserialize_any<V>(self, visitor: V) -> Result<V::Value, Self::Error>
     where

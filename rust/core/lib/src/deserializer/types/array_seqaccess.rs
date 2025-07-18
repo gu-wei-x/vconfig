@@ -1,6 +1,6 @@
 use crate::deserializer::types::array::ArrayDeserializer;
 use crate::deserializer::types::value::ValueDeserializer;
-use crate::parser::Token;
+use crate::types::error;
 use crate::types::traits::Variants;
 use crate::types::value::Value;
 
@@ -28,7 +28,7 @@ impl<'a, 'de, V> serde::de::SeqAccess<'de> for ArraySeqAccess<'a, 'de, V>
 where
     V: Variants,
 {
-    type Error = Token;
+    type Error = error::Error;
 
     fn next_element_seed<T>(&mut self, seed: T) -> Result<Option<T::Value>, Self::Error>
     where

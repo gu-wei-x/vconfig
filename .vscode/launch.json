@@ -1,0 +1,15 @@
+     {
+         "version": "0.2.0",
+         "configurations": [
+             {
+                 "type":  "cppvsdbg", // Or "cppdbg" for C++
+                 "request": "launch",
+                 "name": "Debug basic example",
+                 "program": "${workspaceRoot}/rust/examples/target/debug/basic",
+                 "args": [
+                    "run", 
+                    "basic"],
+                 "cwd": "${workspaceRoot}/rust/examples/basic"
+             }
+         ]
+     }

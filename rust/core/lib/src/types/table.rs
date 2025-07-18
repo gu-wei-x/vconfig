@@ -1,6 +1,6 @@
 #![allow(dead_code)]
-use crate::types::entry;
-use indexmap::map;
+use crate::types::entry::{self};
+use indexmap::map::{self};
 
 #[derive(Clone, Debug)]
 pub struct Table {
@@ -28,5 +28,9 @@ impl Table {
 
     pub(crate) fn get_mut(&mut self, key: &str) -> Option<&mut entry::VariantEntry> {
         self.data.get_mut(key)
+    }
+
+    pub(crate) fn into_map(&self) -> &map::IndexMap<String, entry::VariantEntry> {
+        &self.data
     }
 }

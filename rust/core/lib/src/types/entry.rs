@@ -1,5 +1,6 @@
 #![allow(dead_code)]
 use crate::types::table::Table;
+use crate::types::traits::Variants;
 use crate::types::value::Value;
 use indexmap::map;
 
@@ -51,5 +52,17 @@ impl VariantEntry {
             Some(value) => value.table_mut(),
             _ => None,
         }
+    }
+
+    pub(crate) fn find_item<'a, V>(&self, varaints: &'a V) -> Option<&Value>
+    where
+        V: Variants,
+    {
+        for (variant, value) in self.data.iter() {
+            if varaints.matches(variant) {
+                return Some(value);
+            }
+        }
+        None
     }
 }

@@ -12,7 +12,8 @@ use crate::{
 pub(crate) fn from<'a>(source: &'a str, token: &Token) -> Result<&'a str> {
     // todo: validate range.
     let result = &source[token.range().start..token.range().end];
-    Ok(result)
+    let new_str = result.trim_matches(&['"', '\'']);
+    Ok(new_str)
 }
 
 pub(crate) fn key_from<'a>(source: &'a str, token: &Token) -> Result<&'a str> {

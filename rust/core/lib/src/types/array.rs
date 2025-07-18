@@ -18,4 +18,8 @@ impl Array {
         self.items.push(value);
         self
     }
+
+    pub(crate) fn into_seq(&self) -> &Vec<Value> {
+        &self.items
+    }
 }

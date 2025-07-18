@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 use crate::deserializer::types::table::TableDeserializer;
 use crate::deserializer::types::value::ValueDeserializer;
 use crate::parser::Token;

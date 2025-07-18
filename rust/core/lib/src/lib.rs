@@ -2,39 +2,38 @@ mod deserializer;
 mod parser;
 mod types;
 
-use types::table::Table;
+use types::result::Result;
 
 use crate::{
     deserializer::Deserializer,
-    parser::{
-        Token,
-        tokenizer::{self},
-    },
+    parser::tokenizer::{self},
 };
-use std::collections::HashMap;
+// use std::collections::HashMap;
 
-/*pub fn from_str<'a, T>(source: &'a str) -> Result<T, Token>
+/*pub fn from_str<'s, T>(source: &'s str) -> Result<T, Token>
 where
-    T: serde::de::Deserialize<'a>,
+    T: serde::de::Deserialize<'s>,
 {
     let variants: HashMap<String, String> = std::collections::HashMap::new();
     from_str_with_variants(source, variants)
 }*/
 
-pub fn from_str_with_variants<'a: 'b, 'b, T>(
-    source: &'a str,
-    variants: &'b HashMap<String, String>,
-) -> Result<T, Token>
+pub mod traits {
+    pub use crate::types::traits::Variants;
+}
+
+pub fn from_str_with_variants<'s: 'v, 'v, T, V>(source: &'s str, variants: &'v V) -> Result<T>
 where
-    T: serde::de::Deserialize<'b>,
+    T: serde::de::Deserialize<'v>,
+    V: types::traits::Variants,
 {
-    let result: crate::parser::types::Result<Table> = parser::parse_str(source);
+    let result = parser::parse_str(source);
     match result {
         Ok(table) => {
             let deserializer = Deserializer::new(table, variants);
-            let obj = T::deserialize(deserializer)?;
+            let obj = T::deserialize(deserializer).unwrap();
             Ok(obj)
         }
-        Err(token) => crate::parser::types::Result::from(token),
+        Err(err) => Err(err),
     }
 }

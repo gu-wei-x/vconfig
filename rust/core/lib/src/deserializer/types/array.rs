@@ -1,7 +1,6 @@
 use crate::{
     deserializer::types::array_seqaccess::ArraySeqAccess,
-    parser::Token,
-    types::{array::Array, traits::Variants},
+    types::{array::Array, error, traits::Variants},
 };
 
 pub(crate) type ArrayDeserializer<'a, V> = crate::deserializer::types::Deserializer<'a, V, Array>;
@@ -22,7 +21,7 @@ impl<'de, T> serde::Deserializer<'de> for ArrayDeserializer<'de, T>
 where
     T: Variants,
 {
-    type Error = Token;
+    type Error = error::Error;
 
     fn deserialize_any<V>(self, visitor: V) -> Result<V::Value, Self::Error>
     where

@@ -1,12 +1,12 @@
 #![allow(dead_code)]
 mod types;
 use crate::deserializer::types::value;
-use crate::parser::Token;
+use crate::types::error;
 use crate::types::table::Table;
 use crate::types::traits::Variants;
 use crate::types::value::Value;
 
-pub struct Deserializer<'a, T>
+pub(crate) struct Deserializer<'a, T>
 where
     T: Variants,
 {
@@ -31,7 +31,7 @@ impl<'de, T> serde::Deserializer<'de> for Deserializer<'de, T>
 where
     T: Variants,
 {
-    type Error = Token;
+    type Error = error::Error;
 
     fn deserialize_any<V>(self, visitor: V) -> Result<V::Value, Self::Error>
     where
@@ -76,4 +76,23 @@ where
         seq bytes byte_buf map unit ignored_any option enum unit_struct
         tuple_struct tuple identifier
     }
+}
+
+// for serde::de
+impl serde::de::Error for error::Error {
+    fn custom<T>(msg: T) -> Self
+    where
+        T: core::fmt::Display,
+    {
+        println!("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        println!("{:#}", msg);
+        println!("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        Self::De("test".to_owned())
+    }
+
+    // todo:: more
+}
+
+impl serde::de::StdError for error::Error {
+    // todo:: more
 }

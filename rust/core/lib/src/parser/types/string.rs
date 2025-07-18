@@ -1,8 +1,8 @@
 use winnow::stream::Stream as _;
 
+use crate::types::result::Result;
 use crate::{
     parser::Token,
-    parser::types::Result,
     tokenizer::{
         stream::{self, TokenStream},
         token::Kind,
@@ -46,6 +46,6 @@ pub(crate) fn variants_from<'a>(
         );
         key_from(source, &token)
     } else {
-        Err(*token)
+        Result::from(*token)
     }
 }

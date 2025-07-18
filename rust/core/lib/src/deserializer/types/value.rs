@@ -1,6 +1,6 @@
 use crate::deserializer::types::array;
 use crate::deserializer::types::table;
-use crate::parser::Token;
+use crate::types::error;
 use crate::types::traits::Variants;
 use crate::types::value::Value;
 
@@ -22,7 +22,7 @@ impl<'de, T> serde::Deserializer<'de> for ValueDeserializer<'de, T>
 where
     T: Variants,
 {
-    type Error = Token;
+    type Error = error::Error;
 
     fn deserialize_any<V>(self, visitor: V) -> Result<V::Value, Self::Error>
     where

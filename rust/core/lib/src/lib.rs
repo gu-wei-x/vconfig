@@ -8,15 +8,6 @@ use crate::{
     deserializer::Deserializer,
     parser::tokenizer::{self},
 };
-// use std::collections::HashMap;
-
-/*pub fn from_str<'s, T>(source: &'s str) -> Result<T, Token>
-where
-    T: serde::de::Deserialize<'s>,
-{
-    let variants: HashMap<String, String> = std::collections::HashMap::new();
-    from_str_with_variants(source, variants)
-}*/
 
 pub mod traits {
     pub use crate::types::traits::Variants;
@@ -37,3 +28,28 @@ where
         Err(err) => Err(err),
     }
 }
+
+/*pub fn from_str<'s, T>(source: &'s str) -> Result<T, Token>
+where
+    T: serde::de::Deserialize<'s>,
+{
+    let variants: HashMap<String, String> = std::collections::HashMap::new();
+    from_str_with_variants(source, variants)
+}*/
+
+/*pub fn from_file_with_variants<'s, T>(source: &'s str) -> Result<T, Token>
+where
+    T: serde::de::Deserialize<'s>,
+{
+    let variants: HashMap<String, String> = std::collections::HashMap::new();
+    from_str_with_variants(source, variants)
+}*/
+
+
+/*pub fn from_file<'s, T>(source: &'s str) -> Result<T, Token>
+where
+    T: serde::de::Deserialize<'s>,
+{
+    let variants: HashMap<String, String> = std::collections::HashMap::new();
+    from_str_with_variants(source, variants)
+}*/

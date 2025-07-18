@@ -1,0 +1,5 @@
+# basic config
+key1&variant1:v1 = "v1"
+key1 = "v2"
+key2&variant2:v2 = "5"
+key2 = "3"

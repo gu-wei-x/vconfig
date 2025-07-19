@@ -5,6 +5,7 @@ use std::collections::HashMap;
 #[test]
 fn test_deserializing_config_simple() {
     #[derive(Debug, Deserialize)]
+    #[serde(crate = "variants::serde")]
     struct Config {
         key1: String,
         key2: u64,

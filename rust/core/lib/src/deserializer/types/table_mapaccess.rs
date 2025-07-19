@@ -34,12 +34,9 @@ where
     where
         K: serde::de::DeserializeSeed<'de>,
     {
-        println!("***********************************************");
         match self.iterator.next() {
             Some((key, entry)) => {
                 self.value = Some(entry.clone());
-
-                println!("++++++++++++++++++{:#?}+++++++++++++++++++", key);
                 seed.deserialize(key.clone().into_deserializer()).map(Some)
             }
             None => Ok(None),
@@ -55,7 +52,6 @@ where
                 // get envaluated one.
                 match entry.find_item(self.variants).take() {
                     Some(value) => {
-                        println!("++++++++++++++++++{:#?}+++++++++++++++++++", value);
                         let value_deserializer =
                             ValueDeserializer::new(value.clone(), self.variants);
                         seed.deserialize(value_deserializer)

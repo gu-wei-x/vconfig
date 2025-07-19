@@ -63,6 +63,16 @@ where
 
     deserialize_method! {bool u8 u16 u32 u64 u128 i8 i16 i32 i64 i128 f32 f64}
 
+    fn deserialize_option<V>(self, visitor: V) -> Result<V::Value, Self::Error>
+    where
+        V: serde::de::Visitor<'de>,
+    {
+        // option is specicial
+        // none: means no value and won't hit here.
+        // some: menas there is value to hit this method.
+        visitor.visit_some(self)
+    }
+
     fn deserialize_newtype_struct<V>(
         self,
         _name: &'static str,
@@ -88,7 +98,7 @@ where
 
     serde::forward_to_deserialize_any! {
         char str string
-        seq bytes byte_buf map unit ignored_any option enum unit_struct
+        seq bytes byte_buf map unit ignored_any enum unit_struct
         tuple_struct tuple identifier
     }
 }

@@ -5,5 +5,4 @@ edition = "2024"
 workspace = "../"
 
 [dependencies]
-serde = "1.0.219"
 variants = { path = "../../core/lib" }

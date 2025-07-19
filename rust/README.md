@@ -4,11 +4,12 @@ variants is a crate to deserilize Rust data based on variant context.
 
 ```rust
 #![allow(dead_code)]
-use serde::Deserialize;
 use std::collections::HashMap;
 use std::error::Error;
+use variants::serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
+#[serde(crate = "variants::serde")]
 struct Config {
     key1: String,
     key2: u64,

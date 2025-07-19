@@ -14,6 +14,8 @@ pub mod traits {
     pub use crate::types::traits::Variants;
 }
 
+pub mod serde;
+
 /*pub fn from_str<'s, T>(source: &'s str) -> Result<T, Token>
 where
     T: serde::de::Deserialize<'s>,

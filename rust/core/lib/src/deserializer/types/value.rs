@@ -41,16 +41,7 @@ where
         }
     }
 
-    // todo: define a new macro to do forward_to_deserialize_any but all primitives types are from str
-    fn deserialize_u64<V>(self, visitor: V) -> Result<V::Value, Self::Error>
-    where
-        V: serde::de::Visitor<'de>,
-    {
-        match self.data {
-            Value::String(str) => visitor.visit_u64(str.parse::<u64>().unwrap()),
-            _ => self.deserialize_any(visitor),
-        }
-    }
+    crate::deserialize_method! {bool u8 u16 u32 u64 u128 i8 i16 i32 i64 i128 f32 f64}
 
     fn deserialize_newtype_struct<V>(
         self,
@@ -76,8 +67,29 @@ where
     }
 
     serde::forward_to_deserialize_any! {
-        bool u8 u16 u32 i8 i16 i32 i64 f32 f64 char str string
+        char str string
         seq bytes byte_buf map unit ignored_any option enum unit_struct
         tuple_struct tuple identifier
     }
+}
+
+use paste;
+#[macro_export]
+macro_rules! deserialize_method {
+    ($($name:ident)*) => {
+        $(
+            paste::item! {
+                fn [<deserialize_$name>]<V>(self, visitor: V) -> Result<V::Value, Self::Error>
+                where V: serde::de::Visitor<'de>,
+                {
+                    match &self.data {
+                        Value::String(str) => match str.parse::<$name>() {
+                            Ok(value) => visitor.[<visit_$name>](value),
+                            _ => error::Error::from_de(std::any::type_name::<$name>(), &self.data).into(),
+                        },
+                        _ => self.deserialize_any(visitor),
+                    }
+                }
+            })*
+    };
 }

@@ -13,3 +13,12 @@ where
     data: T,
     variants: &'a V,
 }
+
+use crate::types::error;
+use crate::types::value::Value;
+
+impl error::Error {
+    pub(crate) fn from_de(source_type: &str, value: &Value) -> Self {
+        error::Error::De(format!("{:?}=>{}", value, source_type))
+    }
+}

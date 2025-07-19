@@ -3,6 +3,7 @@ use crate::deserializer::types::table;
 use crate::types::error;
 use crate::types::traits::Variants;
 use crate::types::value::Value;
+use paste;
 
 pub(crate) type ValueDeserializer<'a, V> = crate::deserializer::types::Deserializer<'a, V, Value>;
 
@@ -16,6 +17,25 @@ where
             variants: variants,
         }
     }
+}
+
+macro_rules! deserialize_method {
+    ($($name:ident)*) => {
+        $(
+            paste::item! {
+                fn [<deserialize_$name>]<V>(self, visitor: V) -> Result<V::Value, Self::Error>
+                where V: serde::de::Visitor<'de>,
+                {
+                    match &self.data {
+                        Value::String(str) => match str.parse::<$name>() {
+                            Ok(value) => visitor.[<visit_$name>](value),
+                            _ => error::Error::from_de(std::any::type_name::<$name>(), &self.data).into(),
+                        },
+                        _ => self.deserialize_any(visitor),
+                    }
+                }
+            })*
+    };
 }
 
 impl<'de, T> serde::Deserializer<'de> for ValueDeserializer<'de, T>
@@ -41,7 +61,7 @@ where
         }
     }
 
-    crate::deserialize_method! {bool u8 u16 u32 u64 u128 i8 i16 i32 i64 i128 f32 f64}
+    deserialize_method! {bool u8 u16 u32 u64 u128 i8 i16 i32 i64 i128 f32 f64}
 
     fn deserialize_newtype_struct<V>(
         self,
@@ -71,25 +91,4 @@ where
         seq bytes byte_buf map unit ignored_any option enum unit_struct
         tuple_struct tuple identifier
     }
-}
-
-use paste;
-#[macro_export]
-macro_rules! deserialize_method {
-    ($($name:ident)*) => {
-        $(
-            paste::item! {
-                fn [<deserialize_$name>]<V>(self, visitor: V) -> Result<V::Value, Self::Error>
-                where V: serde::de::Visitor<'de>,
-                {
-                    match &self.data {
-                        Value::String(str) => match str.parse::<$name>() {
-                            Ok(value) => visitor.[<visit_$name>](value),
-                            _ => error::Error::from_de(std::any::type_name::<$name>(), &self.data).into(),
-                        },
-                        _ => self.deserialize_any(visitor),
-                    }
-                }
-            })*
-    };
 }

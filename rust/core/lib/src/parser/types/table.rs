@@ -25,9 +25,6 @@ impl Table {
         let mut table = Table::default();
         while let Some(current_token) = token_stream.peek_token() {
             match current_token.kind() {
-                /*TokenKind::LSQUARBRACKET => {
-                    Self::on_sub_container(source, token_stream, current_token, &mut table)?;
-                }*/
                 Kind::LSQUARBRACKET => {
                     if !is_nested_table {
                         Self::on_sub_container(source, token_stream, current_token, &mut table)?;
@@ -161,13 +158,12 @@ fn on_key_value_expression<'a>(
             Kind::DOT => {
                 // here we know it will be a table varaint without varaint value.
                 // table variant: find the entry->find the variant->find the table
-                let mut new_table = Table::default();
                 // consume TokenKind::DOT
                 token_stream.next_token();
                 let new_token = token_stream.peek_token().unwrap();
-                on_key_value_expression(source, token_stream, new_token, &mut new_table)?;
                 let entry = container.get_or_create(key).unwrap();
-                entry.add_item("", Value::Table(new_table));
+                let new_table = entry.get_or_create_table("").unwrap();
+                on_key_value_expression(source, token_stream, new_token, new_table)?;
                 return Ok(());
             }
             Kind::AMPERSAND => {

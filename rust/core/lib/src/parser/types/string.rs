@@ -17,7 +17,6 @@ pub(crate) fn from<'a>(source: &'a str, token: &Token) -> Result<&'a str> {
 }
 
 pub(crate) fn key_from<'a>(source: &'a str, token: &Token) -> Result<&'a str> {
-    // todo: validate token is other.
     match token.kind() {
         Kind::EXP => from(source, token),
         _ => Result::from(*token),

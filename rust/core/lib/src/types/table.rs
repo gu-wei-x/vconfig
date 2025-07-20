@@ -26,6 +26,10 @@ impl Table {
         self.get_mut(key)
     }
 
+    pub(crate) fn get(&self, key: &str) -> Option<&entry::VariantEntry> {
+        self.data.get(key)
+    }
+
     pub(crate) fn get_mut(&mut self, key: &str) -> Option<&mut entry::VariantEntry> {
         self.data.get_mut(key)
     }

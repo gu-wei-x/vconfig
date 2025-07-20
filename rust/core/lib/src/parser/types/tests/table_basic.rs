@@ -53,6 +53,15 @@ parser_test_case!(
     true
 );
 
+parser_test_case!(
+    test_parse_expression_with_multiple_dot_keys,
+    r#"
+        parent0.a1.a2.a3 = "test"
+        parent0.a1.a5 = "test"
+    "#,
+    true
+);
+
 // todo: need to verify the data inside but not just Reuslt
 parser_test_case!(
     test_parse_expression_with_dot_keys,
@@ -65,7 +74,7 @@ parser_test_case!(
         parent2 = "test2"
         parent3 = "test3"
     "#,
-    false
+    true
 );
 
 parser_test_case!(

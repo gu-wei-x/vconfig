@@ -31,6 +31,14 @@ impl std::fmt::Debug for VariantEntry {
 }
 
 impl VariantEntry {
+    pub(crate) fn get_or_create_table(&mut self, variant: &str) -> Option<&mut Table> {
+        let result = self.find_table_mut(variant);
+        if result.is_none() {
+            self.add_item(variant, Value::Table(Table::default()));
+        }
+        self.find_table_mut(variant)
+    }
+
     pub(crate) fn add_item(&mut self, variant: &str, value: Value) -> &mut Self {
         let key = if variant.is_empty() {
             None

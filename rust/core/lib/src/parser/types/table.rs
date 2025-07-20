@@ -25,9 +25,6 @@ impl Table {
         let mut table = Table::default();
         while let Some(current_token) = token_stream.peek_token() {
             match current_token.kind() {
-                /*TokenKind::LSQUARBRACKET => {
-                    Self::on_sub_container(source, token_stream, current_token, &mut table)?;
-                }*/
                 Kind::LSQUARBRACKET => {
                     if !is_nested_table {
                         Self::on_sub_container(source, token_stream, current_token, &mut table)?;
@@ -41,7 +38,7 @@ impl Table {
                     token_stream.next_token();
                     break;
                 }
-                Kind::OTHER => {
+                Kind::EXP => {
                     // key value.
                     on_key_value_expression(source, token_stream, current_token, &mut table)?;
                 }
@@ -91,7 +88,7 @@ impl Table {
                         return Result::from(token);
                     }
                 }
-                Kind::OTHER => {
+                Kind::EXP => {
                     key_result = string::key_from(source, token);
                 }
                 Kind::AMPERSAND => {
@@ -114,7 +111,7 @@ impl Table {
         if let Ok(key) = key_result {
             if let Some(next_token) = token_stream.peek_token() {
                 let value_result = match next_token.kind() {
-                    Kind::OTHER => Table::from(source, token_stream, next_token, true),
+                    Kind::EXP => Table::from(source, token_stream, next_token, true),
                     Kind::LESSTHAN => Array::from(source, token_stream, next_token),
                     _ => {
                         return Result::from(next_token);
@@ -161,11 +158,12 @@ fn on_key_value_expression<'a>(
             Kind::DOT => {
                 // here we know it will be a table varaint without varaint value.
                 // table variant: find the entry->find the variant->find the table
-                let mut new_table = Table::default();
-                let new_token = token_stream.next_token().unwrap(); // consume TokenKind::DOT.
-                on_key_value_expression(source, token_stream, new_token, &mut new_table)?;
+                // consume TokenKind::DOT
+                token_stream.next_token();
+                let new_token = token_stream.peek_token().unwrap();
                 let entry = container.get_or_create(key).unwrap();
-                entry.add_item("", Value::Table(new_table));
+                let new_table = entry.get_or_create_table("").unwrap();
+                on_key_value_expression(source, token_stream, new_token, new_table)?;
                 return Ok(());
             }
             Kind::AMPERSAND => {

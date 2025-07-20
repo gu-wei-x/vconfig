@@ -54,6 +54,16 @@ parser_test_case!(
 );
 
 parser_test_case!(
+    test_parse_expression_with_multiple_dot_keys,
+    r#"
+        parent0.a1.a2.a3 = "test"
+        parent0.a1.a5 = "test"
+    "#,
+    true
+);
+
+// todo: need to verify the data inside but not just Reuslt
+parser_test_case!(
     test_parse_expression_with_dot_keys,
     r#"
         parent0.a1.a2.a3 = "test"
@@ -84,8 +94,11 @@ parser_test_case!(
         key1 = "value1"
         key2 = "value2"
         [sub_table.keys.key2&v1:2]
-        key1 = "value1"
-        key2 = "value2"
+        key1 = "value3"
+        key2 = "value4"
+        [sub_table.keys&v3:3]
+        key1 = "value5"
+        key2 = "value6"
     "#,
     true
 );

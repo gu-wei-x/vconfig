@@ -22,14 +22,25 @@ impl std::fmt::Debug for Value {
 }
 
 impl Value {
-    pub(crate) fn string_value(&mut self) -> Option<&str> {
-        // todo: impl
-        None
+    pub(crate) fn string(&self) -> Option<&str> {
+        if let Value::String(str) = self {
+            Some(str)
+        } else {
+            None
+        }
     }
 
     pub(crate) fn array_mut(&mut self) -> Option<&mut Array> {
         if let Value::Array(array) = self {
             Some(array)
+        } else {
+            None
+        }
+    }
+
+    pub(crate) fn table(&self) -> Option<&Table> {
+        if let Value::Table(table) = self {
+            Some(table)
         } else {
             None
         }

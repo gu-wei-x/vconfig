@@ -1,6 +1,8 @@
 #![cfg(test)]
 pub(crate) mod array;
-pub(crate) mod table;
+pub(crate) mod string;
+pub(crate) mod table_basic;
+pub(crate) mod table_content;
 
 #[doc(hidden)]
 //#[macro_use]

@@ -41,7 +41,7 @@ impl Table {
                     token_stream.next_token();
                     break;
                 }
-                Kind::OTHER => {
+                Kind::EXP => {
                     // key value.
                     on_key_value_expression(source, token_stream, current_token, &mut table)?;
                 }
@@ -91,7 +91,7 @@ impl Table {
                         return Result::from(token);
                     }
                 }
-                Kind::OTHER => {
+                Kind::EXP => {
                     key_result = string::key_from(source, token);
                 }
                 Kind::AMPERSAND => {
@@ -114,7 +114,7 @@ impl Table {
         if let Ok(key) = key_result {
             if let Some(next_token) = token_stream.peek_token() {
                 let value_result = match next_token.kind() {
-                    Kind::OTHER => Table::from(source, token_stream, next_token, true),
+                    Kind::EXP => Table::from(source, token_stream, next_token, true),
                     Kind::LESSTHAN => Array::from(source, token_stream, next_token),
                     _ => {
                         return Result::from(next_token);
@@ -162,7 +162,9 @@ fn on_key_value_expression<'a>(
                 // here we know it will be a table varaint without varaint value.
                 // table variant: find the entry->find the variant->find the table
                 let mut new_table = Table::default();
-                let new_token = token_stream.next_token().unwrap(); // consume TokenKind::DOT.
+                // consume TokenKind::DOT
+                token_stream.next_token();
+                let new_token = token_stream.peek_token().unwrap();
                 on_key_value_expression(source, token_stream, new_token, &mut new_table)?;
                 let entry = container.get_or_create(key).unwrap();
                 entry.add_item("", Value::Table(new_table));

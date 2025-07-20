@@ -54,7 +54,7 @@ impl<'a> Iterator for Tokenizer<'a> {
         match token.kind {
             token::Kind::EOF => {
                 self.eof = true;
-                None
+                Some(token)
             }
             _ => Some(token),
         }

@@ -18,10 +18,7 @@ impl Value {
     ) -> Result<Value> {
         if let Some(token) = token_stream.peek_token() {
             match token.kind() {
-                Kind::DOUBLEQUOTEDSTRING
-                | Kind::SINGLEQUOTEDSTRING
-                | Kind::MLDOUBLEQUOTEDSTRING
-                | Kind::MLSINGLEQUOTEDSTRING => {
+                Kind::STRING => {
                     // must be string.
                     let raw_value = string::from(source, token);
                     token_stream.next_token(); // consume the token.

@@ -10,7 +10,6 @@ pub enum Kind {
     COMMA = b',',
     COMMENT = b'#',
     COLON = b':',
-    DOUBLEQUOTEDSTRING = b'"',
     DOT = b'.',
     EQUALS = b'=',
     // array
@@ -25,12 +24,13 @@ pub enum Kind {
     WHITESPACE = b' ',
     NEWLINE = b'\n',
 
-    // todo: add QUOTEDSTR here
-    // QUOTEDSTR: "", '', ml
+    // raw string.
+    DOUBLEQUOTEDSTRING = b'"',
     SINGLEQUOTEDSTRING = b'\'',
-    MLDOUBLEQUOTEDSTRING = 1,
-    MLSINGLEQUOTEDSTRING,
-    OTHER,
+    STRING,
+
+    // expression.
+    EXP,
     EOF,
     UNKNOWN,
 }
@@ -86,7 +86,6 @@ pub fn tokenize(stream: &mut StrStream<'_>) -> Token {
         b',' => tokenize_symbol(stream, Kind::COMMA),
         b'#' => tokenize_comment(stream),
         b':' => tokenize_symbol(stream, Kind::COLON),
-        b'"' => tokenize_double_quotated_string(stream),
         b'.' => tokenize_symbol(stream, Kind::DOT),
         b'=' => tokenize_symbol(stream, Kind::EQUALS),
         b'<' => tokenize_symbol(stream, Kind::LESSTHAN),
@@ -97,6 +96,7 @@ pub fn tokenize(stream: &mut StrStream<'_>) -> Token {
         b'}' => tokenize_symbol(stream, Kind::RCURLYBRACKET),
         b' ' => tokenize_whitespace(stream),
         b'\n' => tokenize_newline(stream),
+        b'"' => tokenize_double_quotated_string(stream),
         b'\'' => tokenize_single_quotated_string(stream),
         _ => tokenize_other(stream),
     };
@@ -159,7 +159,7 @@ fn tokenize_other(stream: &mut StrStream<'_>) -> Token {
         .unwrap_or_else(|| stream.eof_offset());
     stream.next_slice(offset);
     let end = stream.previous_token_end();
-    Token::new(Kind::OTHER, start, end)
+    Token::new(Kind::EXP, start, end)
 }
 
 /// string = string-delim *literal-char string-delim
@@ -168,11 +168,9 @@ fn tokenize_single_quotated_string(stream: &mut StrStream<'_>) -> Token {
     let ml_string_delim = "'''";
     let start = stream.current_token_start();
     let mut offset = 1; // skip the opening quote
-    let mut token_type = Kind::SINGLEQUOTEDSTRING;
     let is_ml = stream.starts_with(ml_string_delim);
     if is_ml {
         offset = 3;
-        token_type = Kind::MLSINGLEQUOTEDSTRING;
     }
 
     stream.next_slice(offset);
@@ -199,7 +197,7 @@ fn tokenize_single_quotated_string(stream: &mut StrStream<'_>) -> Token {
     }
 
     let end = stream.previous_token_end();
-    Token::new(token_type, start, end)
+    Token::new(Kind::STRING, start, end)
 }
 
 /// string = string-delim *literal-char string-delim
@@ -208,11 +206,9 @@ fn tokenize_double_quotated_string(stream: &mut StrStream<'_>) -> Token {
     let ml_string_delim = "\"\"\"";
     let start = stream.current_token_start();
     let mut offset = 1; // skip the opening quote
-    let mut token_type = Kind::DOUBLEQUOTEDSTRING;
     let is_ml = stream.starts_with(ml_string_delim);
     if is_ml {
         offset = 3;
-        token_type = Kind::MLDOUBLEQUOTEDSTRING;
     }
 
     stream.next_slice(offset);
@@ -239,7 +235,7 @@ fn tokenize_double_quotated_string(stream: &mut StrStream<'_>) -> Token {
     }
 
     let end = stream.previous_token_end();
-    Token::new(token_type, start, end)
+    Token::new(Kind::STRING, start, end)
 }
 
 #[cfg(test)]

@@ -18,7 +18,10 @@ pub(crate) fn from<'a>(source: &'a str, token: &Token) -> Result<&'a str> {
 
 pub(crate) fn key_from<'a>(source: &'a str, token: &Token) -> Result<&'a str> {
     // todo: validate token is other.
-    from(source, token)
+    match token.kind() {
+        Kind::EXP => from(source, token),
+        _ => Result::from(*token),
+    }
 }
 
 pub(crate) fn variants_from<'a>(
@@ -40,7 +43,7 @@ pub(crate) fn variants_from<'a>(
         .contains(&k)
     }) {
         let token = Token::new(
-            Kind::OTHER,
+            Kind::EXP,
             start_token.range().start,
             end_token.range().start,
         );

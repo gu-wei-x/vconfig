@@ -64,10 +64,7 @@ impl Array {
                     token_stream.next_token();
                     continue;
                 }
-                Kind::MLDOUBLEQUOTEDSTRING
-                | Kind::DOUBLEQUOTEDSTRING
-                | Kind::MLSINGLEQUOTEDSTRING
-                | Kind::SINGLEQUOTEDSTRING => {
+                Kind::STRING => {
                     let raw_value = string::from(source, current_token);
                     match raw_value {
                         Ok(str) => {

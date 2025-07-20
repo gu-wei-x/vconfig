@@ -1,5 +1,4 @@
 #![cfg(test)]
-
 #[test]
 fn test_dot_key() {
     use crate::parser::types;
@@ -58,4 +57,93 @@ fn test_dot_key() {
     assert!(s21_value.is_some());
     let s21_value = s21_value.unwrap();
     assert_eq!(s21_value.string(), Some("value2"));
+}
+
+#[test]
+fn test_dot_keys_in_sub_container() {
+    use crate::parser::types;
+    let raw_output = r#"Ok(
+    Table {
+        data: {
+            "sub_table": (
+                None,
+                Value(Table {
+                    data: {
+                        "keys": (
+                            None,
+                            Value(Table {
+                                data: {
+                                    "key2": (
+                                        Some(
+                                            "v1:1",
+                                        ),
+                                        Value(Table {
+                                            data: {
+                                                "key1": (
+                                                    None,
+                                                    Value("value1"),
+                                                ),
+                                                "key2": (
+                                                    None,
+                                                    Value("value2"),
+                                                ),
+                                            },
+                                        }),
+                                    )(
+                                        Some(
+                                            "v1:2",
+                                        ),
+                                        Value(Table {
+                                            data: {
+                                                "key1": (
+                                                    None,
+                                                    Value("value3"),
+                                                ),
+                                                "key2": (
+                                                    None,
+                                                    Value("value4"),
+                                                ),
+                                            },
+                                        }),
+                                    ),
+                                },
+                            }),
+                        )(
+                            Some(
+                                "v3:3",
+                            ),
+                            Value(Table {
+                                data: {
+                                    "key1": (
+                                        None,
+                                        Value("value5"),
+                                    ),
+                                    "key2": (
+                                        None,
+                                        Value("value6"),
+                                    ),
+                                },
+                            }),
+                        ),
+                    },
+                }),
+            ),
+        },
+    },
+)"#;
+
+    let raw_str = r#"
+        [sub_table.keys.key2&v1:1]
+        key1 = "value1"
+        key2 = "value2"
+        [sub_table.keys.key2&v1:2]
+        key1 = "value3"
+        key2 = "value4"
+        [sub_table.keys&v3:3]
+        key1 = "value5"
+        key2 = "value6"
+    "#;
+    let result = types::parse_str(raw_str);
+    let output = format!("{:#?}", result);
+    assert_eq!(output, raw_output);
 }

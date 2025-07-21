@@ -6,9 +6,10 @@ macro_rules! de_test_case {
         paste::item! {
             #[test]
             fn [<de_test_ $name _$type>]() {
-                use serde::Deserialize;
+                use variants::serde::Deserialize;
 
                 #[derive(Debug, Deserialize)]
+                #[serde(crate = "variants::serde")]
                 struct Config {
                     key: $type,
                 }
@@ -36,9 +37,10 @@ macro_rules! de_test_case {
         paste::item! {
             #[test]
             fn [<de_test_$type>]() {
-                use serde::Deserialize;
+                use variants::serde::Deserialize;
 
                 #[derive(Debug, Deserialize)]
+                #[serde(crate = "variants::serde")]
                 struct Config {
                     key: $type,
                 }

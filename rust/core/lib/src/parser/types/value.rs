@@ -1,6 +1,3 @@
-#![allow(dead_code)]
-use winnow::stream::Stream;
-
 use crate::parser::Token;
 use crate::parser::types::string;
 use crate::tokenizer::stream::TokenStream;
@@ -9,6 +6,7 @@ use crate::types::array::Array;
 use crate::types::result::Result;
 use crate::types::table::Table;
 use crate::types::value::Value;
+use winnow::stream::Stream;
 
 impl Value {
     pub(crate) fn from<'a>(

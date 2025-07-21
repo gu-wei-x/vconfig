@@ -1,4 +1,3 @@
-#![allow(dead_code)]
 use crate::parser::types::string;
 use crate::types::array::Array;
 use crate::types::result::Result;

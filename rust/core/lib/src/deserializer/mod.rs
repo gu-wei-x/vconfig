@@ -84,13 +84,8 @@ impl serde::de::Error for error::Error {
     where
         T: core::fmt::Display,
     {
-        println!("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        println!("{:#}", msg);
-        println!("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-        Self::De("test".to_owned())
+        Self::De(msg.to_string())
     }
-
-    // todo:: more
 }
 
 impl serde::de::StdError for error::Error {

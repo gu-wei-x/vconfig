@@ -6,9 +6,10 @@ macro_rules! de_option_case {
         paste::item! {
             #[test]
             fn [<de_test_option_ $name _$type _$is_some>]() {
-                use serde::Deserialize;
+                use variants::serde::Deserialize;
 
                 #[derive(Debug, Deserialize)]
+                #[serde(crate = "variants::serde")]
                 struct Config {
                     key: Option<$type>,
                 }

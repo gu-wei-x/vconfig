@@ -2,14 +2,22 @@
          "version": "0.2.0",
          "configurations": [
              {
-                 "type":  "cppvsdbg", // Or "cppdbg" for C++
+                 "type":  "cppvsdbg", // winconfig: Or "cppdbg" for C++
                  "request": "launch",
                  "name": "Debug basic example",
-                 "program": "${workspaceRoot}/rust/examples/target/debug/basic",
+                 "program": "${workspaceRoot}/rust/target/debug/basic",
                  "args": [
                     "run", 
                     "basic"],
                  "cwd": "${workspaceRoot}/rust/examples/basic"
+             },
+             {
+                 "type":  "cppvsdbg", // winconfig: Or "cppdbg" for C++
+                 "request": "launch",
+                 "name": "Debug rocket example",
+                 "program": "${workspaceRoot}/rust/target/debug/web-rocket",
+                 "args": [],
+                 "cwd": "${workspaceRoot}/rust/examples/web-rocket"
              }
          ]
      }

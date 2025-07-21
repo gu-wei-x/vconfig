@@ -34,7 +34,7 @@ impl Array {
                     // array again
                     let array_value = Some(Array::from(source, token_stream, current_token)?);
                     if let Some(data) = array_value {
-                        array.add_item(data);
+                        array.push(data)?;
                         stream::skip_next_token_if(token_stream, |k| {
                             vec![Kind::COMMA, Kind::WHITESPACE, Kind::NEWLINE].contains(&k)
                         });
@@ -47,7 +47,7 @@ impl Array {
                     let table_value =
                         Some(Table::from(source, token_stream, current_token, false)?);
                     if let Some(data) = table_value {
-                        array.add_item(data);
+                        array.push(data)?;
                         stream::skip_next_token_if(token_stream, |k| {
                             vec![Kind::COMMA, Kind::WHITESPACE, Kind::NEWLINE].contains(&k)
                         });
@@ -69,7 +69,7 @@ impl Array {
                     match raw_value {
                         Ok(str) => {
                             token_stream.next_token();
-                            array.add_item(Value::String(str.to_owned()));
+                            array.push(Value::String(str.to_owned()))?;
                             // skip whitespace, nl, comma
                             stream::skip_next_token_if(token_stream, |k| {
                                 vec![Kind::COMMA, Kind::WHITESPACE, Kind::NEWLINE].contains(&k)

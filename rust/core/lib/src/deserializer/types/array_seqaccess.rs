@@ -18,7 +18,7 @@ where
 {
     pub(crate) fn new(deserilizer: &'a ArrayDeserializer<'b, V>) -> Self {
         Self {
-            iterator: deserilizer.data.into_seq().iter(),
+            iterator: deserilizer.data.into_vec().iter(),
             variants: deserilizer.variants,
         }
     }

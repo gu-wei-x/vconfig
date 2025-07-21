@@ -1,8 +1,7 @@
-#![allow(dead_code)]
 use crate::types::array::Array;
 use crate::types::table::Table;
 
-#[derive(Clone /*, Debug*/)]
+#[derive(Clone, PartialEq)]
 pub enum Value {
     // simple value must be string style.
     String(String),
@@ -22,7 +21,8 @@ impl std::fmt::Debug for Value {
 }
 
 impl Value {
-    pub(crate) fn string(&self) -> Option<&str> {
+    #[cfg(test)]
+    pub(crate) fn get_str(&self) -> Option<&str> {
         if let Value::String(str) = self {
             Some(str)
         } else {
@@ -30,15 +30,8 @@ impl Value {
         }
     }
 
-    pub(crate) fn array_mut(&mut self) -> Option<&mut Array> {
-        if let Value::Array(array) = self {
-            Some(array)
-        } else {
-            None
-        }
-    }
-
-    pub(crate) fn table(&self) -> Option<&Table> {
+    #[cfg(test)]
+    pub(crate) fn get_table(&self) -> Option<&Table> {
         if let Value::Table(table) = self {
             Some(table)
         } else {
@@ -46,7 +39,7 @@ impl Value {
         }
     }
 
-    pub(crate) fn table_mut(&mut self) -> Option<&mut Table> {
+    pub(crate) fn get_table_mut(&mut self) -> Option<&mut Table> {
         if let Value::Table(table) = self {
             Some(table)
         } else {

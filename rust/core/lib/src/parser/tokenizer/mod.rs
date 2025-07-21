@@ -1,10 +1,9 @@
+use crate::tokenizer::stream::StrStream;
 use winnow::stream::AsBStr as _;
 use winnow::stream::ContainsToken as _;
 use winnow::stream::FindSlice as _;
 use winnow::stream::Location;
 use winnow::stream::Stream as _;
-
-use crate::tokenizer::stream::StrStream;
 
 #[cfg(test)]
 pub(crate) mod test;

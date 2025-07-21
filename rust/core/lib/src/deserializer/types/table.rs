@@ -1,6 +1,5 @@
-use crate::types::{error, table::Table, traits::Variants};
-
 use crate::deserializer::types::table_mapaccess::MapAccess;
+use crate::types::{error, table::Table, traits::Variants};
 
 pub(crate) type TableDeserializer<'a, V> = crate::deserializer::types::Deserializer<'a, V, Table>;
 

@@ -1,4 +1,3 @@
-#![allow(dead_code, unused_imports)]
 use super::*;
 use crate::tokenizer::StrStream;
 use std::ops::Range;

@@ -1,6 +1,6 @@
 #![cfg(test)]
 use serde::Deserialize;
-use std::collections::HashMap;
+use variants::default::DefaultVariants;
 
 #[test]
 fn test_deserializing_config_simple() {
@@ -17,11 +17,10 @@ fn test_deserializing_config_simple() {
         key2 = "3"
     "#;
 
-    let mut variants = HashMap::new();
-    variants.insert("variant1".to_string(), "v1".to_string());
-    variants.insert("variant2".to_string(), "v2".to_string());
-    let result =
-        variants::from_str_with_variants::<Config, HashMap<String, String>>(raw_str, &variants);
+    let mut variants = DefaultVariants::default();
+    _ = variants.add("variant1", "v1");
+    _ = variants.add("variant2", "v2");
+    let result = variants::from_str_with_variants::<Config, _>(raw_str, &variants);
     assert!(result.is_ok());
     let config = result.unwrap();
     assert_eq!(config.key1, "v1".to_owned());
@@ -55,11 +54,10 @@ fn test_deserializing_config_with_sub_config() {
         skey2 = "4"
     "#;
 
-    let mut variants = HashMap::new();
-    variants.insert("variant1".to_string(), "v1".to_string());
-    variants.insert("variant2".to_string(), "v2".to_string());
-    let result =
-        variants::from_str_with_variants::<Config, HashMap<String, String>>(raw_str, &variants);
+    let mut variants = DefaultVariants::default();
+    _ = variants.add("variant1", "v1");
+    _ = variants.add("variant2", "v2");
+    let result = variants::from_str_with_variants::<Config, _>(raw_str, &variants);
     assert!(result.is_ok());
 
     let config = result.unwrap();
@@ -82,9 +80,8 @@ fn test_deserializing_config_with_array() {
         data = <"v0", "v1", "v2">
     "#;
 
-    let variants = HashMap::new();
-    let result =
-        variants::from_str_with_variants::<Config, HashMap<String, String>>(raw_str, &variants);
+    let variants = DefaultVariants::default();
+    let result = variants::from_str_with_variants::<Config, _>(raw_str, &variants);
 
     assert!(result.is_ok());
 

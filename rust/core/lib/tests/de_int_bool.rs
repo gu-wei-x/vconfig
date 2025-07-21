@@ -7,7 +7,6 @@ macro_rules! de_test_case {
             #[test]
             fn [<de_test_ $name _$type>]() {
                 use serde::Deserialize;
-                use std::collections::HashMap;
 
                 #[derive(Debug, Deserialize)]
                 struct Config {
@@ -21,8 +20,8 @@ macro_rules! de_test_case {
                     $value
                 );
 
-                let variants = HashMap::new();
-                let result = variants::from_str_with_variants::<Config, HashMap<String, String>>(
+                let variants = variants::default::DefaultVariants::default();
+                let result = variants::from_str_with_variants::<Config, _>(
                     &raw_str, &variants,
                 );
                 println!("{:?}", result);
@@ -38,7 +37,6 @@ macro_rules! de_test_case {
             #[test]
             fn [<de_test_$type>]() {
                 use serde::Deserialize;
-                use std::collections::HashMap;
 
                 #[derive(Debug, Deserialize)]
                 struct Config {
@@ -52,8 +50,8 @@ macro_rules! de_test_case {
                     stringify!($expected)
                 );
 
-                let variants = HashMap::new();
-                let result = variants::from_str_with_variants::<Config, HashMap<String, String>>(
+                let variants = variants::default::DefaultVariants::default();
+                let result = variants::from_str_with_variants::<Config, _>(
                     &raw_str, &variants,
                 );
                 assert!(result.is_ok());

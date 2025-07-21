@@ -14,6 +14,10 @@ pub mod traits {
     pub use crate::types::traits::Variants;
 }
 
+pub mod default {
+    pub use crate::types::traits::DefaultVariants;
+}
+
 pub mod serde;
 
 /*pub fn from_str<'s, T>(source: &'s str) -> Result<T, Token>

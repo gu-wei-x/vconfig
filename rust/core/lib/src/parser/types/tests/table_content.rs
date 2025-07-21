@@ -1,8 +1,8 @@
 #![cfg(test)]
 #[test]
 fn test_dot_key() {
+    use crate::default::DefaultVariants;
     use crate::parser::types;
-    use std::collections::HashMap;
 
     let raw_str = r#"
         p.s1.s2.s3 = "value1"
@@ -15,7 +15,7 @@ fn test_dot_key() {
     let p_variants = table.get("p");
     assert!(p_variants.is_some());
 
-    let variants: HashMap<String, String> = HashMap::new();
+    let variants = DefaultVariants::default();
     let p_varaints = p_variants.unwrap();
     let p_value = p_varaints.find(&variants);
     assert!(p_value.is_some());

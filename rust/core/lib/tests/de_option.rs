@@ -7,7 +7,6 @@ macro_rules! de_option_case {
             #[test]
             fn [<de_test_option_ $name _$type _$is_some>]() {
                 use serde::Deserialize;
-                use std::collections::HashMap;
 
                 #[derive(Debug, Deserialize)]
                 struct Config {
@@ -23,8 +22,8 @@ macro_rules! de_option_case {
                     r#" "#.to_owned()
                 };
 
-                let variants = HashMap::new();
-                let result = variants::from_str_with_variants::<Config, HashMap<String, String>>(
+                let variants = variants::default::DefaultVariants::default();
+                let result = variants::from_str_with_variants::<Config, _>(
                     &raw_str, &variants,
                 );
 

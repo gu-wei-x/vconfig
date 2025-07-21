@@ -3,8 +3,8 @@ macro_rules! tokenizer_test_case {
     ($name:ident, $input:expr, $expected:expr) => {
         #[test]
         fn $name() {
-            use crate::tokenizer::Tokenizer;
-            use crate::tokenizer::token;
+            use crate::parser::tokenizer::Tokenizer;
+            use crate::parser::tokenizer::token;
 
             // Join the input strings to form a single string for tokenization.
             let tokenizer_input: String = $input.join("");

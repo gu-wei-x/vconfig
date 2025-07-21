@@ -7,7 +7,7 @@ use winnow::stream::Stream;
 
 use crate::{
     parser::Token,
-    tokenizer::{
+    parser::tokenizer::{
         stream::{self, TokenStream},
         token::Kind,
     },

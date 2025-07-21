@@ -1,5 +1,5 @@
-use crate::tokenizer::token::Kind;
-use crate::tokenizer::token::Token;
+use crate::parser::tokenizer::token::Kind;
+use crate::parser::tokenizer::token::Token;
 use winnow::stream::LocatingSlice;
 use winnow::stream::Stream;
 use winnow::stream::TokenSlice;

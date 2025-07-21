@@ -1,15 +1,15 @@
-use crate::tokenizer::stream::StrStream;
-use winnow::stream::AsBStr as _;
-use winnow::stream::ContainsToken as _;
-use winnow::stream::FindSlice as _;
-use winnow::stream::Location;
-use winnow::stream::Stream as _;
-
 #[cfg(test)]
 pub(crate) mod test;
 
 pub mod stream;
 pub mod token;
+
+use stream::StrStream;
+use winnow::stream::AsBStr as _;
+use winnow::stream::ContainsToken as _;
+use winnow::stream::FindSlice as _;
+use winnow::stream::Location;
+use winnow::stream::Stream as _;
 
 pub struct Tokenizer<'a> {
     stream: StrStream<'a>,

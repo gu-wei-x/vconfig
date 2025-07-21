@@ -78,7 +78,7 @@ impl Table {
                     // create parent entry.
                     if let Ok(key) = key_result {
                         let entry = table.get_or_create(key).unwrap();
-                        entry.add_item("", Value::Table(Table::default()));
+                        entry.add("", Value::Table(Table::default()));
 
                         // assign new container.
                         table = entry.find_table_mut("").unwrap();
@@ -124,7 +124,7 @@ impl Table {
                 match value_result {
                     Ok(value) => {
                         let entry = table.get_or_create(key).unwrap();
-                        entry.add_item(variant_str, value);
+                        entry.add(variant_str, value);
                         return Ok(());
                     }
                     _ => return Result::from(next_token),
@@ -204,7 +204,7 @@ fn on_key_value_expression<'a>(
     match value_result {
         Ok(value) => {
             let entry = container.get_or_create(key).unwrap();
-            entry.add_item(variant_str, value);
+            entry.add(variant_str, value);
             Ok(())
         }
         _ => Result::from(token),

@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 pub trait Variants: Sized {
     fn matches(&self, variant: &Option<String>) -> bool;
 }

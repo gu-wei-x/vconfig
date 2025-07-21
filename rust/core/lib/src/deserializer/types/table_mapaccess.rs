@@ -50,7 +50,7 @@ where
         match self.value.take() {
             Some(entry) => {
                 // get envaluated one.
-                match entry.find_item(self.variants).take() {
+                match entry.find(self.variants).take() {
                     Some(value) => {
                         let value_deserializer =
                             ValueDeserializer::new(value.clone(), self.variants);

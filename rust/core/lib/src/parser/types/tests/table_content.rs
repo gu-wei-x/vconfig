@@ -17,27 +17,27 @@ fn test_dot_key() {
 
     let variants: HashMap<String, String> = HashMap::new();
     let p_varaints = p_variants.unwrap();
-    let p_value = p_varaints.find_item(&variants);
+    let p_value = p_varaints.find(&variants);
     assert!(p_value.is_some());
 
-    let p_value = p_value.unwrap().table();
+    let p_value = p_value.unwrap().get_table();
     assert!(p_value.is_some());
     print!("{:#?}", p_value);
 
     let p_table = p_value.unwrap();
     let s1_variants = p_table.get("s1");
     assert!(s1_variants.is_some());
-    let s1_value = s1_variants.unwrap().find_item(&variants);
+    let s1_value = s1_variants.unwrap().find(&variants);
     assert!(s1_value.is_some());
-    let s1_value = s1_value.unwrap().table();
+    let s1_value = s1_value.unwrap().get_table();
     assert!(s1_value.is_some());
 
     let s1_table = s1_value.unwrap();
     let s2_variants = s1_table.get("s2");
     assert!(s2_variants.is_some());
-    let s2_variants = s2_variants.unwrap().find_item(&variants);
+    let s2_variants = s2_variants.unwrap().find(&variants);
     assert!(s2_variants.is_some());
-    let s2_variants = s2_variants.unwrap().table();
+    let s2_variants = s2_variants.unwrap().get_table();
     assert!(s2_variants.is_some());
     let s2_table = s2_variants.unwrap();
     print!("{:#?}", s2_table);
@@ -45,18 +45,18 @@ fn test_dot_key() {
     // s3 value.
     let s3_variants = s2_table.get("s3");
     assert!(s3_variants.is_some());
-    let s3_value = s3_variants.unwrap().find_item(&variants);
+    let s3_value = s3_variants.unwrap().find(&variants);
     assert!(s3_value.is_some());
     let s3_value = s3_value.unwrap();
-    assert_eq!(s3_value.string(), Some("value1"));
+    assert_eq!(s3_value.get_str(), Some("value1"));
 
     //s21 value
     let s21_variants = s1_table.get("s21");
     assert!(s21_variants.is_some());
-    let s21_value = s21_variants.unwrap().find_item(&variants);
+    let s21_value = s21_variants.unwrap().find(&variants);
     assert!(s21_value.is_some());
     let s21_value = s21_value.unwrap();
-    assert_eq!(s21_value.string(), Some("value2"));
+    assert_eq!(s21_value.get_str(), Some("value2"));
 }
 
 #[test]

@@ -1,12 +1,12 @@
-#![allow(dead_code)]
 use crate::types::table::Table;
 use crate::types::traits::Variants;
 use crate::types::value::Value;
 use indexmap::map;
 
-#[derive(Clone /*, Debug*/)]
+#[derive(Clone, PartialEq)]
 pub struct VariantEntry {
     // key: whole variant string, Value
+    // todo: ignore case: here or when envaluating.
     data: map::IndexMap<Option<String>, Value>,
 }
 
@@ -20,9 +20,6 @@ impl Default for VariantEntry {
 
 impl std::fmt::Debug for VariantEntry {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        // for (variant, value) in self.data.iter() {
-        //     write!(f, "({:#?}:{:#?})", variant, value)?;
-        // }
         for value in self.data.iter() {
             write!(f, "{:#?}", value)?;
         }
@@ -34,12 +31,12 @@ impl VariantEntry {
     pub(crate) fn get_or_create_table(&mut self, variant: &str) -> Option<&mut Table> {
         let result = self.find_table_mut(variant);
         if result.is_none() {
-            self.add_item(variant, Value::Table(Table::default()));
+            self.add(variant, Value::Table(Table::default()));
         }
         self.find_table_mut(variant)
     }
 
-    pub(crate) fn add_item(&mut self, variant: &str, value: Value) -> &mut Self {
+    pub(crate) fn add(&mut self, variant: &str, value: Value) -> &mut Self {
         let key = if variant.is_empty() {
             None
         } else {
@@ -57,12 +54,12 @@ impl VariantEntry {
         };
         let entry = self.data.get_mut(&key);
         match entry {
-            Some(value) => value.table_mut(),
+            Some(value) => value.get_table_mut(),
             _ => None,
         }
     }
 
-    pub(crate) fn find_item<'a, V>(&self, varaints: &'a V) -> Option<&Value>
+    pub(crate) fn find<'a, V>(&self, varaints: &'a V) -> Option<&Value>
     where
         V: Variants,
     {

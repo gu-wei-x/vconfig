@@ -1,5 +1,5 @@
 [workspace]
 resolver = "2"
 members = [
-  "basic",
+  "basic", "web-rocket",
 ]

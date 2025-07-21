@@ -15,7 +15,7 @@ fn test_de_array_of_string_arrays() {
     "#;
 
     let variants = DefaultVariants::default();
-    let result = variants::from_str_with_variants::<Config, _>(raw_str, &variants);
+    let result = variants::de::from_str_with_variants::<Config, _>(raw_str, &variants);
 
     assert!(result.is_ok());
 
@@ -43,7 +43,7 @@ fn test_de_array_of_option_string_arrays() {
     "#;
 
     let variants = DefaultVariants::default();
-    let result = variants::from_str_with_variants::<Config, _>(raw_str, &variants);
+    let result = variants::de::from_str_with_variants::<Config, _>(raw_str, &variants);
     assert!(result.is_ok());
 
     let config = result.unwrap();
@@ -70,7 +70,7 @@ fn test_de_array_of_option_string_arrays_none() {
     "#;
 
     let variants = DefaultVariants::default();
-    let result = variants::from_str_with_variants::<Config, _>(raw_str, &variants);
+    let result = variants::de::from_str_with_variants::<Config, _>(raw_str, &variants);
     assert!(result.is_ok());
 
     let config = result.unwrap();
@@ -90,7 +90,7 @@ fn test_de_array_of_strings() {
     "#;
 
     let variants = DefaultVariants::default();
-    let result = variants::from_str_with_variants::<Config, _>(raw_str, &variants);
+    let result = variants::de::from_str_with_variants::<Config, _>(raw_str, &variants);
 
     assert!(result.is_ok());
 
@@ -115,7 +115,7 @@ fn test_de_array_of_strings_in_subcontainer() {
     "#;
 
     let variants = DefaultVariants::default();
-    let result = variants::from_str_with_variants::<Config, _>(raw_str, &variants);
+    let result = variants::de::from_str_with_variants::<Config, _>(raw_str, &variants);
 
     assert!(result.is_ok());
 
@@ -141,7 +141,7 @@ fn test_de_array_of_strings_with_variants() {
 
     let mut variants = DefaultVariants::default();
     _ = variants.add("v1", "1");
-    let result = variants::from_str_with_variants::<Config, _>(raw_str, &variants);
+    let result = variants::de::from_str_with_variants::<Config, _>(raw_str, &variants);
 
     assert!(result.is_ok());
 
@@ -153,7 +153,7 @@ fn test_de_array_of_strings_with_variants() {
 
     // empty
     let result =
-        variants::from_str_with_variants::<Config, _>(raw_str, &DefaultVariants::default());
+        variants::de::from_str_with_variants::<Config, _>(raw_str, &DefaultVariants::default());
     assert!(result.is_ok());
     let config = result.unwrap();
     assert_eq!(config.data.len(), 3);
@@ -179,7 +179,7 @@ fn test_de_array_of_strings_with_variants_in_subcontainer() {
 
     let mut variants = DefaultVariants::default();
     _ = variants.add("v1", "1");
-    let result = variants::from_str_with_variants::<Config, _>(raw_str, &variants);
+    let result = variants::de::from_str_with_variants::<Config, _>(raw_str, &variants);
 
     assert!(result.is_ok());
 
@@ -191,7 +191,7 @@ fn test_de_array_of_strings_with_variants_in_subcontainer() {
 
     // empty
     let result =
-        variants::from_str_with_variants::<Config, _>(raw_str, &DefaultVariants::default());
+        variants::de::from_str_with_variants::<Config, _>(raw_str, &DefaultVariants::default());
     assert!(result.is_ok());
     let config = result.unwrap();
     assert_eq!(config.data.len(), 3);
@@ -219,7 +219,7 @@ fn test_de_array_of_struct_arrays() {
     "#;
 
     let variants = DefaultVariants::default();
-    let result = variants::from_str_with_variants::<Config, _>(raw_str, &variants);
+    let result = variants::de::from_str_with_variants::<Config, _>(raw_str, &variants);
 
     assert!(result.is_ok());
 
@@ -250,7 +250,7 @@ fn test_de_array_of_struct_arrays_with_variants() {
 
     let mut variants = DefaultVariants::default();
     _ = variants.add("v1", "1");
-    let result = variants::from_str_with_variants::<Config, _>(raw_str, &variants);
+    let result = variants::de::from_str_with_variants::<Config, _>(raw_str, &variants);
 
     assert!(result.is_ok());
     let config = result.unwrap();
@@ -259,7 +259,7 @@ fn test_de_array_of_struct_arrays_with_variants() {
     assert_eq!(&config.data[1].key, "v1");
 
     let result =
-        variants::from_str_with_variants::<Config, _>(raw_str, &DefaultVariants::default());
+        variants::de::from_str_with_variants::<Config, _>(raw_str, &DefaultVariants::default());
     assert!(result.is_ok());
     let config = result.unwrap();
     assert_eq!(config.data.len(), 2);
@@ -288,7 +288,7 @@ fn test_de_array_with_dotkeys_and_variants() {
 
     let mut variants = DefaultVariants::default();
     _ = variants.add("v1", "1");
-    let result = variants::from_str_with_variants::<Config, _>(raw_str, &variants);
+    let result = variants::de::from_str_with_variants::<Config, _>(raw_str, &variants);
     assert!(result.is_ok());
 
     let config = result.unwrap();
@@ -296,7 +296,7 @@ fn test_de_array_with_dotkeys_and_variants() {
     assert_eq!(&config.data.key[1], "v1");
 
     let result =
-        variants::from_str_with_variants::<Config, _>(raw_str, &DefaultVariants::default());
+        variants::de::from_str_with_variants::<Config, _>(raw_str, &DefaultVariants::default());
     assert!(result.is_ok());
 
     let config = result.unwrap();
@@ -327,7 +327,7 @@ fn test_de_array_with_dotkeys_and_variants_in_subcontainer() {
 
     let mut variants = DefaultVariants::default();
     _ = variants.add("v1", "1");
-    let result = variants::from_str_with_variants::<Config, _>(raw_str, &variants);
+    let result = variants::de::from_str_with_variants::<Config, _>(raw_str, &variants);
     assert!(result.is_ok());
 
     let config = result.unwrap();
@@ -335,7 +335,7 @@ fn test_de_array_with_dotkeys_and_variants_in_subcontainer() {
     assert_eq!(&config.data.key[1], "v1");
 
     let result =
-        variants::from_str_with_variants::<Config, _>(raw_str, &DefaultVariants::default());
+        variants::de::from_str_with_variants::<Config, _>(raw_str, &DefaultVariants::default());
     assert!(result.is_ok());
 
     let config = result.unwrap();

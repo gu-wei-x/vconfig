@@ -24,7 +24,7 @@ macro_rules! de_option_case {
                 };
 
                 let variants = variants::default::DefaultVariants::default();
-                let result = variants::from_str_with_variants::<Config, _>(
+                let result = variants::de::from_str_with_variants::<Config, _>(
                     &raw_str, &variants,
                 );
 

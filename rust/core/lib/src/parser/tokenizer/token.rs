@@ -1,5 +1,5 @@
 use super::*;
-use crate::tokenizer::StrStream;
+use crate::parser::tokenizer::StrStream;
 use std::ops::Range;
 
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, Debug)]

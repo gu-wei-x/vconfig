@@ -4,7 +4,7 @@ use crate::types::table::Table;
 use crate::types::value::Value;
 use crate::{
     parser::Token,
-    tokenizer::{
+    parser::tokenizer::{
         stream::{self, TokenStream},
         token::Kind,
     },

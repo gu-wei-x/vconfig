@@ -18,7 +18,7 @@ impl<'r> FromRequest<'r> for IndexConfig {
     async fn from_request(request: &'r Request<'_>) -> Outcome<Self, Self::Error> {
         let configs = request
             .rocket()
-            .state::<crate::variants::fairing::VaraintsConfig>()
+            .state::<crate::variants::config::VaraintsConfig>()
             .unwrap();
         match configs.get_file("index") {
             Some(path) => {

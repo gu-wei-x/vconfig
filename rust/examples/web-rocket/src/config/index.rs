@@ -2,6 +2,7 @@ use rocket::Request;
 use rocket::request::{FromRequest, Outcome};
 use variants::default;
 use variants::serde::Deserialize;
+use variants::traits::Variants;
 
 #[derive(Debug, Deserialize)]
 #[serde(crate = "variants::serde")]

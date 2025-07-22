@@ -1,19 +1,18 @@
 #![allow(dead_code)]
 use crate::traits::Variants;
 
-pub trait VariantsProcesser<D, V>
+pub trait VariantsProcessor<D, V>
 where
     V: Variants,
 {
-    fn process(&self, data: &D, variants: &V);
+    fn process(&self, data: &D, variants: &mut V);
 }
 
 pub struct VariantsBuilder<D, V>
 where
     V: Variants,
 {
-    processers: Vec<Box<dyn VariantsProcesser<D, V>>>,
-    variants: V,
+    processers: Vec<Box<dyn VariantsProcessor<D, V>>>,
 }
 
 impl<D, V> Default for VariantsBuilder<D, V>
@@ -22,7 +21,6 @@ where
 {
     fn default() -> Self {
         Self {
-            variants: V::default(),
             processers: Vec::new(),
         }
     }
@@ -32,12 +30,13 @@ impl<D, V> VariantsBuilder<D, V>
 where
     V: Variants + Default,
 {
-    fn add_processor(&mut self, processor: &dyn VariantsProcesser<D, V>) {
+    pub fn with_processor(&mut self, processor: Box<dyn VariantsProcessor<D, V>>) -> &mut Self {
         self.processers.push(processor);
+        self
     }
 
     // get variants from context data.
-    fn get_variants(&self, data: &D, varaints: &mut V) {
+    pub fn process_variants(&self, data: &D, varaints: &mut V) {
         for iter in self.processers.iter() {
             iter.process(data, varaints);
         }

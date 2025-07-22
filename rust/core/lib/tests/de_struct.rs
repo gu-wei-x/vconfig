@@ -1,6 +1,7 @@
 #![cfg(test)]
 use variants::default::DefaultVariants;
 use variants::serde::Deserialize;
+use variants::traits::Variants;
 
 #[test]
 fn test_de_struct_of_string_values() {

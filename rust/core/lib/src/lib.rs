@@ -44,5 +44,5 @@ pub mod serde;
 
 pub mod traits {
     pub use crate::types::traits::Variants;
-    pub use crate::types::variants_builder::VariantsProcesser;
+    pub use crate::types::variants_builder::VariantsProcessor;
 }

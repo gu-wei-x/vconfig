@@ -2,6 +2,7 @@
 use std::error::Error;
 use variants::default::DefaultVariants;
 use variants::serde::Deserialize;
+use variants::traits::Variants;
 
 #[derive(Debug, Deserialize)]
 #[serde(crate = "variants::serde")]

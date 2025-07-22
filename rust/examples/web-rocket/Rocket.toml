@@ -1,0 +1,5 @@
+[development]
+config_dir = "src/config"
+
+[debug]
+config_dir = "src/config"

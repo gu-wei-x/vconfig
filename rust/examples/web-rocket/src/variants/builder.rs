@@ -13,8 +13,10 @@ pub(crate) struct VariantsBuilder<'r, V>
 where
     V: variantslib::traits::Variants,
 {
-    processors: Vec<Box<dyn VariantsProcessor<'r, V>>>,
+    processors: Vec<Box<dyn VariantsProcessor<'r, V> + Send + Sync>>,
 }
+
+unsafe impl<'r, V> Sync for VariantsBuilder<'r, V> where V: variantslib::traits::Variants + Sync {}
 
 impl<'r, V> Default for VariantsBuilder<'r, V>
 where
@@ -42,7 +44,10 @@ where
         }
     }
 
-    fn with_processor(&mut self, processor: Box<dyn VariantsProcessor<'r, V>>) -> &mut Self {
+    fn with_processor(
+        &mut self,
+        processor: Box<dyn VariantsProcessor<'r, V> + Send + Sync>,
+    ) -> &mut Self {
         self.processors.push(processor);
         self
     }

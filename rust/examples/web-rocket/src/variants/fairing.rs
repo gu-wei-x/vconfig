@@ -44,21 +44,26 @@ impl Fairing for VaraintsFairing {
     }
 
     #[cfg(debug_assertions)]
-    async fn on_request(&self, req: &mut rocket::Request<'_>, _data: &mut rocket::Data<'_>) {
+    async fn on_request(&self, _req: &mut rocket::Request<'_>, _data: &mut rocket::Data<'_>) {
         /*let varaints_builder = req
         .rocket()
         .state::<VariantsBuilder>()
         .expect("VariantsBuilder registered in on_ignite");*/
         // todo: move following to rocket state.
-        let mut varaints_builder = variantslib::default::VariantsBuilder::<
-            Request<'_>,
-            variantslib::default::DefaultVariants,
-        >::default();
-        varaints_builder.with_processor(Box::new(BrowserVaraints::default()));
 
-        let mut varaints = variantslib::default::DefaultVariants::default();
-        varaints_builder.process_variants(req, &mut varaints);
         // todo: put in the request state.
-        req.local_cache(|| varaints);
+        /*let variants = req.local_cache::<variantslib::default::DefaultVariants, _>(|| {
+            let mut varaints_builder = variantslib::default::VariantsBuilder::<
+                Request<'_>,
+                variantslib::default::DefaultVariants,
+            >::default();
+            varaints_builder.with_processor(Box::new(BrowserVaraints::default()));
+
+            let mut varaints = variantslib::default::DefaultVariants::default();
+            varaints_builder.process_variants(req, &mut varaints);
+            varaints
+        });
+
+        req.local_cache(|| "hello world");*/
     }
 }

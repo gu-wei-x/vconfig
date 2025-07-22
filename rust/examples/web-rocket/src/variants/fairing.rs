@@ -28,15 +28,14 @@ impl Fairing for VaraintsFairing {
     }
 
     async fn on_ignite(&self, rocket: Rocket<Build>) -> fairing::Result {
-        let mut varaints_builder = variantslib::default::VariantsBuilder::<
-            Request<'_>,
+        /*let mut variants_builder = crate::variants::builder::VariantsBuilder::<
+            '_,
             variantslib::default::DefaultVariants,
         >::default();
-        varaints_builder.with_processor(Box::new(BrowserVaraints::default()));
-        // todo: add others.
+        variants_builder.config();
 
-        //Ok(rocket.manage(varaints_builder))
-        Ok(rocket)
+        Ok(rocket.manage(variants_builder))*/
+       Ok(rocket)
     }
 
     async fn on_liftoff(&self, _rocket: &Rocket<Orbit>) {

@@ -37,12 +37,10 @@ pub mod de {
 
 pub mod default {
     pub use crate::types::traits::DefaultVariants;
-    pub use crate::types::variants_builder::VariantsBuilder;
 }
 
 pub mod serde;
 
 pub mod traits {
     pub use crate::types::traits::Variants;
-    pub use crate::types::variants_builder::VariantsProcessor;
 }

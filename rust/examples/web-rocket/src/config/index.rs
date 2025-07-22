@@ -1,11 +1,8 @@
 extern crate variants as variantslib;
-use crate::variants::browser::BrowserVaraints;
 use rocket::Request;
 use rocket::request::{FromRequest, Outcome};
 use variantslib::default::DefaultVariants;
-use variantslib::default::VariantsBuilder;
 use variantslib::serde::Deserialize;
-//use variantslib::traits::Variants;
 
 #[derive(Debug, Deserialize)]
 #[serde(crate = "variantslib::serde")]
@@ -19,20 +16,15 @@ impl<'r> FromRequest<'r> for IndexConfig {
     type Error = ();
 
     async fn from_request(request: &'r Request<'_>) -> Outcome<Self, Self::Error> {
-        let variants = request.local_cache::<DefaultVariants, _>(|| {
-            let mut varaints_builder = VariantsBuilder::<Request<'_>, DefaultVariants>::default();
-            varaints_builder.with_processor(Box::new(BrowserVaraints::default()));
+        let mut variants_builder = crate::variants::builder::VariantsBuilder::default();
+        variants_builder.config();
+        let mut variants = DefaultVariants::default();
+        variants_builder.build(request, &mut variants);
 
-            let mut varaints = DefaultVariants::default();
-            varaints_builder.process_variants(request, &mut varaints);
-            varaints
-        });
-
-        let config_result = variantslib::de::from_file_with_variants::<
-            IndexConfig,
-            _,
-            DefaultVariants,
-        >("./src/config/index.toml", &variants);
+        let config_result = variantslib::de::from_file_with_variants::<IndexConfig, _, _>(
+            "./src/config/index.toml",
+            &variants,
+        );
 
         match config_result {
             Ok(config) => Outcome::Success(config),

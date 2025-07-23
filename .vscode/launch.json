@@ -15,9 +15,9 @@
                  "type":  "cppvsdbg", // winconfig: Or "cppdbg" for C++
                  "request": "launch",
                  "name": "Debug rocket example",
-                 "program": "${workspaceRoot}/rust/target/debug/web-rocket",
+                 "program": "${workspaceRoot}/rust/target/debug/rocket",
                  "args": [],
-                 "cwd": "${workspaceRoot}/rust/examples/web-rocket"
+                 "cwd": "${workspaceRoot}/rust/examples/web/rocket"
              }
          ]
      }

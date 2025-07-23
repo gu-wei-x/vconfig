@@ -1,0 +1,12 @@
+[package]
+name = "variants_rocket"
+version = "0.1.0"
+edition = "2024"
+workspace = "../../../"
+
+[dependencies]
+variants = { version = "0.1.0", path = "../../lib" }
+variants_codegen = { version = "0.1.0", path = "../codegen" }
+
+[lints]
+workspace = true

@@ -7,6 +7,7 @@ variants is a crate to deserilize Rust data based on variant context.
 use std::error::Error;
 use variants::default::DefaultVariants;
 use variants::serde::Deserialize;
+use variants::traits::Variants;
 
 #[derive(Debug, Deserialize)]
 #[serde(crate = "variants::serde")]
@@ -44,7 +45,6 @@ fn from_file() -> Result<(), Box<dyn Error>> {
     println!("{:?}", result); // Ok(Config { key1: "v1", key2: 5 })
     Ok(())
 }
-
 ```
 
 ## Documentation

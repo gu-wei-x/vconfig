@@ -1,10 +1,12 @@
+extern crate variants as variantslib;
 use rocket::Request;
 use rocket::request::{FromRequest, Outcome};
-use variants::default;
-use variants::serde::Deserialize;
+use variantslib::default::DefaultVariants;
+use variantslib::serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
-#[serde(crate = "variants::serde")]
+#[serde(crate = "variantslib::serde")]
+//#[config("index")] // todo: add a macro to generate FromRequest impl automatically.
 pub(crate) struct IndexConfig {
     pub(crate) welcome_msg: String,
 }
@@ -13,23 +15,25 @@ pub(crate) struct IndexConfig {
 #[rocket::async_trait]
 impl<'r> FromRequest<'r> for IndexConfig {
     type Error = ();
-
     async fn from_request(request: &'r Request<'_>) -> Outcome<Self, Self::Error> {
-        let agent_header = request.headers().get_one("user-agent");
-        if let Some(user_agent) = agent_header {
-            let mut variants = default::DefaultVariants::default();
-            if user_agent.contains("Edg/") {
-                _ = variants.add("browser", "edge");
+        let configs = request
+            .rocket()
+            .state::<crate::variants::config::VaraintsConfig>()
+            .unwrap();
+        match configs.get_file("index") {
+            Some(path) => {
+                let mut variants_builder = crate::variants::builder::VariantsBuilder::default();
+                variants_builder.config();
+                let mut variants = DefaultVariants::default();
+                variants_builder.build(request, &mut variants);
+                let config_result =
+                    variantslib::de::from_file_with_variants::<IndexConfig, _, _>(path, &variants);
+                match config_result {
+                    Ok(config) => Outcome::Success(config),
+                    _ => Outcome::Forward(rocket::http::Status { code: 500 }),
+                }
             }
-
-            let config = variants::de::from_file_with_variants::<IndexConfig, _, _>(
-                "./src/config/index.toml",
-                &variants,
-            );
-            Outcome::Success(config.unwrap())
-        } else {
-            // user-agent header found, forward
-            Outcome::Forward(rocket::http::Status { code: 500 })
+            _ => Outcome::Forward(rocket::http::Status { code: 500 }),
         }
     }
 }

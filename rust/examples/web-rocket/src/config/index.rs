@@ -1,18 +1,20 @@
+//#![allow(unused_imports)]
 extern crate variants as variantslib;
 use rocket::Request;
 use rocket::request::{FromRequest, Outcome};
+use variantslib::config;
 use variantslib::default::DefaultVariants;
 use variantslib::serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
 #[serde(crate = "variantslib::serde")]
-//#[config("index")] // todo: add a macro to generate FromRequest impl automatically.
+#[config("index")]
 pub(crate) struct IndexConfig {
     pub(crate) welcome_msg: String,
 }
 
 // Required for async FromRequest implementations
-#[rocket::async_trait]
+/*#[rocket::async_trait]
 impl<'r> FromRequest<'r> for IndexConfig {
     type Error = ();
     async fn from_request(request: &'r Request<'_>) -> Outcome<Self, Self::Error> {
@@ -34,4 +36,4 @@ impl<'r> FromRequest<'r> for IndexConfig {
             _ => Outcome::Forward(rocket::http::Status { code: 500 }),
         }
     }
-}
+}*/

@@ -22,10 +22,8 @@ impl<'r> FromRequest<'r> for IndexConfig {
             .unwrap();
         match configs.get_file("index") {
             Some(path) => {
-                let mut variants_builder = crate::variants::builder::VariantsBuilder::default();
-                variants_builder.config();
                 let mut variants = DefaultVariants::default();
-                variants_builder.build(request, &mut variants);
+                configs.build_varaints(request, &mut variants);
                 let config_result =
                     variantslib::de::from_file_with_variants::<IndexConfig, _, _>(path, &variants);
                 match config_result {

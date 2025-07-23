@@ -1,54 +1,34 @@
 extern crate variants as variantslib;
 use crate::variants::browser::BrowserVaraints;
 use rocket::Request;
+use std::sync::Arc;
+use variantslib::default::DefaultVariants;
 
-pub trait VariantsProcessor<'r, V>
-where
-    V: variantslib::traits::Variants,
-{
-    fn process(&self, request: &'r Request<'_>, variants: &mut V);
+pub trait VariantsProcessor: Send + Sync + 'static {
+    fn process<'r>(&self, request: &'r Request<'_>, variants: &mut DefaultVariants);
 }
 
-pub(crate) struct VariantsBuilder<'r, V>
-where
-    V: variantslib::traits::Variants,
-{
-    processors: Vec<Box<dyn VariantsProcessor<'r, V> + Send + Sync>>,
+#[derive(Clone)]
+pub(crate) struct VariantsBuilder {
+    processors: Vec<Arc<dyn VariantsProcessor>>,
 }
 
-unsafe impl<'r, V> Sync for VariantsBuilder<'r, V> where V: variantslib::traits::Variants + Sync {}
-
-impl<'r, V> Default for VariantsBuilder<'r, V>
-where
-    V: variantslib::traits::Variants,
-{
-    fn default() -> Self {
-        Self {
+impl VariantsBuilder {
+    pub(crate) fn new() -> Self {
+        let result = Self {
             processors: Vec::new(),
-        }
-    }
-}
-
-impl<'r, V> VariantsBuilder<'r, V>
-where
-    V: variantslib::traits::Variants,
-{
-    pub(crate) fn config(&mut self) -> &mut Self {
-        self.with_processor(Box::new(BrowserVaraints::default()));
-        self
+        };
+        result.with_processor(BrowserVaraints::default())
     }
 
-    pub(crate) fn build(&self, request: &'r Request<'_>, variants: &mut V) {
+    pub(crate) fn build<'r>(&self, request: &'r Request<'_>, variants: &mut DefaultVariants) {
         for iter in self.processors.iter() {
             iter.process(request, variants);
         }
     }
 
-    fn with_processor(
-        &mut self,
-        processor: Box<dyn VariantsProcessor<'r, V> + Send + Sync>,
-    ) -> &mut Self {
-        self.processors.push(processor);
+    fn with_processor<P: VariantsProcessor>(mut self, processor: P) -> Self {
+        self.processors.push(Arc::new(processor));
         self
     }
 }

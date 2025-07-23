@@ -1,8 +1,10 @@
 [workspace]
 resolver = "2"
 members = [ 
-  "core/codegen",
-  "core/lib/",
+  "core/lib/", 
+  "core/web/actix_web", 
+  "core/web/codegen",
+  "core/web/rocket",
 ]
 
 [workspace.lints.rust]

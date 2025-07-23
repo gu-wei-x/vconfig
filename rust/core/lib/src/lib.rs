@@ -44,6 +44,3 @@ pub mod serde;
 pub mod traits {
     pub use crate::types::traits::Variants;
 }
-
-#[doc(inline)]
-pub use variants_codegen::*;

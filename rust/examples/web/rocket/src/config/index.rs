@@ -1,7 +1,7 @@
 #![allow(unused_imports)]
 extern crate variants as variantslib;
-use variantslib::config;
 use variantslib::serde::Deserialize;
+use variants_rocket::config;
 
 #[derive(Debug, Deserialize)]
 #[serde(crate = "variantslib::serde")]

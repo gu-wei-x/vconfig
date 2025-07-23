@@ -1,10 +1,15 @@
+extern crate variants as variantslib;
+use crate::variants::builder::VariantsBuilder;
 use normpath::PathExt;
+use rocket::Request;
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
+use variantslib::default::DefaultVariants;
 
 const EXT: &'static str = "toml";
 pub(crate) struct VaraintsConfig {
     configs: HashMap<String, PathBuf>,
+    builder: VariantsBuilder,
 }
 
 impl VaraintsConfig {
@@ -27,11 +32,22 @@ impl VaraintsConfig {
             configs.insert(file_name, entry.into_path());
         }
 
-        Some(Self { configs: configs })
+        Some(Self {
+            configs: configs,
+            builder: VariantsBuilder::new(),
+        })
     }
 
-    pub fn get_file(&self, name: &str) -> Option<&PathBuf> {
+    pub(crate) fn get_file(&self, name: &str) -> Option<&PathBuf> {
         self.configs.get(name)
+    }
+
+    pub(crate) fn build_varaints<'r>(
+        &self,
+        request: &'r Request<'_>,
+        variants: &mut DefaultVariants,
+    ) {
+        self.builder.build(request, variants);
     }
 
     fn is_config_file(entry: &walkdir::DirEntry, ext: &str) -> bool {

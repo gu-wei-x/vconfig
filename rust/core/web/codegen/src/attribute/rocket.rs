@@ -35,11 +35,11 @@ pub(crate) fn config(args: TokenStream, input: TokenStream) -> TokenStream {
                     impl<'r> rocket::request::FromRequest<'r> for super::#ident {
                         type Error = ();
                         async fn from_request(request: &'r rocket::Request<'_>) -> rocket::request::Outcome<Self, Self::Error> {
-                            let configs = request.rocket().state::<crate::variants::config::VaraintsConfig>().unwrap();
-                            match configs.get_file(#file) {
+                            let context = request.rocket().state::<crate::variants::config::VaraintsContext>().unwrap();
+                            match context.get_file(#file) {
                                 Some(path) => {
                                     let mut variants = variantslib::default::DefaultVariants::default();
-                                    configs.build_varaints(request, &mut variants);
+                                    context.build_varaints(request, &mut variants);
                                     let config_result =
                                         variantslib::de::from_file_with_variants::<super::#ident, _, _>(path, &variants);
                                     match config_result {

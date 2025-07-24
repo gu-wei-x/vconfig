@@ -10,7 +10,7 @@ impl Default for BrowserVaraints {
     }
 }
 
-impl crate::variants::builder::VariantsProcessor for BrowserVaraints {
+impl variants_rocket::VariantsProcessor for BrowserVaraints {
     fn process<'r>(
         &self,
         request: &'r Request<'_>,

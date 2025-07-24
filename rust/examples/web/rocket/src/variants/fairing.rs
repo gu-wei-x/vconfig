@@ -1,4 +1,4 @@
-use crate::variants::config::VaraintsConfig;
+use crate::variants::config::VaraintsContext;
 use rocket::fairing::{self, Fairing, Info, Kind};
 use rocket::figment::value::magic::RelativePathBuf;
 use rocket::{Build, Orbit, Rocket};
@@ -32,7 +32,7 @@ impl Fairing for VaraintsFairing {
 
         match configured_dir {
             Ok(dir) => {
-                if let Some(config) = VaraintsConfig::new(&dir) {
+                if let Some(config) = VaraintsContext::new(&dir) {
                     Ok(rocket.manage(config))
                 } else {
                     // todo: log error.
@@ -45,8 +45,8 @@ impl Fairing for VaraintsFairing {
 
     async fn on_liftoff(&self, rocket: &Rocket<Orbit>) {
         let _config = rocket
-            .state::<VaraintsConfig>()
-            .expect("VaraintsConfig registered in on_ignite");
+            .state::<VaraintsContext>()
+            .expect("VaraintsContext registered in on_ignite");
     }
 
     #[cfg(debug_assertions)]

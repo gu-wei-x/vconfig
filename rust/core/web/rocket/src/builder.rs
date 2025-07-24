@@ -1,8 +1,6 @@
-extern crate variants as variantslib;
-use crate::variants::browser::BrowserVaraints;
 use rocket::Request;
 use std::sync::Arc;
-use variantslib::default::DefaultVariants;
+use variants::default::DefaultVariants;
 
 pub trait VariantsProcessor: Send + Sync + 'static {
     fn process<'r>(&self, request: &'r Request<'_>, variants: &mut DefaultVariants);
@@ -15,10 +13,9 @@ pub(crate) struct VariantsBuilder {
 
 impl VariantsBuilder {
     pub(crate) fn new() -> Self {
-        let result = Self {
+        Self {
             processors: Vec::new(),
-        };
-        result.with_processor(BrowserVaraints::default())
+        }
     }
 
     pub(crate) fn build<'r>(&self, request: &'r Request<'_>, variants: &mut DefaultVariants) {
@@ -27,7 +24,7 @@ impl VariantsBuilder {
         }
     }
 
-    fn with_processor<P: VariantsProcessor>(mut self, processor: P) -> Self {
+    pub(crate) fn with_processor<P: VariantsProcessor>(&mut self, processor: P) -> &mut Self {
         self.processors.push(Arc::new(processor));
         self
     }

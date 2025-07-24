@@ -1,19 +1,13 @@
-mod config;
-mod variants;
-use crate::variants::fairing::VaraintsFairing;
-use config::index::IndexConfig;
-use rocket::{get, routes};
+mod fairing;
+mod handlers;
 
-#[get("/")]
-async fn index(index_config: IndexConfig) -> String {
-    index_config.welcome_msg
-}
+use crate::fairing::VaraintsConfigFairing;
 
 #[rocket::main]
 async fn main() -> Result<(), rocket::Error> {
     let _rocket: rocket::Rocket<rocket::Ignite> = rocket::build()
-        .mount("/", routes![index])
-        .attach(VaraintsFairing::default())
+        .mount("/", handlers::routes())
+        .attach(VaraintsConfigFairing::default())
         .launch()
         .await?;
     Ok(())

@@ -12,7 +12,7 @@ pub struct Config {
     pub file: Option<String>,
 }
 
-pub(crate) fn config(args: TokenStream, input: TokenStream) -> TokenStream {
+pub(crate) fn variants_config(args: TokenStream, input: TokenStream) -> TokenStream {
     let attr_tokens = quote!(config(#args));
     let att_meta = &syn::parse2::<MetaItem>(attr_tokens).unwrap();
     let attribute = Config::from_meta(att_meta).unwrap();
@@ -21,7 +21,7 @@ pub(crate) fn config(args: TokenStream, input: TokenStream) -> TokenStream {
     match ast.data {
         Data::Struct(_) => {
             let ident = &ast.ident;
-            let mod_name = format!("{}_impl___", ident.to_string().to_lowercase());
+            let mod_name = format!("__{}_impl___", ident.to_string().to_lowercase());
             let mode_ident = Ident::new(&mod_name, Span::call_site());
             let file = match attribute.file {
                 Some(path) => path,
@@ -30,18 +30,17 @@ pub(crate) fn config(args: TokenStream, input: TokenStream) -> TokenStream {
 
             let implemtation = quote! {
                 pub(crate) mod #mode_ident {
-                    extern crate variants as variantslib;
                     #[rocket::async_trait]
                     impl<'r> rocket::request::FromRequest<'r> for super::#ident {
                         type Error = ();
                         async fn from_request(request: &'r rocket::Request<'_>) -> rocket::request::Outcome<Self, Self::Error> {
-                            let configs = request.rocket().state::<crate::variants::config::VaraintsConfig>().unwrap();
-                            match configs.get_file(#file) {
+                            let context = request.rocket().state::<variants_rocket::VaraintsContext>().unwrap();
+                            match context.get_file(#file) {
                                 Some(path) => {
-                                    let mut variants = variantslib::default::DefaultVariants::default();
-                                    configs.build_varaints(request, &mut variants);
+                                    let mut variants = variants_rocket::default::DefaultVariants::default();
+                                    context.build_varaints(request, &mut variants);
                                     let config_result =
-                                        variantslib::de::from_file_with_variants::<super::#ident, _, _>(path, &variants);
+                                        variants_rocket::de::from_file_with_variants::<super::#ident, _, _>(path, &variants);
                                     match config_result {
                                         Ok(config) => rocket::request::Outcome::Success(config),
                                         _ => rocket::request::Outcome::Forward(rocket::http::Status { code: 500 }),

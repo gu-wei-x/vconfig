@@ -1,18 +1,20 @@
-use crate::variants::config::VaraintsContext;
+pub(crate) mod variants_processors;
+
 use rocket::fairing::{self, Fairing, Info, Kind};
 use rocket::figment::value::magic::RelativePathBuf;
 use rocket::{Build, Orbit, Rocket};
+use variants_rocket::VaraintsContext;
 
-pub(crate) struct VaraintsFairing {}
+pub(crate) struct VaraintsConfigFairing {}
 
-impl Default for VaraintsFairing {
+impl Default for VaraintsConfigFairing {
     fn default() -> Self {
-        VaraintsFairing {}
+        VaraintsConfigFairing {}
     }
 }
 
 #[rocket::async_trait]
-impl Fairing for VaraintsFairing {
+impl Fairing for VaraintsConfigFairing {
     fn info(&self) -> Info {
         let kind = Kind::Ignite | Kind::Liftoff;
         #[cfg(debug_assertions)]
@@ -32,8 +34,11 @@ impl Fairing for VaraintsFairing {
 
         match configured_dir {
             Ok(dir) => {
-                if let Some(config) = VaraintsContext::new(&dir) {
-                    Ok(rocket.manage(config))
+                if let Some(mut variants_context) = VaraintsContext::new(&dir) {
+                    // add all processor here.
+                    variants_context
+                        .with_processor(variants_processors::browser::BrowserVaraints::default());
+                    Ok(rocket.manage(variants_context))
                 } else {
                     // todo: log error.
                     Err(rocket)

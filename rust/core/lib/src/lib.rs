@@ -39,6 +39,8 @@ pub mod default {
     pub use crate::types::traits::DefaultVariants;
 }
 
+pub mod fs;
+
 pub mod serde;
 
 pub mod traits {

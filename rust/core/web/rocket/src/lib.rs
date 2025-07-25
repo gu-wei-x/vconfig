@@ -1,12 +1,12 @@
 mod builder;
 mod context;
 
-#[doc(inline)]
-pub use variants_codegen::*;
-
 pub mod de {
     #[doc(inline)]
     pub use variants::de::from_file_with_variants;
+
+    #[doc(inline)]
+    pub use variants_codegen::rocket_variants_config as variants_config;
 }
 
 pub mod default {

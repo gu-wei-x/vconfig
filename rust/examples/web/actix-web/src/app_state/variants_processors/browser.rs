@@ -1,6 +1,6 @@
-use actix_web::http::header::HeaderMap;
+use actix_web::http::header::USER_AGENT;
 
-pub(crate) struct BrowserVaraints {}
+pub(crate) struct BrowserVaraints;
 
 impl Default for BrowserVaraints {
     fn default() -> Self {
@@ -14,11 +14,33 @@ impl variants_actix_web::VariantsProcessor for BrowserVaraints {
         request: &actix_web::HttpRequest,
         variants: &mut variants_actix_web::default::DefaultVariants,
     ) {
-        let headers: &HeaderMap = request.headers();
-        let agent_header = headers.get("User-Agent");
-        if let Some(user_agent_value) = agent_header {
-            if user_agent_value.to_str().unwrap().contains("Edg/") {
-                _ = variants.add("browser", "edge");
+        match request.headers().get("sec-ch-ua") {
+            Some(sec_ch_ua_value) => {
+                if let Ok(value_str) = sec_ch_ua_value.to_str() {
+                    let lowwe_cased_value_str = value_str.to_lowercase();
+                    if lowwe_cased_value_str.contains("microsoft edge") {
+                        _ = variants.add("browser", "edge");
+                    } else if lowwe_cased_value_str.contains("google chrome") {
+                        _ = variants.add("browser", "chrome");
+                    }
+                }
+            }
+            _ => {
+                if let Some(user_agent_value) = request.headers().get(USER_AGENT) {
+                    if let Ok(value_str) = user_agent_value.to_str() {
+                        let lowwe_cased_value_str = value_str.to_lowercase();
+                        if lowwe_cased_value_str.contains("chrome/") {
+                            match lowwe_cased_value_str.contains("edg/") {
+                                true => {
+                                    _ = variants.add("browser", "edge");
+                                }
+                                false => {
+                                    _ = variants.add("browser", "chrome");
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

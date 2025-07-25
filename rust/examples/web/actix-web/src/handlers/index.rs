@@ -1,6 +1,6 @@
 use actix_web::Responder;
+use variants_actix_web::de::variants_config;
 use variants_actix_web::serde::Deserialize;
-use variants_actix_web::variants_config;
 
 #[derive(Debug, Deserialize)]
 #[serde(crate = "variants_actix_web::serde")]

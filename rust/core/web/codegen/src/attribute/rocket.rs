@@ -1,12 +1,11 @@
 use devise::{FromMeta, MetaItem};
 use proc_macro2::TokenStream;
 use proc_macro2::{Ident, Span};
-use std::fmt::format;
-use syn::{Attribute, Data};
-use syn::{DeriveInput, Fields, Type, parse_macro_input};
+use syn::Data;
+use syn::DeriveInput;
 
 #[derive(Debug, FromMeta)]
-pub struct Config {
+struct Config {
     #[meta(naked)]
     pub name: Option<String>,
     pub file: Option<String>,

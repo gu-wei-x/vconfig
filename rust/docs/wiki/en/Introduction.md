@@ -8,7 +8,7 @@ to build Rust apps with different features/behaviors based on configurations wit
 ## Audience
 
 Readers are assumed to be familiar with the Rust programming language. Readers new to Rust are encouraged to read the [Rust Book](https://doc.rust-lang.org/book/). 
-This guide also assumes to be familar with some popular Rust web frameworks like Actix Web, Rocket.
+This guide also assumes readers to be familiar with some popular Rust web frameworks like Actix Web, Rocket...
 
 ## Foreword
 

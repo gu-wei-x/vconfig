@@ -13,7 +13,8 @@ cd rocket-example
 cargo add rocket
 cargo add variants_rocket
 ```
-Note: todo pub the crate.
+**Note: todo pub the crate.**
+
 Create a folder like bellow:
 ```
 #:.
@@ -115,9 +116,6 @@ impl Default for variantsConfigFairing {
 impl Fairing for variantsConfigFairing {
     fn info(&self) -> Info {
         let kind = Kind::Ignite | Kind::Liftoff;
-        #[cfg(debug_assertions)]
-        let kind = kind | Kind::Request;
-
         Info {
             kind,
             name: "variants",
@@ -203,7 +201,6 @@ Configured for debug.
    >> ident: Rocket
    >> IP header: X-Real-IP
    >> limits: bytes = 8KiB, data-form = 2MiB, file = 1MiB, form = 32KiB, json = 1MiB, msgpack = 1MiB, string = 8KiB
-   >> temp dir: C:\Users\guw\AppData\Local\Temp\
    >> http/2: true
    >> keep-alive: 5s
    >> tls: disabled

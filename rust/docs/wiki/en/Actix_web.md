@@ -13,7 +13,8 @@ cd actix-web-example
 cargo add actix_web
 cargo add variants_actix_web
 ```
-Note: todo pub the crate.
+**Note: todo pub the crate.**
+
 Create a folder like bellow:
 ```
 #:.

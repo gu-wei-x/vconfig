@@ -5,8 +5,10 @@ edition = "2024"
 workspace = "../../../"
 
 [dependencies]
+actix-web = "4.11.0"
+normpath = "1.3.0"
 variants = { version = "0.1.0", path = "../../lib" }
-variants_codegen = { version = "0.1.0", path = "../codegen" }
+variants_codegen = { version = "0.1.0", path = "../codegen", features = ["actix_web"] }
 
 [lints]
 workspace = true

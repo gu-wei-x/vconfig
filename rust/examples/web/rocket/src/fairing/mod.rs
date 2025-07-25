@@ -1,4 +1,4 @@
-pub(crate) mod variants_processors;
+mod variants_processors;
 
 use rocket::fairing::{self, Fairing, Info, Kind};
 use rocket::figment::value::magic::RelativePathBuf;

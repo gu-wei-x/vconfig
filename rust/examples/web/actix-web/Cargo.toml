@@ -5,3 +5,5 @@ edition = "2024"
 workspace = "../../"
 
 [dependencies]
+actix-web = "4.11.0"
+variants_actix_web = { path = "../../../core/web/actix_web" }

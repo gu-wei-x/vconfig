@@ -1,8 +1,8 @@
 [default]
-config_dir = "src/config"
+config_dir = "src/configs"
 
 #[release]
-#config_dir = "src/config"
+#config_dir = "src/configs"
 
 #[debug]
-#config_dir = "src/config"
+#config_dir = "src/configs"

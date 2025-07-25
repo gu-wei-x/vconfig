@@ -1,6 +1,6 @@
 use rocket::get;
+use variants_rocket::de::variants_config;
 use variants_rocket::serde::Deserialize;
-use variants_rocket::variants_config;
 
 #[derive(Debug, Deserialize)]
 #[serde(crate = "variants_rocket::serde")]

@@ -1,4 +1,4 @@
-mod configs;
+mod app_state;
 mod handlers;
 use actix_web::{App, HttpServer, web};
 use std::path::Path;
@@ -10,9 +10,8 @@ async fn main() -> std::io::Result<()> {
             .app_data(web::Data::new({
                 let mut variants_context =
                     variants_actix_web::VaraintsContext::new(&Path::new("src/configs")).unwrap();
-                variants_context.with_processor(
-                    configs::variants_processors::browser::BrowserVaraints::default(),
-                );
+                variants_context
+                    .with_processor(app_state::variants_processors::BrowserVaraints::default());
                 variants_context
             }))
             .route("/", web::get().to(handlers::index))

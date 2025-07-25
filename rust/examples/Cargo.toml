@@ -2,8 +2,8 @@
 resolver = "2"
 members = [
   "basic", 
-  #cannot build at same time as codegen will genetate different code in in crate
+  # for web: Cannot build at same time as codegen will genetate different code in in crate
   # and cargo will use the cache instead of rebuild again.
-  #"web/actix-web", 
-  "web/rocket",
+  "web/actix-web", 
+  #"web/rocket",
 ]

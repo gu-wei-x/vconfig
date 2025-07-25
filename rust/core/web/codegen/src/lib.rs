@@ -15,7 +15,8 @@ pub fn variants_config(
     attribute::actix_web::variants_config(args.into(), input.into()).into()
 }
 
-#[cfg(feature = "rocket")]
+#[cfg(not(feature = "actix_web"))]
+//#[cfg(feature = "rocket")]
 #[doc(hidden)]
 #[proc_macro_attribute]
 pub fn variants_config(

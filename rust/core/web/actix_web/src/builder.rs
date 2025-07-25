@@ -17,11 +17,7 @@ impl VariantsBuilder {
         }
     }
 
-    pub(crate) fn build(
-        &self,
-        request: &actix_web::HttpRequest,
-        variants: &mut DefaultVariants,
-    ) {
+    pub(crate) fn build(&self, request: &actix_web::HttpRequest, variants: &mut DefaultVariants) {
         for iter in self.processors.iter() {
             iter.process(request, variants);
         }

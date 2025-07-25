@@ -8,6 +8,7 @@ workspace = "../../../"
 proc-macro = true
 
 [features]
+default = ["rocket"]
 actix_web = []
 rocket = []
 

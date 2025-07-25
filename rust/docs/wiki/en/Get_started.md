@@ -24,7 +24,7 @@ cargo new test-variants --bin
 cd test-variants
 cargo add variants
 ```
-Note: todo pub the crate.
+**Note: todo pub the crate.**
 
 Modify `src/main.rs` so that it contains the following code:
 ```

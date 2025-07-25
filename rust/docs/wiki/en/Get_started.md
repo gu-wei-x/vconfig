@@ -1,8 +1,33 @@
-# variants
+# Getting Started
 
-variants is a crate to deserilize Rust data from toml like content based on variant context.
+Let's create and run application with Variants. Rust toolchain is prerquired, create a new Cargo project that depends on
+Variants, and then build/run the application.
 
-```rust
+## Installing Rust
+
+To install the latest version of Rust, we recommend using `rustup`. Install
+`rustup` by following the instructions on [its website](https://rustup.rs/).
+Once `rustup` is installed, ensure the latest toolchain is installed by running
+the command:
+
+```sh
+rustup default stable
+```
+
+## Hello, world!
+
+Let's write first application leveraging Variants! Start by creating a new binary-based
+Cargo project and changing into the new directory:
+
+```sh
+cargo new test-variants --bin
+cd test-variants
+cargo add variants
+```
+Note: todo pub the crate.
+
+Modify `src/main.rs` so that it contains the following code:
+```
 use std::error::Error;
 use variants::default::DefaultVariants;
 use variants::serde::Deserialize;
@@ -58,17 +83,15 @@ fn from_file() -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 ```
-
-## Documentation
-  * [Guide: Use the variants crate](./docs/wiki/en/Introduction.md)
-  * [Dev](./docs/dev.md)
-
-
-## Examples
-
-The [examples](./examples) directory contains crates that show how to use variants. Following commands to run an example
+Use command to run and check the output:
 
 ```sh
-cd examples/basic
-cargo run
+> cargo run
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.20s
+     Running `test-variants.exe`
+Ok(Config { key1: "v1", key2: 5 })
+Ok(Config { key1: "v1", key2: 5 })
 ```
+
+---
+### [Next: Use Variants in Active Web apps](./Actix_web.md)

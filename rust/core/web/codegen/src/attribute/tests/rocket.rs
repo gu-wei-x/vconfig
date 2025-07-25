@@ -34,10 +34,10 @@ fn test_variants_rocket_config() {
                             }
                         }
                          _ => rocket::request::Outcome::Forward(rocket::http::Status{ code : 500 }),
-                        }
                     }
                 }
             }
+        }
     };
     let output = rocket::variants_config(args, input);
     assert_eq!(output.to_string(), expected.to_string());

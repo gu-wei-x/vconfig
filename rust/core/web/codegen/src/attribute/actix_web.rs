@@ -48,8 +48,7 @@ pub(crate) fn variants_config(args: TokenStream, input: TokenStream) -> TokenStr
                                             _ => Box::pin(async move {
                                                 Err(actix_web::error::InternalError::new(
                                                     "Deserilize error".to_owned(),
-                                                    actix_web::http::StatusCode::NOT_IMPLEMENTED,
-                                                ))
+                                                    actix_web::http::StatusCode::NOT_IMPLEMENTED))
                                             }),
                                         }
                                 }

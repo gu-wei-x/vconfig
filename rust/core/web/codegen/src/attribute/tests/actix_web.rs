@@ -19,11 +19,21 @@ fn test_variants_actix_web_config() {
         pub struct Test { key : u64 , }
         pub (crate) mod __test_impl___ {
             impl actix_web::FromRequest for super::Test {
-                type Error = actix_web::error::InternalError<String>;
+                type Error = actix_web::error::InternalError<&'static str>;
                 type Future = std::pin::Pin<Box<dyn Future<Output = Result<Self , Self::Error>>>>;
 
                 fn from_request(request: &actix_web::HttpRequest, _: &mut actix_web::dev::Payload) -> Self::Future {
-                    let variants_context = request.app_data::<actix_web::web::Data<variants_actix_web::VaraintsContext>>().unwrap();
+                    let variants_context = match request.app_data::<actix_web::web::Data<variants_actix_web::VaraintsContext>>() {
+                        Some(context) => context,
+                        None => {
+                                    return Box::pin(async move {
+                                                Err(actix_web::error::InternalError::new(
+                                                    "Failed to deserialzie: Test",
+                                                    actix_web::http::StatusCode::NOT_IMPLEMENTED))
+                                                });
+                        }
+                    };
+
                     match variants_context.get_file("test") {
                         Some(path) => {
                             let mut variants = variants_actix_web::default::DefaultVariants::default();
@@ -32,12 +42,12 @@ fn test_variants_actix_web_config() {
                             match config_result {
                                 Ok(config) => Box::pin(async move { Ok(config) }),
                                 _ => Box::pin(async move {
-                                                Err(actix_web::error::InternalError::new("Deserilize error".to_owned(), actix_web::http::StatusCode::NOT_IMPLEMENTED))
+                                                Err(actix_web::error::InternalError::new("Failed to deserialzie: Test", actix_web::http::StatusCode::NOT_IMPLEMENTED))
                                               }),
                             }
                         }
                         _ => Box::pin(async move {
-                                                Err(actix_web::error::InternalError::new("Deserilize error".to_owned(), actix_web::http::StatusCode::NOT_IMPLEMENTED))
+                                                Err(actix_web::error::InternalError::new("Failed to deserialzie: Test", actix_web::http::StatusCode::NOT_IMPLEMENTED))
                                               }),
                     }
                 }

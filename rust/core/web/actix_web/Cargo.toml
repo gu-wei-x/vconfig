@@ -8,8 +8,8 @@ A wrap crate for using variants in Actix Web applications. Provides implementati
 """
 keywords = ["variants", "configuration", "deserialization", "web"]
 license = "MIT"
-readme = "../../../docs/wiki/en/Actix_web.md"
 homepage = "https://github.com/gu-wei-x/variants"
+readme = "README.md"
 repository = "https://github.com/gu-wei-x/variants"
 categories = ["web-programming::server-applications"]
 rust-version = "1.88"

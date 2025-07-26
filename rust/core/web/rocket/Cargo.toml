@@ -8,8 +8,8 @@ A wrap crate for using variants in Rocket applications. Provides implementations
 """
 keywords = ["variants", "configuration", "deserialization", "web"]
 license = "MIT"
-readme = "../../../docs/wiki/en/Rocket.md"
 homepage = "https://github.com/gu-wei-x/variants"
+readme = "README.md"
 repository = "https://github.com/gu-wei-x/variants"
 categories = ["web-programming::server-applications"]
 rust-version = "1.88"

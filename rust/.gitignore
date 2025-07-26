@@ -21,6 +21,6 @@ Cargo.lock
 *.bak
 
 # MacOS
-.DS_Store
+**/.DS_Store
 
 **/*.txt

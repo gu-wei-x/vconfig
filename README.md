@@ -7,4 +7,4 @@ variants is a crate/lib to deserilize data based on variant context.
 
 ## License
 
-this crate is licensed under [LICENSE](./LICENSE)
+this crate is licensed under [LICENSE](./LICENSE-MIT)

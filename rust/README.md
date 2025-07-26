@@ -61,7 +61,6 @@ fn from_file() -> Result<(), Box<dyn Error>> {
 
 ## Documentation
   * [Guide: Use the variants crate](./docs/wiki/en/Introduction.md)
-  * [Dev](./docs/dev.md)
 
 
 ## Examples

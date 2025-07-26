@@ -8,7 +8,7 @@ A wrap crate for using variants in Rocket applications. Provides implementations
 """
 keywords = ["variants", "configuration", "deserialization", "web"]
 license = "MIT"
-readme = "../../../docs/wiki/Rocket.md"
+readme = "../../../docs/wiki/en/Rocket.md"
 homepage = "https://github.com/gu-wei-x/variants"
 repository = "https://github.com/gu-wei-x/variants"
 categories = ["web-programming::server-applications"]
@@ -19,7 +19,7 @@ workspace = "../../../"
 normpath = "1.3.0"
 rocket = "0.5.1"
 variants = { version = "0.1.0", path = "../../lib" }
-variants_codegen = { path = "../codegen", features = ["rocket"] }
+variants_codegen = { version = "0.1.0", path = "../codegen", features = ["rocket"] }
 
 [lints]
 workspace = true

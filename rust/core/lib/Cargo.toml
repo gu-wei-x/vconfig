@@ -1,12 +1,17 @@
 [package]
 name = "variants"
 version = "0.1.0"
+authors = ["Wei Gu <gu_wei_dev@outlook.com>"]
 edition = "2024"
 description = """
-A native Rust encoder and decoder of TOML-formatted files and streams. Provides
-implementations of the standard Serialize/Deserialize traits for TOML data to
-facilitate deserializing and serializing Rust structures with variant context.
+A native Rust decoder of TOML-formatted like files/streams. Provides implementations of deserializing TOML-formatted like files/streams to Rust structures with variant context.
 """
+keywords = ["variants", "configuration", "deserialization"]
+license = "MIT"
+readme = "../../README.md"
+homepage = "https://github.com/gu-wei-x/variants"
+repository = "https://github.com/gu-wei-x/variants"
+rust-version = "1.88"
 
 [dependencies]
 indexmap = "2.10.0"

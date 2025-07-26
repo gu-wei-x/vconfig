@@ -1,7 +1,17 @@
 [package]
 name = "variants_codegen"
 version = "0.1.0"
+authors = ["Wei Gu <gu_wei_dev@outlook.com>"]
 edition = "2024"
+description = """
+Provides attribuite macros to generate code implementing FromRequest guard for deserializating TOML-formatted like TOML-formatted like files/streams to Rust data with variant context.
+"""
+keywords = ["varaints", "web", "code", "generation"]
+license = "MIT"
+homepage = "https://github.com/gu-wei-x/variants"
+repository = "https://github.com/gu-wei-x/variants"
+categories = ["web-programming::server-applications"]
+rust-version = "1.88"
 workspace = "../../../"
 
 [lib]

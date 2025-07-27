@@ -1,7 +1,7 @@
 
 # Introduction
 
-Variants is a crate for Rust to deserilize Rust data from TOML like content based on variant context.
+Variants is a crate for Rust to deserilize Rust data from TOML-formatted like files/streams based on variant context.
 This guide introduces you to the core and crate wraps of Variants. After reading this guide, it would be very easy to leverage Variants 
 to build Rust apps with different features/behaviors based on configurations with a context.
 

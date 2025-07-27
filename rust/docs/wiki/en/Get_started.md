@@ -94,4 +94,4 @@ Ok(Config { key1: "v1", key2: 5 })
 ```
 
 ---
-### [Next: Use Variants in Active Web apps](./Actix_web.md)
+### [Next: Use Variants in Actix Web apps](./Actix_web.md)

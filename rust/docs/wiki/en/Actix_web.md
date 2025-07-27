@@ -1,10 +1,10 @@
-# Use Variants in Active Web apps
+# Use Variants in Actix Web apps
 
 Variants provides a wrap variants_actix_web which has macro and context to leverage variants in Actix Web apps.
 
-## Active web!
+## Actix web!
 
-Let's write first Active Web application leveraging Variants! Start by creating a new binary-based
+Let's write first Actix Web application leveraging Variants! Start by creating a new binary-based
 Cargo project and changing into the new directory:
 
 ```sh

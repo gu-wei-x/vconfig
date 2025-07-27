@@ -1,6 +1,6 @@
 # variants
 
-variants is a crate to deserilize Rust data from toml like content based on variant context.
+variants is a crate to deserilize Rust data from TOML-formatted like files/streams based on variant context.
 
 ```rust
 use std::error::Error;

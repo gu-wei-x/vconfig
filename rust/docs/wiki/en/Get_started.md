@@ -1,7 +1,7 @@
 # Getting Started
 
-Let's create and run application with Variants. Rust toolchain is prerquired, create a new Cargo project that depends on
-Variants, and then build/run the application.
+Let's create and run application with Variants_de. Rust toolchain is prerquired, create a new Cargo project that depends on
+Variants_de, and then build/run the application.
 
 ## Installing Rust
 
@@ -16,24 +16,24 @@ rustup default stable
 
 ## Hello, world!
 
-Let's write first application leveraging Variants! Start by creating a new binary-based
+Let's write first application leveraging Variants_de! Start by creating a new binary-based
 Cargo project and changing into the new directory:
 
 ```sh
 cargo new test-variants --bin
 cd test-variants
-cargo add variants
+cargo add variants_de
 ```
 **Note: todo pub the crate.**
 
 Modify `src/main.rs` so that it contains the following code:
 ```
 use std::error::Error;
-use variants::default::DefaultVariants;
-use variants::serde::Deserialize;
+use variants_de::default::DefaultVariants;
+use variants_de::serde::Deserialize;
 
 #[derive(Debug, Deserialize, PartialEq)]
-#[serde(crate = "variants::serde")]
+#[serde(crate = "variants_de::serde")]
 struct Config {
     key1: String,
     key2: u64,
@@ -55,7 +55,7 @@ fn from_str() -> Result<(), Box<dyn Error>> {
     let mut variants = DefaultVariants::default();
     _ = variants.add("variant1", "v1");
     _ = variants.add("variant2", "v2");
-    let result = variants::de::from_str_with_variants::<Config, _>(raw_str, &variants);
+    let result = variants_de::de::from_str_with_variants::<Config, _>(raw_str, &variants);
     println!("{:?}", result); // Ok(Config { key1: "v1", key2: 5 })
     assert_eq!(
         result,
@@ -71,7 +71,7 @@ fn from_file() -> Result<(), Box<dyn Error>> {
     let mut variants = DefaultVariants::default();
     _ = variants.add("variant1", "v1");
     _ = variants.add("variant2", "v2");
-    let result = variants::de::from_file_with_variants::<Config, _, _>("basic.toml", &variants);
+    let result = variants_de::de::from_file_with_variants::<Config, _, _>("basic.toml", &variants);
     println!("{:?}", result); // Ok(Config { key1: "v1", key2: 5 })
     assert_eq!(
         result,
@@ -94,4 +94,4 @@ Ok(Config { key1: "v1", key2: 5 })
 ```
 
 ---
-### [Next: Use Variants in Actix Web apps](./Actix_web.md)
+### [Next: Use Variants_de in Actix Web apps](./Actix_web.md)

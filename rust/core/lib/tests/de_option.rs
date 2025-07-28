@@ -6,10 +6,10 @@ macro_rules! de_option_case {
         paste::item! {
             #[test]
             fn [<de_test_option_ $name _$type _$is_some>]() {
-                use variants::serde::Deserialize;
+                use variants_de::serde::Deserialize;
 
                 #[derive(Debug, Deserialize)]
-                #[serde(crate = "variants::serde")]
+                #[serde(crate = "variants_de::serde")]
                 struct Config {
                     key: Option<$type>,
                 }
@@ -23,8 +23,8 @@ macro_rules! de_option_case {
                     r#" "#.to_owned()
                 };
 
-                let variants = variants::default::DefaultVariants::default();
-                let result = variants::de::from_str_with_variants::<Config, _>(
+                let variants = variants_de::default::DefaultVariants::default();
+                let result = variants_de::de::from_str_with_variants::<Config, _>(
                     &raw_str, &variants,
                 );
 

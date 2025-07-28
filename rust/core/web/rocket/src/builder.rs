@@ -1,6 +1,6 @@
 use rocket::Request;
 use std::sync::Arc;
-use variants::default::DefaultVariants;
+use variants_de::default::DefaultVariants;
 
 pub trait VariantsProcessor: Send + Sync + 'static {
     fn process<'r>(&self, request: &'r Request<'_>, variants: &mut DefaultVariants);

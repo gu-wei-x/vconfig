@@ -7,10 +7,10 @@
 //! requires annotating structures with `#[serde(crate = "variants::serde")]`:
 //!
 //! ```rust
-//! use variants::serde::Deserialize;
+//! use variants_de::serde::Deserialize;
 //!
 //! #[derive(Deserialize)]
-//! #[serde(crate = "variants::serde")]
+//! #[serde(crate = "variants_de::serde")]
 //! struct Config {
 //!     key: String,
 //! }

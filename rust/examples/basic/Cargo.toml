@@ -5,4 +5,4 @@ edition = "2024"
 workspace = "../"
 
 [dependencies]
-variants = { path = "../../core/lib" }
+variants_de = { path = "../../core/lib" }

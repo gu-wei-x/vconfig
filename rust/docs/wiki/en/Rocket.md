@@ -1,10 +1,10 @@
-# Use Variants in Rocket apps
+# Use Variants_de in Rocket apps
 
-Variants provides a wrap variants_rocket which has macro and context to leverage variants in Rocket apps.
+variants_rocket is a wrap crate on variants_de which has macro and context to leverage variants_de in Rocket apps.
 
 ## Rocket app!
 
-Let's write first Rocket application leveraging Variants! Start by creating a new binary-based
+Let's write first Rocket application leveraging variants_de! Start by creating a new binary-based
 Cargo project and changing into the new directory:
 
 ```sh

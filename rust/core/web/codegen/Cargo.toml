@@ -10,7 +10,6 @@ keywords = ["varaints", "web", "code", "generation"]
 license = "MIT"
 homepage = "https://github.com/gu-wei-x/variants"
 repository = "https://github.com/gu-wei-x/variants"
-categories = ["web-programming::server-applications"]
 rust-version = "1.88"
 workspace = "../../../"
 

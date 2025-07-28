@@ -1,9 +1,9 @@
-# variants
+# variants_de
 
-variants is a crate/lib to deserilize data based on variant context.
+variants_de is a crate/lib to deserilize data based on variant context.
 
 ## Documentation
-  * [Rust: variants](./rust/README.md): rust variants crate.
+  * [Rust: variants_de](./rust/README.md): rust variants_de crate.
 
 ## License
 

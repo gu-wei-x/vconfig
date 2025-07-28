@@ -1,9 +1,9 @@
 use normpath::PathExt;
 use std::path::{Path, PathBuf};
-use variants::default::DefaultVariants;
+use variants_de::default::DefaultVariants;
 
 use crate::{VariantsProcessor, builder::VariantsBuilder};
-use variants::fs::ConfigStore;
+use variants_de::fs::ConfigStore;
 
 pub struct VaraintsContext {
     configs: ConfigStore,

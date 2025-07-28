@@ -6,10 +6,10 @@ macro_rules! de_test_case {
         paste::item! {
             #[test]
             fn [<de_test_ $name _$type>]() {
-                use variants::serde::Deserialize;
+                use variants_de::serde::Deserialize;
 
                 #[derive(Debug, Deserialize)]
-                #[serde(crate = "variants::serde")]
+                #[serde(crate = "variants_de::serde")]
                 struct Config {
                     key: $type,
                 }
@@ -21,8 +21,8 @@ macro_rules! de_test_case {
                     $value
                 );
 
-                let variants = variants::default::DefaultVariants::default();
-                let result = variants::de::from_str_with_variants::<Config, _>(
+                let variants = variants_de::default::DefaultVariants::default();
+                let result = variants_de::de::from_str_with_variants::<Config, _>(
                     &raw_str, &variants,
                 );
                 println!("{:?}", result);
@@ -37,10 +37,10 @@ macro_rules! de_test_case {
         paste::item! {
             #[test]
             fn [<de_test_$type>]() {
-                use variants::serde::Deserialize;
+                use variants_de::serde::Deserialize;
 
                 #[derive(Debug, Deserialize)]
-                #[serde(crate = "variants::serde")]
+                #[serde(crate = "variants_de::serde")]
                 struct Config {
                     key: $type,
                 }
@@ -52,8 +52,8 @@ macro_rules! de_test_case {
                     stringify!($expected)
                 );
 
-                let variants = variants::default::DefaultVariants::default();
-                let result = variants::de::from_str_with_variants::<Config, _>(
+                let variants = variants_de::default::DefaultVariants::default();
+                let result = variants_de::de::from_str_with_variants::<Config, _>(
                     &raw_str, &variants,
                 );
                 assert!(result.is_ok());

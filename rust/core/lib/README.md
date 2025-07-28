@@ -1,14 +1,14 @@
-# variants
+# variants_de
 
-variants is a crate to deserilize Rust data from TOML-formatted like files/streams based on variant context.
+variants_de is a crate to deserilize Rust data from TOML-formatted like files/streams based on variant context.
 
 ```rust
 use std::error::Error;
-use variants::default::DefaultVariants;
-use variants::serde::Deserialize;
+use variants_de::default::Defaultvariants;
+use variants_de::serde::Deserialize;
 
 #[derive(Debug, Deserialize, PartialEq)]
-#[serde(crate = "variants::serde")]
+#[serde(crate = "variants_de::serde")]
 struct Config {
     key1: String,
     key2: u64,
@@ -27,10 +27,10 @@ fn from_str() -> Result<(), Box<dyn Error>> {
         key2&variant2:v2 = "5"
         key2 = "3"
     "#;
-    let mut variants = DefaultVariants::default();
+    let mut variants = Defaultvariants::default();
     _ = variants.add("variant1", "v1");
     _ = variants.add("variant2", "v2");
-    let result = variants::de::from_str_with_variants::<Config, _>(raw_str, &variants);
+    let result = variants_de::de::from_str_with_variants::<Config, _>(raw_str, &variants);
     println!("{:?}", result); // Ok(Config { key1: "v1", key2: 5 })
     assert_eq!(
         result,
@@ -43,10 +43,10 @@ fn from_str() -> Result<(), Box<dyn Error>> {
 }
 
 fn from_file() -> Result<(), Box<dyn Error>> {
-    let mut variants = DefaultVariants::default();
+    let mut variants = Defaultvariants::default();
     _ = variants.add("variant1", "v1");
     _ = variants.add("variant2", "v2");
-    let result = variants::de::from_file_with_variants::<Config, _, _>("basic.toml", &variants);
+    let result = variants_de::de::from_file_with_variants::<Config, _, _>("basic.toml", &variants);
     println!("{:?}", result); // Ok(Config { key1: "v1", key2: 5 })
     assert_eq!(
         result,

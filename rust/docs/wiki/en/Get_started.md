@@ -1,7 +1,7 @@
 # Getting Started
 
-Let's create and run application with Variants_de. Rust toolchain is prerquired, create a new Cargo project that depends on
-Variants_de, and then build/run the application.
+Let's create and run application with variants_de. Rust toolchain is prerquired, create a new Cargo project that depends on
+variants_de, and then build/run the application.
 
 ## Installing Rust
 
@@ -16,7 +16,7 @@ rustup default stable
 
 ## Hello, world!
 
-Let's write first application leveraging Variants_de! Start by creating a new binary-based
+Let's write first application leveraging variants_de! Start by creating a new binary-based
 Cargo project and changing into the new directory:
 
 ```sh

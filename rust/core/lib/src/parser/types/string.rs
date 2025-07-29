@@ -28,9 +28,11 @@ pub(crate) fn variants_from<'a>(
     token_stream: &mut TokenStream,
     token: &Token,
 ) -> Result<&'a str> {
-    // todo: validate token is other.
     // start with &
-    let start_token = token_stream.next_token().unwrap(); // consume current.
+    let start_token = match token_stream.next_token() {
+        Some(token) => token,
+        None => return Result::from(*token),
+    };
     if let Some(end_token) = stream::get_next_token_if(token_stream, |k| {
         !vec![
             Kind::WHITESPACE,

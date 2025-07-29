@@ -77,12 +77,19 @@ impl Table {
                 Kind::DOT => {
                     // create parent entry.
                     if let Ok(key) = key_result {
-                        let entry = table.get_or_create(key).unwrap();
-                        entry.add("", Value::Table(Table::default()));
+                        if let Some(entry) = table.get_or_create(key) {
+                            entry.add("", Value::Table(Table::default()));
 
-                        // assign new container.
-                        table = entry.find_table_mut("").unwrap();
-                        key_result = Result::from(token);
+                            // assign new container.
+                            if let Some(new_table) = entry.find_table_mut("") {
+                                table = new_table;
+                                key_result = Result::from(token);
+                            } else {
+                                return Result::from(token);
+                            }
+                        } else {
+                            return Result::from(token);
+                        }
                     } else {
                         // start with dot without parent key.
                         return Result::from(token);
@@ -123,9 +130,12 @@ impl Table {
                 };
                 match value_result {
                     Ok(value) => {
-                        let entry = table.get_or_create(key).unwrap();
-                        entry.add(variant_str, value);
-                        return Ok(());
+                        if let Some(entry) = table.get_or_create(key) {
+                            entry.add(variant_str, value);
+                            return Ok(());
+                        } else {
+                            return Result::from(next_token);
+                        }
                     }
                     _ => return Result::from(next_token),
                 }
@@ -146,7 +156,10 @@ fn on_key_value_expression<'a>(
     container: &mut Table,
 ) -> Result<()> {
     // 1. key=; variant=; value=;
-    let key = string::key_from(source, token).unwrap();
+    let key = match string::key_from(source, token) {
+        Ok(k) => k,
+        Err(e) => return Err(e),
+    };
     token_stream.next_token();
     let mut variant_result: Result<&str> = Result::from(*token);
     let mut value_result: Result<Value> = Result::from(*token);
@@ -160,39 +173,55 @@ fn on_key_value_expression<'a>(
                 // table variant: find the entry->find the variant->find the table
                 // consume TokenKind::DOT
                 token_stream.next_token();
-                let new_token = token_stream.peek_token().unwrap();
-                let entry = container.get_or_create(key).unwrap();
-                let new_table = entry.get_or_create_table("").unwrap();
-                on_key_value_expression(source, token_stream, new_token, new_table)?;
-                return Ok(());
-            }
-            Kind::AMPERSAND => {
-                let ampersand_token = token_stream.next_token().unwrap();
-                variant_result = string::variants_from(source, token_stream, ampersand_token);
-                _ = stream::skip_whitespace(token_stream);
-                if let Some(end_token) = token_stream.next_token() {
-                    if end_token.kind == Kind::EQUALS {
-                        let next_token = token_stream.next_token().unwrap();
-                        value_result = Value::from(source, token_stream, next_token);
+                if let Some(new_token) = token_stream.peek_token() {
+                    if let Some(entry) = container.get_or_create(key) {
+                        if let Some(new_table) = entry.get_or_create_table("") {
+                            on_key_value_expression(source, token_stream, new_token, new_table)?;
+                            return Ok(());
+                        } else {
+                            return Result::from(next_token);
+                        }
+                    } else {
+                        return Result::from(next_token);
                     }
                 } else {
-                    // no value
+                    return Result::from(next_token);
+                }
+            }
+            Kind::AMPERSAND => {
+                if let Some(ampersand_token) = token_stream.next_token() {
+                    variant_result = string::variants_from(source, token_stream, ampersand_token);
+                    _ = stream::skip_whitespace(token_stream);
+                    if let Some(end_token) = token_stream.next_token() {
+                        if end_token.kind == Kind::EQUALS {
+                            if let Some(next_token) = token_stream.next_token() {
+                                value_result = Value::from(source, token_stream, next_token);
+                            } else {
+                                return Result::from(token);
+                            }
+                        }
+                    } else {
+                        return Result::from(token);
+                    }
+                } else {
                     return Result::from(token);
                 }
             }
             Kind::EQUALS => {
                 // consume =
-                let equal_token = token_stream.next_token().unwrap();
-                _ = stream::skip_whitespace_and_newline(token_stream);
-                value_result = Value::from(source, token_stream, equal_token);
+                if let Some(equal_token) = token_stream.next_token() {
+                    _ = stream::skip_whitespace_and_newline(token_stream);
+                    value_result = Value::from(source, token_stream, equal_token);
+                } else {
+                    return Result::from(token);
+                }
             }
             _ => {
-                // invlid token.
+                // invalid token.
                 return Result::from(token);
             }
         }
     } else {
-        // key without value
         return Result::from(token);
     }
 
@@ -203,10 +232,13 @@ fn on_key_value_expression<'a>(
 
     match value_result {
         Ok(value) => {
-            let entry = container.get_or_create(key).unwrap();
-            entry.add(variant_str, value);
-            Ok(())
+            if let Some(entry) = container.get_or_create(key) {
+                entry.add(variant_str, value);
+                Ok(())
+            } else {
+                Result::from(token)
+            }
         }
-        _ => Result::from(token),
+        Err(e) => Err(e),
     }
 }

@@ -11,15 +11,9 @@ pub mod de {
         T: serde::de::Deserialize<'v>,
         V: super::types::traits::Variants,
     {
-        let result = super::parser::parse_str(source);
-        match result {
-            Ok(table) => {
-                let deserializer = super::deserializer::Deserializer::new(table, variants);
-                let obj = T::deserialize(deserializer).unwrap();
-                Ok(obj)
-            }
-            Err(err) => Err(err),
-        }
+        let parse_result = super::parser::parse_str(source)?;
+        let deserializer = super::deserializer::Deserializer::new(parse_result, variants);
+        T::deserialize(deserializer)
     }
 
     pub fn from_file_with_variants<'v, T, P, V>(path: P, variants: &'v V) -> Result<T>

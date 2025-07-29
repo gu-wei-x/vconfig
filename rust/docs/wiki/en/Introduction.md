@@ -1,7 +1,7 @@
 
 # Introduction
 
-variants_de is a crate for Rust to deserilize Rust data from TOML-formatted like files/streams based on variant context.
+variants_de is a crate for Rust to deserialize Rust data from TOML-formatted like files/streams based on variant context.
 This guide introduces you to the core and crate wraps of variants_de. After reading this guide, it would be very easy to leverage variants_de 
 to build Rust apps with different features/behaviors based on configurations with a context.
 

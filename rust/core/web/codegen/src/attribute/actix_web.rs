@@ -35,7 +35,7 @@ pub(crate) fn variants_config(args: TokenStream, input: TokenStream) -> TokenStr
                         type Future = std::pin::Pin<Box<dyn Future<Output = Result<Self, Self::Error>>>>;
 
                         fn from_request(request: &actix_web::HttpRequest, _: &mut actix_web::dev::Payload) -> Self::Future {
-                            let variants_context = match request.app_data::<actix_web::web::Data<variants_actix_web::VaraintsContext>>() {
+                            let variants_context = match request.app_data::<actix_web::web::Data<variants_actix_web::VariantsContext>>() {
                                 Some(context) => context,
                                 None => {
                                             return Box::pin(async move {
@@ -49,7 +49,7 @@ pub(crate) fn variants_config(args: TokenStream, input: TokenStream) -> TokenStr
                             match variants_context.get_file(#file) {
                                 Some(path) => {
                                     let mut variants = variants_actix_web::default::DefaultVariants::default();
-                                    variants_context.build_varaints(request, &mut variants);
+                                    variants_context.build_variants(request, &mut variants);
                                     let config_result =
                                         variants_actix_web::de::from_file_with_variants::<super::#ident, _, _>(path, &variants);
                                         match config_result {

@@ -1,14 +1,14 @@
 use actix_web::http::header::USER_AGENT;
 
-pub(crate) struct BrowserVaraints;
+pub(crate) struct BrowserVariants;
 
-impl Default for BrowserVaraints {
+impl Default for BrowserVariants {
     fn default() -> Self {
         Self {}
     }
 }
 
-impl variants_actix_web::VariantsProcessor for BrowserVaraints {
+impl variants_actix_web::VariantsProcessor for BrowserVariants {
     fn process(
         &self,
         request: &actix_web::HttpRequest,

@@ -6,7 +6,7 @@ edition = "2024"
 description = """
 Provides attribuite macros to generate code implementing FromRequest guard for deserializating TOML-formatted like TOML-formatted like files/streams to Rust data with variant context.
 """
-keywords = ["varaints", "web", "code", "generation"]
+keywords = ["variants", "web", "code", "generation"]
 license = "MIT"
 homepage = "https://github.com/gu-wei-x/variants"
 repository = "https://github.com/gu-wei-x/variants"

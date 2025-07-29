@@ -5,13 +5,13 @@ use variants_de::default::DefaultVariants;
 use crate::{VariantsProcessor, builder::VariantsBuilder};
 use variants_de::fs::ConfigStore;
 
-pub struct VaraintsContext {
+pub struct VariantsContext {
     configs: ConfigStore,
     builder: VariantsBuilder,
 }
 
-impl VaraintsContext {
-    pub fn new(base_dir: &Path) -> Option<VaraintsContext> {
+impl VariantsContext {
+    pub fn new(base_dir: &Path) -> Option<VariantsContext> {
         let base_dir = match base_dir.normalize() {
             Ok(base_dir) => base_dir.into_path_buf(),
             _ => {
@@ -36,7 +36,7 @@ impl VaraintsContext {
         self.configs.get_path(name)
     }
 
-    pub fn build_varaints<'r>(
+    pub fn build_variants<'r>(
         &self,
         request: &actix_web::HttpRequest,
         variants: &mut DefaultVariants,

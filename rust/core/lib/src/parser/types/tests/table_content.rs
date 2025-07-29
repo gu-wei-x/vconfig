@@ -16,8 +16,8 @@ fn test_dot_key() {
     assert!(p_variants.is_some());
 
     let variants = DefaultVariants::default();
-    let p_varaints = p_variants.unwrap();
-    let p_value = p_varaints.find(&variants);
+    let p_variants = p_variants.unwrap();
+    let p_value = p_variants.find(&variants);
     assert!(p_value.is_some());
 
     let p_value = p_value.unwrap().get_table();

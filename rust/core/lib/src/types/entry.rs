@@ -59,12 +59,12 @@ impl VariantEntry {
         }
     }
 
-    pub(crate) fn find<'a, V>(&self, varaints: &'a V) -> Option<&Value>
+    pub(crate) fn find<'a, V>(&self, variants: &'a V) -> Option<&Value>
     where
         V: Variants,
     {
         for (variant, value) in self.data.iter() {
-            if varaints.matches(variant) {
+            if variants.matches(variant) {
                 return Some(value);
             }
         }

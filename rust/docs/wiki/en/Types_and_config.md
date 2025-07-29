@@ -1,15 +1,15 @@
 # Types and Configuration format.
 
-## what's a varaint.
+## what's a variant.
 A variant is a key-value pair means sth is present or true when evaluating an expresstionm.
-eg: ```msg&v:1 = "hello world"```, here varaint is ```(name:v, value:1)``` means it's present/true gives ```"hello world"``` to ```msg```. 
+eg: ```msg&v:1 = "hello world"```, here variant is ```(name:v, value:1)``` means it's present/true gives ```"hello world"``` to ```msg```. 
 Variants means a collection of variants used to evaluate an expession like: ```msg&v1:1&v2:1&... = "hello world"```. variants crate would parse
 variant expression to intenal data format from configuration and leverage them to evaluate the value when deserialized configuration content to 
 Rust data with a exising variant collection provided by context. An expression with vraints in BNF:
 ```
-<key><varaint exp>* ::= <exp value>
+<key><variant exp>* ::= <exp value>
 <key> ::= <no-quoted string><.no-quoted string>*
-<varaint exp> ::= &<key>:<variant value>
+<variant exp> ::= &<key>:<variant value>
 ```
 
 ## ```<key>``` supported in variants:

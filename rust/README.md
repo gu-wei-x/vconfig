@@ -1,6 +1,6 @@
 # variants_de
 
-variants_de is a crate to deserilize Rust data from TOML-formatted like files/streams based on variant context.
+variants_de is a crate to deserialize Rust data from TOML-formatted like files/streams based on variant context.
 
 ```rust
 use std::error::Error;

@@ -16,10 +16,10 @@ impl<'a, 'b, V> ArraySeqAccess<'a, 'b, V>
 where
     V: Variants,
 {
-    pub(crate) fn new(deserilizer: &'a ArrayDeserializer<'b, V>) -> Self {
+    pub(crate) fn new(deserializer: &'a ArrayDeserializer<'b, V>) -> Self {
         Self {
-            iterator: deserilizer.data.into_vec().iter(),
-            variants: deserilizer.variants,
+            iterator: deserializer.data.into_vec().iter(),
+            variants: deserializer.variants,
         }
     }
 }

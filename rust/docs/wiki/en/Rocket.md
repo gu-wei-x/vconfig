@@ -1,4 +1,4 @@
-# Use Variants_de in Rocket apps
+# Use variants_de in Rocket apps
 
 variants_rocket is a wrap crate on variants_de which has macro and context to leverage variants_de in Rocket apps.
 
@@ -13,9 +13,8 @@ cd rocket-example
 cargo add rocket
 cargo add variants_rocket
 ```
-**Note: todo pub the crate.**
 
-Create a folder like bellow:
+Create a folder with files like bellow:
 ```
 #:.
 │   Cargo.toml
@@ -40,7 +39,7 @@ Create a folder like bellow:
 
 ```
 
-We will add configuration file with content for diffent browser brand, an variants processor to detect browser brand, a context with configs and variants processors stored in app state as singleton, a handler to show the configed content based on browser brand from request context.
+We will add configuration file with content for diffent browser brands, an variants processor to detect browser brands, a context with configs and variants processors stored in app state as singleton, a handler to show the configed content based on browser brand from request context.
 
 ### configs: index.toml
 ```
@@ -104,16 +103,16 @@ use rocket::figment::value::magic::RelativePathBuf;
 use rocket::{Build, Orbit, Rocket};
 use variants_rocket::variantsContext;
 
-pub(crate) struct variantsConfigFairing {}
+pub(crate) struct VariantsConfigFairing;
 
-impl Default for variantsConfigFairing {
+impl Default for VariantsConfigFairing {
     fn default() -> Self {
-        variantsConfigFairing {}
+        VariantsConfigFairing {}
     }
 }
 
 #[rocket::async_trait]
-impl Fairing for variantsConfigFairing {
+impl Fairing for VariantsConfigFairing {
     fn info(&self) -> Info {
         let kind = Kind::Ignite | Kind::Liftoff;
         Info {
@@ -176,13 +175,13 @@ pub(crate) async fn index(index_config: IndexConfig) -> String {
 mod fairing;
 mod handlers;
 
-use crate::fairing::variantsConfigFairing;
+use crate::fairing::VariantsConfigFairing;
 
 #[rocket::main]
 async fn main() -> Result<(), rocket::Error> {
     let _rocket: rocket::Rocket<rocket::Ignite> = rocket::build()
         .mount("/", handlers::routes())
-        .attach(variantsConfigFairing::default())
+        .attach(VariantsConfigFairing::default())
         .launch()
         .await?;
     Ok(())

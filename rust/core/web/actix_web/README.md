@@ -1,4 +1,4 @@
-# Use Variants_de in Actix Web apps
+# Use variants_de in Actix Web apps
 
 variants_actix_web is a wrap crate on variants_de which has macro and context to leverage variants_de in Actix Web apps.
 
@@ -14,7 +14,7 @@ cargo add actix_web
 cargo add variants_actix_web
 ```
 
-Create a folder like bellow:
+Create a folder with files like bellow:
 ```
 #:.
 │   Cargo.toml
@@ -38,7 +38,7 @@ Create a folder like bellow:
 
 ```
 
-We will add configuration file with content for diffent browser brand, an variants processor to detect browser brand, a context with configs and variants processors stored in app data as singleton, a handler to show the configed content based on browser brand from request context.
+We will add configuration file with content for diffent browser brands, an variants processor to detect browser brand, a context with configs and variants processors stored in app data as singleton, a handler to show the configed content based on browser brand from request context.
 
 ### configs: index.toml
 ```
@@ -129,7 +129,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .app_data(web::Data::new({
                 let mut variants_context =
-                    variants_actix_web::variantsContext::new(&Path::new("src/configs")).unwrap();
+                    variants_actix_web::VariantsContext::new(&Path::new("src/configs")).unwrap();
                 variants_context
                     .with_processor(app_state::variants_processors::Browservariants::default());
                 variants_context

@@ -17,7 +17,7 @@ impl DefaultVariants {
         );
         match result {
             Some(_) => Ok(()),
-            None => Error::from_str("varaint exists").into(),
+            None => Error::from_str("variant exists").into(),
         }
     }
 }

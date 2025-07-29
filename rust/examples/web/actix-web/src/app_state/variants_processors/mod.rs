@@ -1,3 +1,3 @@
 mod browser;
 
-pub(crate) use browser::BrowserVaraints;
+pub(crate) use browser::BrowserVariants;

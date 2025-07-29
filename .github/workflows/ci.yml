@@ -16,9 +16,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Build
+    - name: Build core
       run: cargo build --verbose
       working-directory: ./rust
-    - name: Run tests
+    - name: Run core tests
       run: cargo test --verbose
       working-directory: ./rust
+    - name: Build examples
+      run: cargo build --verbose
+      working-directory: ./rust/examples

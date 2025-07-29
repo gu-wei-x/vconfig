@@ -1,13 +1,13 @@
 use rocket::Request;
-pub(crate) struct BrowserVaraints;
+pub(crate) struct BrowserVariants;
 
-impl Default for BrowserVaraints {
+impl Default for BrowserVariants {
     fn default() -> Self {
         Self {}
     }
 }
 
-impl variants_rocket::VariantsProcessor for BrowserVaraints {
+impl variants_rocket::VariantsProcessor for BrowserVariants {
     fn process<'r>(
         &self,
         request: &'r Request<'_>,

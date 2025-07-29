@@ -156,7 +156,7 @@ fn on_key_value_expression<'a>(
     if let Some(next_token) = token_stream.peek_token() {
         match next_token.kind() {
             Kind::DOT => {
-                // here we know it will be a table varaint without varaint value.
+                // here we know it will be a table variant without variant value.
                 // table variant: find the entry->find the variant->find the table
                 // consume TokenKind::DOT
                 token_stream.next_token();

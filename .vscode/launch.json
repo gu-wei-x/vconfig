@@ -19,5 +19,13 @@
                  "args": [],
                  "cwd": "${workspaceRoot}/rust/examples/web/rocket"
              }
+             {
+                 "type":  "cppvsdbg", // winconfig: Or "cppdbg" for C++
+                 "request": "launch",
+                 "name": "Debug axum example",
+                 "program": "${workspaceRoot}/rust/target/debug/axum-example",
+                 "args": [],
+                 "cwd": "${workspaceRoot}/rust/examples/web/axum"
+             }
          ]
      }

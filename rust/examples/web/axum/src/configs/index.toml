@@ -1,0 +1,4 @@
+# welcom message based on browser
+welcome_msg&browser:edge = "Hello! you are using Edge browser"
+welcome_msg&browser:chrome = "Hello! you are using Chrome browser"
+welcome_msg = "Hello! you are not using Chromium-based browser"

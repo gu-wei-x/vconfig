@@ -1,0 +1,41 @@
+use axum::http::request::Parts;
+use std::path::{Path, PathBuf};
+use variants_de::default::DefaultVariants;
+
+use crate::builder::VariantsBuilder;
+use crate::builder::VariantsProcessor;
+use variants_de::fs::ConfigStore;
+
+pub struct VariantsContext {
+    configs: ConfigStore,
+    builder: VariantsBuilder,
+}
+
+impl VariantsContext {
+    pub fn new(base_dir: &Path) -> Option<VariantsContext> {
+        // config.
+        let mut config_store = ConfigStore::new(&base_dir.to_string_lossy());
+        config_store.with_ext("toml");
+        config_store.init();
+
+        // variants.
+        let variants_builder = VariantsBuilder::new();
+        Some(Self {
+            configs: config_store,
+            builder: variants_builder,
+        })
+    }
+
+    pub fn get_file(&self, name: &str) -> Option<&PathBuf> {
+        self.configs.get_path(name)
+    }
+
+    pub fn build_variants<'r>(&self, parts: &'r Parts, variants: &mut DefaultVariants) {
+        self.builder.build(parts, variants);
+    }
+
+    pub fn with_processor<P: VariantsProcessor>(&mut self, processor: P) -> &mut Self {
+        self.builder.with_processor(processor);
+        self
+    }
+}

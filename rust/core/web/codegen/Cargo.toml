@@ -19,6 +19,7 @@ proc-macro = true
 [features]
 actix_web = []
 rocket = []
+axum = []
 
 [dependencies]
 devise = "0.4.2"

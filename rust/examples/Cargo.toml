@@ -3,5 +3,6 @@ resolver = "2"
 members = [
   "basic", 
   "web/actix-web", 
+  "web/axum", 
   "web/rocket",
 ]

@@ -11,10 +11,13 @@ env:
 
 jobs:
   build:
-    runs-on: ${{ matrix.os }}
-    strategy:
+    runs-on: ${{ matrix.platforms.distro }}
+    strategy: 
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        platforms:
+          - { name: macOS, distro: macOS-latest, toolchain: stable }
+          - { name: Linux, distro: ubuntu-latest, toolchain: stable }
+          - { name: Windows, distro: windows-latest, toolchain: stable }
 
     steps:
     - name: Checkout 
@@ -23,7 +26,7 @@ jobs:
     - name: Install Rust toolchain
       uses: dtolnay/rust-toolchain@stable
       with:
-        toolchain: stable
+        toolchain: ${{ matrix.platforms.toolchain }}
 
     - name: Build core
       run: cargo build --verbose

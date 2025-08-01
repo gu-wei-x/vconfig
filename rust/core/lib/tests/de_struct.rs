@@ -1,11 +1,11 @@
 #![cfg(test)]
-use variants_de::default::DefaultVariants;
-use variants_de::serde::Deserialize;
+use vconfig::default::DefaultVariants;
+use vconfig::serde::Deserialize;
 
 #[test]
 fn test_de_struct_of_string_values() {
     #[derive(Debug, Deserialize)]
-    #[serde(crate = "variants_de::serde")]
+    #[serde(crate = "vconfig::serde")]
     struct Config {
         key0: String,
         key1: String,
@@ -20,14 +20,14 @@ fn test_de_struct_of_string_values() {
 
     let mut variants = DefaultVariants::default();
     _ = variants.add("v1", "1");
-    let result = variants_de::de::from_str_with_variants::<Config, _>(raw_str, &variants);
+    let result = vconfig::de::from_str_with_variants::<Config, _>(raw_str, &variants);
     assert!(result.is_ok());
     let config = result.unwrap();
     assert_eq!(&config.key0, "v0");
     assert_eq!(&config.key1, "v2");
 
     let result =
-        variants_de::de::from_str_with_variants::<Config, _>(raw_str, &DefaultVariants::default());
+        vconfig::de::from_str_with_variants::<Config, _>(raw_str, &DefaultVariants::default());
     assert!(result.is_ok());
     let config = result.unwrap();
     assert_eq!(&config.key0, "v1");
@@ -37,7 +37,7 @@ fn test_de_struct_of_string_values() {
 #[test]
 fn test_de_struct_in_subcontainer() {
     #[derive(Debug, Deserialize)]
-    #[serde(crate = "variants_de::serde")]
+    #[serde(crate = "vconfig::serde")]
     struct Config {
         key0: String,
         key1: u64,
@@ -45,7 +45,7 @@ fn test_de_struct_in_subcontainer() {
     }
 
     #[derive(Debug, Deserialize)]
-    #[serde(crate = "variants_de::serde")]
+    #[serde(crate = "vconfig::serde")]
     struct SubConfig {
         key0: String,
         key1: u64,
@@ -67,7 +67,7 @@ fn test_de_struct_in_subcontainer() {
     let mut variants = DefaultVariants::default();
     _ = variants.add("v1", "1");
     _ = variants.add("v2", "1");
-    let result = variants_de::de::from_str_with_variants::<Config, _>(raw_str, &variants);
+    let result = vconfig::de::from_str_with_variants::<Config, _>(raw_str, &variants);
     assert!(result.is_ok());
 
     let config = result.unwrap();
@@ -79,7 +79,7 @@ fn test_de_struct_in_subcontainer() {
     assert_eq!(sub_config.key1, 0);
 
     let result =
-        variants_de::de::from_str_with_variants::<Config, _>(raw_str, &DefaultVariants::default());
+        vconfig::de::from_str_with_variants::<Config, _>(raw_str, &DefaultVariants::default());
     assert!(result.is_ok());
 
     let config = result.unwrap();
@@ -94,13 +94,13 @@ fn test_de_struct_in_subcontainer() {
 #[test]
 fn test_de_struct_with_dotkeys_and_variants_in_subcontainer() {
     #[derive(Debug, Deserialize)]
-    #[serde(crate = "variants_de::serde")]
+    #[serde(crate = "vconfig::serde")]
     struct Config {
         data: SubConfig,
     }
 
     #[derive(Debug, Deserialize)]
-    #[serde(crate = "variants_de::serde")]
+    #[serde(crate = "vconfig::serde")]
     struct SubConfig {
         key: String,
     }
@@ -114,14 +114,14 @@ fn test_de_struct_with_dotkeys_and_variants_in_subcontainer() {
 
     let mut variants = DefaultVariants::default();
     _ = variants.add("v1", "1");
-    let result = variants_de::de::from_str_with_variants::<Config, _>(raw_str, &variants);
+    let result = vconfig::de::from_str_with_variants::<Config, _>(raw_str, &variants);
     assert!(result.is_ok());
 
     let config = result.unwrap();
     assert_eq!(&config.data.key, "v0");
 
     let result =
-        variants_de::de::from_str_with_variants::<Config, _>(raw_str, &DefaultVariants::default());
+        vconfig::de::from_str_with_variants::<Config, _>(raw_str, &DefaultVariants::default());
     assert!(result.is_ok());
 
     let config = result.unwrap();

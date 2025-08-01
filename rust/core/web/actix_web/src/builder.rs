@@ -1,5 +1,5 @@
 use std::sync::Arc;
-use variants_de::default::DefaultVariants;
+use vconfig::default::DefaultVariants;
 
 pub trait VariantsProcessor: Send + Sync + 'static {
     fn process<'r>(&self, request: &actix_web::HttpRequest, variants: &mut DefaultVariants);

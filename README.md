@@ -1,9 +1,9 @@
-# variants_de
+# vconfig
 
-variants_de is a crate to deserialize Rust data from TOML-formatted like files/streams based on variant context.
+vconfig is a crate to deserialize Rust data from TOML-formatted like files/streams based on variant context.
 
 ## Documentation
-  * [Rust: variants_de](./rust/README.md): rust variants_de crate.
+  * [Rust: vconfig](./rust/README.md): rust vconfig crate.
 
 ## License
 

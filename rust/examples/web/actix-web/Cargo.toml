@@ -1,9 +1,9 @@
 [package]
 name = "actix-web-example"
-version = "0.1.2"
+version = "0.1.0"
 edition = "2024"
 workspace = "../../"
 
 [dependencies]
 actix-web = "4.11.0"
-variants_actix_web = { path = "../../../core/web/actix_web" }
+vconfig_actix_web = { path = "../../../core/web/actix_web" }

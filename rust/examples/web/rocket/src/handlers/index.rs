@@ -1,9 +1,9 @@
 use rocket::get;
-use variants_rocket::de::variants_config;
-use variants_rocket::serde::Deserialize;
+use vconfig_rocket::de::variants_config;
+use vconfig_rocket::serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
-#[serde(crate = "variants_rocket::serde")]
+#[serde(crate = "vconfig_rocket::serde")]
 #[variants_config("index")]
 pub(crate) struct IndexConfig {
     welcome_msg: String,

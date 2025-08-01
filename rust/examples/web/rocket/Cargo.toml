@@ -1,9 +1,9 @@
 [package]
 name = "rocket-example"
-version = "0.1.2"
+version = "0.1.0"
 edition = "2024"
 workspace = "../../"
 
 [dependencies]
 rocket = "0.5.1"
-variants_rocket = { path = "../../../core/web/rocket" }
+vconfig_rocket = { path = "../../../core/web/rocket" }

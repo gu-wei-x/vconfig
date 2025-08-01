@@ -1,17 +1,17 @@
-# Use variants_de in Rocket apps
+# Use vconfig in Rocket apps
 
-variants_rocket is a wrap crate on variants_de which has macro and context to leverage variants_de in Rocket apps.
+vconfig_rocket is a wrap crate on vconfig which has macro and context to leverage vconfig in Rocket apps.
 
 ## Rocket app!
 
-Let's write first Rocket application leveraging variants_de! Start by creating a new binary-based
+Let's write first Rocket application leveraging vconfig! Start by creating a new binary-based
 Cargo project and changing into the new directory:
 
 ```sh
 cargo new rocket-example --bin
 cd rocket-example
 cargo add rocket
-cargo add variants_rocket
+cargo add vconfig_rocket
 ```
 
 Create a folder with files like bellow:
@@ -60,11 +60,11 @@ impl Default for Browservariants {
     }
 }
 
-impl variants_rocket::VariantsProcessor for Browservariants {
+impl vconfig_rocket::VariantsProcessor for Browservariants {
     fn process<'r>(
         &self,
         request: &'r Request<'_>,
-        variants: &mut variants_rocket::default::DefaultVariants,
+        variants: &mut vconfig_rocket::default::DefaultVariants,
     ) {
         match request.headers().get_one("sec-ch-ua") {
             Some(sec_ch_ua_value) => {
@@ -101,7 +101,7 @@ mod variants_processors;
 use rocket::fairing::{self, Fairing, Info, Kind};
 use rocket::figment::value::magic::RelativePathBuf;
 use rocket::{Build, Orbit, Rocket};
-use variants_rocket::variantsContext;
+use vconfig_rocket::variantsContext;
 
 pub(crate) struct VariantsConfigFairing;
 
@@ -154,11 +154,11 @@ impl Fairing for VariantsConfigFairing {
 ### handlers: index.rs
 ```
 use rocket::get;
-use variants_rocket::de::variants_config;
-use variants_rocket::serde::Deserialize;
+use vconfig_rocket::de::variants_config;
+use vconfig_rocket::serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
-#[serde(crate = "variants_rocket::serde")]
+#[serde(crate = "vconfig_rocket::serde")]
 #[variants_config("index")]
 pub(crate) struct IndexConfig {
     welcome_msg: String,

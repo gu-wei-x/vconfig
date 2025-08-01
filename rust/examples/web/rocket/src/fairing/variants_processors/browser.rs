@@ -7,11 +7,11 @@ impl Default for BrowserVariants {
     }
 }
 
-impl variants_rocket::VariantsProcessor for BrowserVariants {
+impl vconfig_rocket::VariantsProcessor for BrowserVariants {
     fn process<'r>(
         &self,
         request: &'r Request<'_>,
-        variants: &mut variants_rocket::default::DefaultVariants,
+        variants: &mut vconfig_rocket::default::DefaultVariants,
     ) {
         match request.headers().get_one("sec-ch-ua") {
             Some(sec_ch_ua_value) => {

@@ -8,11 +8,7 @@ impl Default for BrowserVariants {
 }
 
 impl vconfig_rocket::VariantsProcessor for BrowserVariants {
-    fn process<'r>(
-        &self,
-        request: &'r Request<'_>,
-        variants: &mut dyn vconfig_rocket::Variants,
-    ) {
+    fn process<'r>(&self, request: &'r Request<'_>, variants: &mut dyn vconfig_rocket::Variants) {
         match request.headers().get_one("sec-ch-ua") {
             Some(sec_ch_ua_value) => {
                 let lowwe_cased_value_str = sec_ch_ua_value.to_lowercase();

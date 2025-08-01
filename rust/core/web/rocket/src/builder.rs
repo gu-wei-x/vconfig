@@ -2,6 +2,17 @@ use rocket::Request;
 use std::sync::Arc;
 use vconfig::traits::Variants;
 
+/// A trait for processing variants in the context of a web request.
+///
+/// Types implementing this trait can modify or inspect the provided `variants`
+/// based on the incoming `request`. Implementors must be thread-safe and have
+/// a static lifetime.
+///
+/// # Arguments
+///
+/// * `request` - A reference to the current HTTP request.
+/// * `variants` - A mutable reference to a type implementing the `Variants` trait,
+///   allowing the processor to modify or inspect the available variants.
 pub trait VariantsProcessor: Send + Sync + 'static {
     fn process<'r>(&self, request: &'r Request<'_>, variants: &mut dyn Variants);
 }

@@ -2,6 +2,17 @@ use axum::http::request::Parts;
 use std::sync::Arc;
 use vconfig::traits::Variants;
 
+/// A trait for processing variants in a web context.
+///
+/// Types implementing this trait can perform custom processing on a set of variants,
+/// typically used for modifying or inspecting request parts and associated variant data.
+///
+/// # Safety
+/// Implementors must ensure thread safety as this trait requires `Send` and `Sync`.
+///
+/// # Arguments
+/// * `parts` - Reference to the request parts to be processed.
+/// * `variants` - Mutable reference to the variants to be processed or modified.
 pub trait VariantsProcessor: Send + Sync + 'static {
     fn process<'r>(&self, parts: &'r Parts, variants: &mut dyn Variants);
 }

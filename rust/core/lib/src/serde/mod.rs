@@ -4,7 +4,7 @@
 //! For convenience, variants re-exports `serde`'s `Deserialize`
 //! traits and derive macros from this module. However, due to Rust's limited
 //! support for derive macro re-exports, using the re-exported derive macros
-//! requires annotating structures with `#[serde(crate = "variants::serde")]`:
+//! requires annotating structures with `#[serde(crate = "vconfig::serde")]`:
 //!
 //! ```rust
 //! use vconfig::serde::Deserialize;

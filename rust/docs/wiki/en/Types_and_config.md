@@ -3,7 +3,7 @@
 ## what's a variant.
 A variant is a key-value pair means sth is present or true when evaluating an expresstionm.
 eg: ```msg&v:1 = "hello world"```, here variant is ```(name:v, value:1)``` means it's present/true gives ```"hello world"``` to ```msg```. 
-Variants means a collection of variants used to evaluate an expession like: ```msg&v1:1&v2:1&... = "hello world"```. variants crate would parse
+Variants means a collection of variants used to evaluate an expession like: ```msg&v1:1&v2:1&... = "hello world"```. vconfig crate would parse
 variant expression to intenal data format from configuration and leverage them to evaluate the value when deserialized configuration content to 
 Rust data with a exising variant collection provided by context. An expression with vraints in BNF:
 ```
@@ -12,13 +12,13 @@ Rust data with a exising variant collection provided by context. An expression w
 <variant exp> ::= &<key>:<variant value>
 ```
 
-## ```<key>``` supported in variants:
+## ```<key>``` supported in vconfig:
 ### No dot in key
   * Configuration: key is interpreted as the nearest field of a struct.
   * Example:
 ```
 #[derive(Deserialize)]
-#[serde(crate = "variants::serde")]
+#[serde(crate = "vconfig::serde")]
 struct Config {
     key: String,
 }
@@ -34,13 +34,13 @@ let cofig_str = r#"
   * Example:
 ```
 #[derive(Deserialize)]
-#[serde(crate = "variants::serde")]
+#[serde(crate = "vconfig::serde")]
 struct Config {
     pkey: SubConfig,
 }
 
 #[derive(Deserialize)]
-#[serde(crate = "variants::serde")]
+#[serde(crate = "vconfig::serde")]
 struct SubConfig {
     skey: String,
 }
@@ -64,7 +64,7 @@ let cofig_str = r#"
   * Example:
 ```
 #[derive(Deserialize)]
-#[serde(crate = "variants::serde")]
+#[serde(crate = "vconfig::serde")]
 struct Config {
     key1: String,
     key2: u64,
@@ -84,7 +84,7 @@ let cofig_str = r#"
   * Example:
 ```
 #[derive(Deserialize)]
-#[serde(crate = "variants::serde")]
+#[serde(crate = "vconfig::serde")]
 struct Config {
     key1: Option<String>,
     key2: Option<u64>,
@@ -102,7 +102,7 @@ let cofig_str = r#"
   * Example:
 ```
 #[derive(Deserialize)]
-#[serde(crate = "variants::serde")]
+#[serde(crate = "vconfig::serde")]
 struct Config {
     key1: Vec<String>,
     key2: Vec<u64>,
@@ -123,13 +123,13 @@ let cofig_str = r#"
   * Example:
 ```
 #[derive(Deserialize)]
-#[serde(crate = "variants::serde")]
+#[serde(crate = "vconfig::serde")]
 struct Config {
     sub_config: SubConfig,
 }
 
 #[derive(Deserialize)]
-#[serde(crate = "variants::serde")]
+#[serde(crate = "vconfig::serde")]
 struct SubConfig {
     skey: String,
 }

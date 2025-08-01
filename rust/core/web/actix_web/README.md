@@ -5,7 +5,7 @@ vconfig_actix_web is a wrap crate on vconfig which has macro and context to leve
 ## Actix web!
 
 Let's write first Actix Web application leveraging vconfig! Start by creating a new binary-based
-Cargo project and changing into the new directory:
+Cargo project and changing into the new directory. Code could be found at [vconfig: actix-web-example](https://github.com/gu-wei-x/vconfig/tree/main/rust/examples/web/actix-web/src)
 
 ```sh
 cargo new actix-web-example --bin
@@ -101,12 +101,12 @@ impl vconfig_actix_web::VariantsProcessor for Browservariants {
 ### handlers: index.rs
 ```
 use actix_web::Responder;
-use vconfig_actix_web::de::variants_config;
+use vconfig_actix_web::de::vconfig;
 use vconfig_actix_web::serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
 #[serde(crate = "vconfig_actix_web::serde")]
-#[variants_config("index")]
+#[vconfig("index")]
 pub(crate) struct IndexConfig {
     welcome_msg: String,
 }

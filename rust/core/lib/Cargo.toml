@@ -8,9 +8,9 @@ A native Rust decoder of TOML-formatted like files/streams. Provides implementat
 """
 keywords = ["variants", "configuration", "deserialization"]
 license = "MIT"
-homepage = "https://github.com/gu-wei-x/variants"
+homepage = "https://github.com/gu-wei-x/vconfig"
 readme = "README.md"
-repository = "https://github.com/gu-wei-x/variants"
+repository = "https://github.com/gu-wei-x/vconfig"
 rust-version = "1.88"
 
 [dependencies]

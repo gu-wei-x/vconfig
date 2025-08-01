@@ -45,6 +45,6 @@ fn test_vconfig_rocket_config() {
             }
         }
     };
-    let output = rocket::variants_config(args, input);
+    let output = rocket::variant_config(args, input);
     assert_eq!(output.to_string(), expected.to_string());
 }

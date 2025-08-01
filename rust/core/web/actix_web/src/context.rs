@@ -1,9 +1,8 @@
-use normpath::PathExt;
 use std::path::{Path, PathBuf};
-use vconfig::default::DefaultVariants;
 
 use crate::{VariantsProcessor, builder::VariantsBuilder};
 use vconfig::fs::ConfigStore;
+use vconfig::traits::Variants;
 
 pub struct VConfigContext {
     configs: ConfigStore,
@@ -12,13 +11,6 @@ pub struct VConfigContext {
 
 impl VConfigContext {
     pub fn new(base_dir: &Path) -> Option<VConfigContext> {
-        let base_dir = match base_dir.normalize() {
-            Ok(base_dir) => base_dir.into_path_buf(),
-            _ => {
-                return None;
-            }
-        };
-
         // config.
         let mut config_store = ConfigStore::new(&base_dir.to_string_lossy());
         config_store.with_ext("toml");
@@ -39,7 +31,7 @@ impl VConfigContext {
     pub fn build_variants<'r>(
         &self,
         request: &actix_web::HttpRequest,
-        variants: &mut DefaultVariants,
+        variants: &mut dyn Variants,
     ) {
         self.builder.build(request, variants);
     }

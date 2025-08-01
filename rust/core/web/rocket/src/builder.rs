@@ -1,9 +1,9 @@
 use rocket::Request;
 use std::sync::Arc;
-use vconfig::default::DefaultVariants;
+use vconfig::traits::Variants;
 
 pub trait VariantsProcessor: Send + Sync + 'static {
-    fn process<'r>(&self, request: &'r Request<'_>, variants: &mut DefaultVariants);
+    fn process<'r>(&self, request: &'r Request<'_>, variants: &mut dyn Variants);
 }
 
 #[derive(Clone)]
@@ -18,7 +18,7 @@ impl VariantsBuilder {
         }
     }
 
-    pub(crate) fn build<'r>(&self, request: &'r Request<'_>, variants: &mut DefaultVariants) {
+    pub(crate) fn build<'r>(&self, request: &'r Request<'_>, variants: &mut dyn Variants) {
         for iter in self.processors.iter() {
             iter.process(request, variants);
         }

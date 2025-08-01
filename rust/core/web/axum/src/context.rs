@@ -1,10 +1,10 @@
 use axum::http::request::Parts;
 use std::path::{Path, PathBuf};
-use vconfig::default::DefaultVariants;
+use vconfig::fs::ConfigStore;
+use vconfig::traits::Variants;
 
 use crate::builder::VariantsBuilder;
 use crate::builder::VariantsProcessor;
-use vconfig::fs::ConfigStore;
 
 pub struct VConfigContext {
     configs: ConfigStore,
@@ -30,7 +30,7 @@ impl VConfigContext {
         self.configs.get_path(name)
     }
 
-    pub fn build_variants<'r>(&self, parts: &'r Parts, variants: &mut DefaultVariants) {
+    pub fn build_variants<'r>(&self, parts: &'r Parts, variants: &mut dyn Variants) {
         self.builder.build(parts, variants);
     }
 

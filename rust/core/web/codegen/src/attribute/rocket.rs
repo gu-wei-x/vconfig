@@ -1,20 +1,20 @@
-use devise::{FromMeta, MetaItem};
 use proc_macro2::TokenStream;
 use proc_macro2::{Ident, Span};
 use syn::Data;
 use syn::DeriveInput;
 
-#[derive(Debug, FromMeta)]
 struct Config {
-    #[meta(naked)]
     pub name: Option<String>,
     pub file: Option<String>,
 }
 
 pub(crate) fn variant_config(args: TokenStream, input: TokenStream) -> TokenStream {
     let attr_tokens = quote!(config(#args));
-    let att_meta = &syn::parse2::<MetaItem>(attr_tokens).unwrap();
-    let attribute = Config::from_meta(att_meta).unwrap();
+    let (name, path) = crate::extract_file_path(attr_tokens.clone().into());
+    let attribute = Config {
+        name: name,
+        file: path,
+    };
 
     let ast: DeriveInput = syn::parse2(input).unwrap();
     match ast.data {

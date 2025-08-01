@@ -25,8 +25,23 @@ impl VConfigContext {
         })
     }
 
-    pub fn get_file(&self, name: &str) -> Option<&PathBuf> {
-        self.configs.get_path(name)
+    pub fn get_file(&self, name: &str) -> Option<PathBuf> {
+        let path = std::path::PathBuf::from(name);
+        if path.exists() {
+            return Some(path);
+        }
+
+        let path = self.configs.get_path(name);
+        match path {
+            Some(path) => {
+                if path.exists() {
+                    Some(path.to_owned())
+                } else {
+                    None
+                }
+            }
+            None => None,
+        }
     }
 
     pub fn build_variants<'r>(&self, request: &'r Request<'_>, variants: &mut dyn Variants) {

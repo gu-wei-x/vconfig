@@ -5,13 +5,13 @@ use vconfig::default::DefaultVariants;
 use crate::{VariantsProcessor, builder::VariantsBuilder};
 use vconfig::fs::ConfigStore;
 
-pub struct VariantsContext {
+pub struct VConfigContext {
     configs: ConfigStore,
     builder: VariantsBuilder,
 }
 
-impl VariantsContext {
-    pub fn new(base_dir: &Path) -> Option<VariantsContext> {
+impl VConfigContext {
+    pub fn new(base_dir: &Path) -> Option<VConfigContext> {
         let base_dir = match base_dir.normalize() {
             Ok(base_dir) => base_dir.into_path_buf(),
             _ => {

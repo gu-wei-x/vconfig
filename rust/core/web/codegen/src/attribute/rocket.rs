@@ -34,7 +34,7 @@ pub(crate) fn variant_config(args: TokenStream, input: TokenStream) -> TokenStre
                     impl<'r> rocket::request::FromRequest<'r> for super::#ident {
                         type Error = &'static str;
                         async fn from_request(request: &'r rocket::Request<'_>) -> rocket::request::Outcome<Self, Self::Error> {
-                            let context = match request.rocket().state::<vconfig_rocket::VariantsContext>() {
+                            let context = match request.rocket().state::<vconfig_rocket::VConfigContext>() {
                                 Some(context) => context,
                                 None => {
                                             return rocket::request::Outcome::Error((rocket::http::Status::InternalServerError, #error_msg));
@@ -43,10 +43,10 @@ pub(crate) fn variant_config(args: TokenStream, input: TokenStream) -> TokenStre
 
                             match context.get_file(#file) {
                                 Some(path) => {
-                                    let mut variants = vconfig_rocket::default::DefaultVariants::default();
+                                    let mut variants = vconfig_rocket::DefaultVariants::default();
                                     context.build_variants(request, &mut variants);
                                     let config_result =
-                                        vconfig_rocket::de::from_file_with_variants::<super::#ident, _, _>(path, &variants);
+                                        vconfig_rocket::de_from_file::<super::#ident, _, _>(path, &variants);
                                     match config_result {
                                         Ok(config) => rocket::request::Outcome::Success(config),
                                         _ => rocket::request::Outcome::Error((rocket::http::Status::InternalServerError, #error_msg)),

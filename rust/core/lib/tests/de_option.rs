@@ -24,7 +24,7 @@ macro_rules! de_option_case {
                 };
 
                 let variants = vconfig::default::DefaultVariants::default();
-                let result = vconfig::de::from_str_with_variants::<Config, _>(
+                let result = vconfig::de::from_str::<Config, _>(
                     &raw_str, &variants,
                 );
 

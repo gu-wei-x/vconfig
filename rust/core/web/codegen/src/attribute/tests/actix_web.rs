@@ -23,7 +23,7 @@ fn test_vconfig_actix_web_config() {
                 type Future = std::pin::Pin<Box<dyn Future<Output = Result<Self , Self::Error>>>>;
 
                 fn from_request(request: &actix_web::HttpRequest, _: &mut actix_web::dev::Payload) -> Self::Future {
-                    let variants_context = match request.app_data::<actix_web::web::Data<vconfig_actix_web::VariantsContext>>() {
+                    let vconfig_context = match request.app_data::<actix_web::web::Data<vconfig_actix_web::VConfigContext>>() {
                         Some(context) => context,
                         None => {
                                     return Box::pin(async move {
@@ -34,11 +34,11 @@ fn test_vconfig_actix_web_config() {
                         }
                     };
 
-                    match variants_context.get_file("test") {
+                    match vconfig_context.get_file("test") {
                         Some(path) => {
-                            let mut variants = vconfig_actix_web::default::DefaultVariants::default();
-                            variants_context.build_variants(request , &mut variants);
-                            let config_result = vconfig_actix_web::de::from_file_with_variants::<super::Test , _ , _>(path, &variants);
+                            let mut variants = vconfig_actix_web::DefaultVariants::default();
+                            vconfig_context.build_variants(request , &mut variants);
+                            let config_result = vconfig_actix_web::de_from_file::<super::Test , _ , _>(path, &variants);
                             match config_result {
                                 Ok(config) => Box::pin(async move { Ok(config) }),
                                 _ => Box::pin(async move {

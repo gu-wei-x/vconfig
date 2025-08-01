@@ -22,7 +22,7 @@ macro_rules! de_test_case {
                 );
 
                 let variants = vconfig::default::DefaultVariants::default();
-                let result = vconfig::de::from_str_with_variants::<Config, _>(
+                let result = vconfig::de::from_str::<Config, _>(
                     &raw_str, &variants,
                 );
                 println!("{:?}", result);
@@ -53,7 +53,7 @@ macro_rules! de_test_case {
                 );
 
                 let variants = vconfig::default::DefaultVariants::default();
-                let result = vconfig::de::from_str_with_variants::<Config, _>(
+                let result = vconfig::de::from_str::<Config, _>(
                     &raw_str, &variants,
                 );
                 assert!(result.is_ok());

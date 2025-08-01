@@ -20,14 +20,13 @@ fn test_de_struct_of_string_values() {
 
     let mut variants = DefaultVariants::default();
     _ = variants.add("v1", "1");
-    let result = vconfig::de::from_str_with_variants::<Config, _>(raw_str, &variants);
+    let result = vconfig::de::from_str::<Config, _>(raw_str, &variants);
     assert!(result.is_ok());
     let config = result.unwrap();
     assert_eq!(&config.key0, "v0");
     assert_eq!(&config.key1, "v2");
 
-    let result =
-        vconfig::de::from_str_with_variants::<Config, _>(raw_str, &DefaultVariants::default());
+    let result = vconfig::de::from_str::<Config, _>(raw_str, &DefaultVariants::default());
     assert!(result.is_ok());
     let config = result.unwrap();
     assert_eq!(&config.key0, "v1");
@@ -67,7 +66,7 @@ fn test_de_struct_in_subcontainer() {
     let mut variants = DefaultVariants::default();
     _ = variants.add("v1", "1");
     _ = variants.add("v2", "1");
-    let result = vconfig::de::from_str_with_variants::<Config, _>(raw_str, &variants);
+    let result = vconfig::de::from_str::<Config, _>(raw_str, &variants);
     assert!(result.is_ok());
 
     let config = result.unwrap();
@@ -78,8 +77,7 @@ fn test_de_struct_in_subcontainer() {
     assert_eq!(sub_config.key0, "sv0");
     assert_eq!(sub_config.key1, 0);
 
-    let result =
-        vconfig::de::from_str_with_variants::<Config, _>(raw_str, &DefaultVariants::default());
+    let result = vconfig::de::from_str::<Config, _>(raw_str, &DefaultVariants::default());
     assert!(result.is_ok());
 
     let config = result.unwrap();
@@ -114,14 +112,13 @@ fn test_de_struct_with_dotkeys_and_variants_in_subcontainer() {
 
     let mut variants = DefaultVariants::default();
     _ = variants.add("v1", "1");
-    let result = vconfig::de::from_str_with_variants::<Config, _>(raw_str, &variants);
+    let result = vconfig::de::from_str::<Config, _>(raw_str, &variants);
     assert!(result.is_ok());
 
     let config = result.unwrap();
     assert_eq!(&config.data.key, "v0");
 
-    let result =
-        vconfig::de::from_str_with_variants::<Config, _>(raw_str, &DefaultVariants::default());
+    let result = vconfig::de::from_str::<Config, _>(raw_str, &DefaultVariants::default());
     assert!(result.is_ok());
 
     let config = result.unwrap();

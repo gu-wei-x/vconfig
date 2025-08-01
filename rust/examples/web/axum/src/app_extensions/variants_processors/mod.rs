@@ -1,12 +1,12 @@
 mod browser;
 
-pub fn create_variants_context(
+pub fn create_vconfig_context(
     config_dir: &std::path::Path,
-) -> Option<vconfig_axum::VariantsContext> {
-    if let Some(mut variants_context) = vconfig_axum::VariantsContext::new(config_dir) {
+) -> Option<vconfig_axum::VConfigContext> {
+    if let Some(mut vconfig_context) = vconfig_axum::VConfigContext::new(config_dir) {
         // add all processor here.
-        variants_context.with_processor(browser::BrowserVariants::default());
-        Some(variants_context)
+        vconfig_context.with_processor(browser::BrowserVariants::default());
+        Some(vconfig_context)
     } else {
         None
     }

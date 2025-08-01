@@ -12,7 +12,7 @@ impl vconfig_actix_web::VariantsProcessor for BrowserVariants {
     fn process(
         &self,
         request: &actix_web::HttpRequest,
-        variants: &mut vconfig_actix_web::default::DefaultVariants,
+        variants: &mut vconfig_actix_web::DefaultVariants,
     ) {
         match request.headers().get("sec-ch-ua") {
             Some(sec_ch_ua_value) => {

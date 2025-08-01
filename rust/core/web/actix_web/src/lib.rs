@@ -1,23 +1,22 @@
 mod builder;
 mod context;
 
-pub mod de {
-    #[doc(inline)]
-    pub use vconfig::de::from_file_with_variants;
+#[doc(inline)]
+pub use builder::VariantsProcessor;
 
-    #[doc(inline)]
-    pub use vconfig_codegen::actix_web_variant_config as vconfig;
-}
+#[doc(inline)]
+pub use context::VConfigContext;
 
-pub mod default {
-    #[doc(inline)]
-    pub use vconfig::default::*;
-}
+#[doc(inline)]
+pub use vconfig::de::from_file as de_from_file;
+
+#[doc(inline)]
+pub use vconfig_codegen::actix_web_variant_config as vconfig;
+
+#[doc(inline)]
+pub use vconfig::default::DefaultVariants;
 
 pub mod serde {
     #[doc(inline)]
     pub use vconfig::serde::*;
 }
-
-pub use builder::VariantsProcessor;
-pub use context::VariantsContext;

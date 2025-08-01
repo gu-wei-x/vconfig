@@ -101,8 +101,8 @@ impl vconfig_actix_web::VariantsProcessor for Browservariants {
 ### handlers: index.rs
 ```
 use actix_web::Responder;
-use vconfig_actix_web::de::vconfig;
 use vconfig_actix_web::serde::Deserialize;
+use vconfig_actix_web::vconfig;
 
 #[derive(Debug, Deserialize)]
 #[serde(crate = "vconfig_actix_web::serde")]
@@ -128,11 +128,11 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
             .app_data(web::Data::new({
-                let mut variants_context =
-                    vconfig_actix_web::VariantsContext::new(&Path::new("src/configs")).unwrap();
-                variants_context
+                let mut vconfig_context =
+                    vconfig_actix_web::VConfigContext::new(&Path::new("src/configs")).unwrap();
+                vconfig_context
                     .with_processor(app_state::variants_processors::Browservariants::default());
-                variants_context
+                vconfig_context
             }))
             .route("/", web::get().to(handlers::index))
     })

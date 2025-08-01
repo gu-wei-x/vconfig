@@ -6,7 +6,7 @@ pub mod de {
     use super::types::error;
     use super::types::result::Result;
 
-    pub fn from_str_with_variants<'s, 'v, T, V>(source: &'s str, variants: &'v V) -> Result<T>
+    pub fn from_str<'s, 'v, T, V>(source: &'s str, variants: &'v V) -> Result<T>
     where
         T: serde::de::Deserialize<'v>,
         V: super::types::traits::Variants,
@@ -16,14 +16,14 @@ pub mod de {
         T::deserialize(deserializer)
     }
 
-    pub fn from_file_with_variants<'v, T, P, V>(path: P, variants: &'v V) -> Result<T>
+    pub fn from_file<'v, T, P, V>(path: P, variants: &'v V) -> Result<T>
     where
         P: AsRef<std::path::Path>,
         T: serde::de::Deserialize<'v>,
         V: super::types::traits::Variants,
     {
         match &std::fs::read_to_string(path) {
-            Ok(source) => from_str_with_variants(source, variants),
+            Ok(source) => from_str(source, variants),
             Err(error) => Err(error::Error::from_str(&error.to_string())),
         }
     }

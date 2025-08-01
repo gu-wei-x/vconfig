@@ -5,7 +5,7 @@ vconfig_rocket is a wrap crate on vconfig which has macro and context to leverag
 ## Rocket app!
 
 Let's write first Rocket application leveraging vconfig! Start by creating a new binary-based
-Cargo project and changing into the new directory. Code could be found at [vconfig: rocket-example](https://github.com/gu-wei-x/vconfig/tree/main/rust/examples/web/rocket)
+Cargo project and changing into the new directory. Code could be found at [vconfig: rocket-example](https://github.com/gu-wei-x/vconfig/tree/main/rust/examples/web/rocket/src)
 
 ```sh
 cargo new rocket-example --bin

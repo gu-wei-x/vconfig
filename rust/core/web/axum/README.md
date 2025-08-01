@@ -5,7 +5,7 @@ vconfig_axum is a wrap crate on vconfig which has macro and context to leverage 
 ## Axum apps!
 
 Let's write first Axum application leveraging vconfig! Start by creating a new binary-based
-Cargo project and changing into the new directory. Code could be found at [vconfig: axum-example](https://github.com/gu-wei-x/vconfig/tree/main/rust/examples/web/axum)
+Cargo project and changing into the new directory. Code could be found at [vconfig: axum-example](https://github.com/gu-wei-x/vconfig/tree/main/rust/examples/web/axum/src)
 
 ```sh
 cargo new axum-example --bin

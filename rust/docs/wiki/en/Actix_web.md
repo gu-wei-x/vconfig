@@ -5,7 +5,7 @@ vconfig_actix_web is a wrap crate on vconfig which has macro and context to leve
 ## Actix web!
 
 Let's write first Actix Web application leveraging vconfig! Start by creating a new binary-based
-Cargo project and changing into the new directory. Code could be found at [vconfig: actix-web-example](../../examples/web/actix-web)
+Cargo project and changing into the new directory. Code could be found at [vconfig: actix-web-example](../../../examples/web/actix-web)
 
 ```sh
 cargo new actix-web-example --bin

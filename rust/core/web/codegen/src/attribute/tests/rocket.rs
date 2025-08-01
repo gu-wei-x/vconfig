@@ -3,7 +3,7 @@ use crate::attribute::rocket;
 use quote::quote;
 
 #[test]
-fn test_variants_rocket_config() {
+fn test_vconfig_rocket_config() {
     let args = quote! {
         "test",
         file = "test"
@@ -22,7 +22,7 @@ fn test_variants_rocket_config() {
             impl <'r> rocket::request::FromRequest<'r> for super::Test {
                 type Error = &'static str;
                 async fn from_request(request: &'r rocket::Request < '_ >) -> rocket::request::Outcome<Self, Self::Error> {
-                    let context = match request.rocket().state::<variants_rocket::VariantsContext>() {
+                    let context = match request.rocket().state::<vconfig_rocket::VariantsContext>() {
                         Some(context) => context,
                         None => {
                                     return rocket::request::Outcome::Error((rocket::http::Status::InternalServerError, "Failed to deserialzie: Test"));
@@ -31,9 +31,9 @@ fn test_variants_rocket_config() {
 
                     match context.get_file("test") {
                         Some (path) => {
-                            let mut variants = variants_rocket::default::DefaultVariants::default();
+                            let mut variants = vconfig_rocket::default::DefaultVariants::default();
                             context.build_variants(request, &mut variants);
-                            let config_result = variants_rocket::de::from_file_with_variants::<super::Test, _ , _ >(path, &variants);
+                            let config_result = vconfig_rocket::de::from_file_with_variants::<super::Test, _ , _ >(path, &variants);
                             match config_result {
                                 Ok(config) => rocket::request::Outcome::Success(config),
                                 _ => rocket::request::Outcome::Error((rocket::http::Status::InternalServerError, "Failed to deserialzie: Test")),

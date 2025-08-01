@@ -3,7 +3,7 @@ mod variants_processors;
 use rocket::fairing::{self, Fairing, Info, Kind};
 use rocket::figment::value::magic::RelativePathBuf;
 use rocket::{Build, Orbit, Rocket};
-use variants_rocket::VariantsContext;
+use vconfig_rocket::VariantsContext;
 
 pub(crate) struct VariantsConfigFairing;
 

@@ -1,17 +1,17 @@
-# Use variants_de in Actix Web apps
+# Use vconfig in Actix Web apps
 
-variants_actix_web is a wrap crate on variants_de which has macro and context to leverage variants_de in Actix Web apps.
+vconfig_actix_web is a wrap crate on vconfig which has macro and context to leverage vconfig in Actix Web apps.
 
 ## Actix web!
 
-Let's write first Actix Web application leveraging variants_de! Start by creating a new binary-based
+Let's write first Actix Web application leveraging vconfig! Start by creating a new binary-based
 Cargo project and changing into the new directory:
 
 ```sh
 cargo new actix-web-example --bin
 cd actix-web-example
 cargo add actix_web
-cargo add variants_actix_web
+cargo add vconfig_actix_web
 ```
 
 Create a folder with files like bellow:
@@ -59,11 +59,11 @@ impl Default for Browservariants {
     }
 }
 
-impl variants_actix_web::VariantsProcessor for Browservariants {
+impl vconfig_actix_web::VariantsProcessor for Browservariants {
     fn process(
         &self,
         request: &actix_web::HttpRequest,
-        variants: &mut variants_actix_web::default::DefaultVariants,
+        variants: &mut vconfig_actix_web::default::DefaultVariants,
     ) {
         match request.headers().get("sec-ch-ua") {
             Some(sec_ch_ua_value) => {
@@ -101,11 +101,11 @@ impl variants_actix_web::VariantsProcessor for Browservariants {
 ### handlers: index.rs
 ```
 use actix_web::Responder;
-use variants_actix_web::de::variants_config;
-use variants_actix_web::serde::Deserialize;
+use vconfig_actix_web::de::variants_config;
+use vconfig_actix_web::serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
-#[serde(crate = "variants_actix_web::serde")]
+#[serde(crate = "vconfig_actix_web::serde")]
 #[variants_config("index")]
 pub(crate) struct IndexConfig {
     welcome_msg: String,
@@ -129,7 +129,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .app_data(web::Data::new({
                 let mut variants_context =
-                    variants_actix_web::VariantsContext::new(&Path::new("src/configs")).unwrap();
+                    vconfig_actix_web::VariantsContext::new(&Path::new("src/configs")).unwrap();
                 variants_context
                     .with_processor(app_state::variants_processors::Browservariants::default());
                 variants_context

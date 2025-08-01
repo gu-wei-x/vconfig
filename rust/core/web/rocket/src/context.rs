@@ -1,10 +1,10 @@
 use normpath::PathExt;
 use rocket::Request;
 use std::path::{Path, PathBuf};
-use variants_de::default::DefaultVariants;
+use vconfig::default::DefaultVariants;
 
 use crate::{VariantsProcessor, builder::VariantsBuilder};
-use variants_de::fs::ConfigStore;
+use vconfig::fs::ConfigStore;
 
 pub struct VariantsContext {
     configs: ConfigStore,

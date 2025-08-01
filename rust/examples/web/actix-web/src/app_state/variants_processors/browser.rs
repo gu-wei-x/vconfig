@@ -8,11 +8,11 @@ impl Default for BrowserVariants {
     }
 }
 
-impl variants_actix_web::VariantsProcessor for BrowserVariants {
+impl vconfig_actix_web::VariantsProcessor for BrowserVariants {
     fn process(
         &self,
         request: &actix_web::HttpRequest,
-        variants: &mut variants_actix_web::default::DefaultVariants,
+        variants: &mut vconfig_actix_web::default::DefaultVariants,
     ) {
         match request.headers().get("sec-ch-ua") {
             Some(sec_ch_ua_value) => {

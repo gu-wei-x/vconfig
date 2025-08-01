@@ -1,6 +1,6 @@
 use axum::http::request::Parts;
-use variants_axum::VariantsProcessor;
-use variants_axum::default::DefaultVariants;
+use vconfig_axum::VariantsProcessor;
+use vconfig_axum::default::DefaultVariants;
 
 pub(crate) struct BrowserVariants;
 

@@ -1,10 +1,10 @@
 [package]
-name = "variants_axum"
-version = "0.1.2"
+name = "vconfig_axum"
+version = "0.1.0"
 authors = ["Wei Gu <gu_wei_dev@outlook.com>"]
 edition = "2024"
 description = """
-A wrap crate for using variants_de in Axum applications. Provides implementations of deserializing TOML-formatted like files/streams to Rust structures with variant context.
+A wrap crate for using vconfig in Axum applications. Provides implementations of deserializing TOML-formatted like files/streams to Rust structures with variant context.
 """
 keywords = ["variants", "configuration", "deserialization", "web"]
 license = "MIT"
@@ -15,8 +15,8 @@ rust-version = "1.88"
 
 [dependencies]
 axum = { version = "0.8.4" }
-variants_de = { version = "0.1.2", path = "../../lib" }
-variants_codegen = { version = "0.1.2", path = "../codegen", features = ["axum"] }
+vconfig = { version = "0.1.0", path = "../../lib" }
+vconfig_codegen = { version = "0.1.0", path = "../codegen", features = ["axum"] }
 
 [lints]
 workspace = true

@@ -1,17 +1,17 @@
-# Use variants_de in Axum apps
+# Use vconfig in Axum apps
 
-variants_axum is a wrap crate on variants_de which has macro and context to leverage variants_de in Axum apps.
+vconfig_axum is a wrap crate on vconfig which has macro and context to leverage vconfig in Axum apps.
 
 ## Axum apps!
 
-Let's write first Axum application leveraging variants_de! Start by creating a new binary-based
+Let's write first Axum application leveraging vconfig! Start by creating a new binary-based
 Cargo project and changing into the new directory:
 
 ```sh
 cargo new axum-example --bin
 cd axum-example
 cargo add axum
-cargo add variants_axum
+cargo add vconfig_axum
 ```
 
 Create a folder with files like bellow:
@@ -52,8 +52,8 @@ welcome_msg = "Hello! you are not using Chromium-based browser"
 ### app_extensions/variants_processors: browser.rs
 ```
 use axum::http::request::Parts;
-use variants_axum::VariantsProcessor;
-use variants_axum::default::DefaultVariants;
+use vconfig_axum::VariantsProcessor;
+use vconfig_axum::default::DefaultVariants;
 
 pub(crate) struct BrowserVariants;
 
@@ -100,11 +100,11 @@ impl VariantsProcessor for BrowserVariants {
 
 ### handlers: index.rs
 ```
-use variants_axum::de::variants_config;
-use variants_axum::serde::Deserialize;
+use vconfig_axum::de::variants_config;
+use vconfig_axum::serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
-#[serde(crate = "variants_axum::serde")]
+#[serde(crate = "vconfig_axum::serde")]
 #[variants_config("index")]
 pub(crate) struct IndexConfig {
     welcome_msg: String,

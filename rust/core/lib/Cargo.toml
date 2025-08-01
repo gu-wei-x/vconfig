@@ -1,6 +1,6 @@
 [package]
-name = "variants_de"
-version = "0.1.2"
+name = "vconfig"
+version = "0.1.0"
 authors = ["Wei Gu <gu_wei_dev@outlook.com>"]
 edition = "2024"
 description = """

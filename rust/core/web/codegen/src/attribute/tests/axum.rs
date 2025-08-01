@@ -3,7 +3,7 @@ use crate::attribute::axum;
 use quote::quote;
 
 #[test]
-fn test_variants_axum_config() {
+fn test_vconfig_axum_config() {
     let args = quote! {
         "test",
         file = "test"
@@ -28,7 +28,7 @@ fn test_variants_axum_config() {
                     _state: &S,) -> std::result::Result<Self, Self::Rejection> {
                     let variants_context = parts
                                 .extensions
-                                .get::<std::sync::Arc<variants_axum::VariantsContext>>()
+                                .get::<std::sync::Arc<vconfig_axum::VariantsContext>>()
                                 .ok_or_else(|| {
                                     (
                                         axum::http::StatusCode::INTERNAL_SERVER_ERROR,
@@ -38,9 +38,9 @@ fn test_variants_axum_config() {
 
                     match variants_context.get_file("test") {
                         Some(path) => {
-                            let mut variants = variants_axum::default::DefaultVariants::default();
+                            let mut variants = vconfig_axum::default::DefaultVariants::default();
                             variants_context.build_variants(parts, &mut variants);
-                            let config_result = variants_axum::de::from_file_with_variants::<super::Test, _, _>(
+                            let config_result = vconfig_axum::de::from_file_with_variants::<super::Test, _, _>(
                                 path,
                                 &variants,
                             );

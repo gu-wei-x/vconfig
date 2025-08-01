@@ -1,6 +1,6 @@
 use axum::http::request::Parts;
 use std::sync::Arc;
-use variants_de::default::DefaultVariants;
+use vconfig::default::DefaultVariants;
 
 pub trait VariantsProcessor: Send + Sync + 'static {
     fn process<'r>(&self, parts: &'r Parts, variants: &mut DefaultVariants);

@@ -16,6 +16,9 @@ pub use vconfig_codegen::axum_variant_config as vconfig;
 #[doc(inline)]
 pub use vconfig::default::DefaultVariants;
 
+#[doc(inline)]
+pub use vconfig::traits::Variants;
+
 pub mod serde {
     #[doc(inline)]
     pub use vconfig::serde::*;

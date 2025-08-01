@@ -1,6 +1,7 @@
 #![cfg(test)]
 use vconfig::default::DefaultVariants;
 use vconfig::serde::Deserialize;
+use vconfig::traits::Variants;
 
 #[test]
 fn test_de_struct_of_string_values() {

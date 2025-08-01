@@ -6,6 +6,7 @@ vconfig is a crate to deserialize Rust data from TOML-formatted like files/strea
 use std::error::Error;
 use vconfig::default::DefaultVariants;
 use vconfig::serde::Deserialize;
+use vconfig::traits::Variants;
 
 #[derive(Debug, Deserialize, PartialEq)]
 #[serde(crate = "vconfig::serde")]

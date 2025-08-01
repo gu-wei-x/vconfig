@@ -1,4 +1,5 @@
-pub trait Variants: Sized {
+pub trait Variants {
+    fn add(&mut self, variant_name: &str, variant_value: &str) -> Result<()>;
     fn matches(&self, variant: &Option<String>) -> bool;
 }
 
@@ -9,19 +10,6 @@ pub struct DefaultVariants {
 use crate::types::error::Error;
 use crate::types::result::Result;
 
-impl DefaultVariants {
-    pub fn add(&mut self, variant_name: &str, variant_value: &str) -> Result<()> {
-        let result = self.variants.insert(
-            variant_name.to_lowercase().to_owned(),
-            variant_value.to_lowercase().to_owned(),
-        );
-        match result {
-            Some(_) => Ok(()),
-            None => Error::from_str("variant exists").into(),
-        }
-    }
-}
-
 impl Default for DefaultVariants {
     fn default() -> Self {
         Self {
@@ -31,6 +19,17 @@ impl Default for DefaultVariants {
 }
 
 impl Variants for DefaultVariants {
+    fn add(&mut self, variant_name: &str, variant_value: &str) -> Result<()> {
+        let result = self.variants.insert(
+            variant_name.to_lowercase().to_owned(),
+            variant_value.to_lowercase().to_owned(),
+        );
+        match result {
+            Some(_) => Ok(()),
+            None => Error::from_str("variant exists").into(),
+        }
+    }
+
     fn matches(&self, variants: &Option<String>) -> bool {
         match variants {
             None => true,

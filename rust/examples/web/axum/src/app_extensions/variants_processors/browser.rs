@@ -1,5 +1,5 @@
 use axum::http::request::Parts;
-use vconfig_axum::DefaultVariants;
+use vconfig_axum::Variants;
 use vconfig_axum::VariantsProcessor;
 
 pub(crate) struct BrowserVariants;
@@ -11,7 +11,7 @@ impl Default for BrowserVariants {
 }
 
 impl VariantsProcessor for BrowserVariants {
-    fn process(&self, request: &Parts, variants: &mut DefaultVariants) {
+    fn process(&self, request: &Parts, variants: &mut dyn Variants) {
         match request.headers.get("sec-ch-ua") {
             Some(sec_ch_ua_value) => {
                 if let Ok(value_str) = sec_ch_ua_value.to_str() {

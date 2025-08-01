@@ -11,7 +11,7 @@ struct Config {
     pub file: Option<String>,
 }
 
-pub(crate) fn variants_config(args: TokenStream, input: TokenStream) -> TokenStream {
+pub(crate) fn variant_config(args: TokenStream, input: TokenStream) -> TokenStream {
     let attr_tokens = quote!(config(#args));
     let att_meta = &syn::parse2::<MetaItem>(attr_tokens).unwrap();
     let attribute = Config::from_meta(att_meta).unwrap();

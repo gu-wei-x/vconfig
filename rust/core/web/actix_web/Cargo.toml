@@ -8,9 +8,9 @@ A wrap crate for using vconfig in Actix Web applications. Provides implementatio
 """
 keywords = ["variants", "configuration", "deserialization", "web"]
 license = "MIT"
-homepage = "https://github.com/gu-wei-x/variants"
+homepage = "https://github.com/gu-wei-x/vconfig"
 readme = "README.md"
-repository = "https://github.com/gu-wei-x/variants"
+repository = "https://github.com/gu-wei-x/vconfig"
 rust-version = "1.88"
 workspace = "../../../"
 

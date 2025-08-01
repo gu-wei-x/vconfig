@@ -54,6 +54,6 @@ fn test_vconfig_actix_web_config() {
             }
         }
     };
-    let output = actix_web::variants_config(args, input);
+    let output = actix_web::variant_config(args, input);
     assert_eq!(output.to_string(), expected.to_string());
 }

@@ -61,6 +61,6 @@ fn test_vconfig_axum_config() {
             }
         }
     };
-    let output = axum::variants_config(args, input);
+    let output = axum::variant_config(args, input);
     assert_eq!(output.to_string(), expected.to_string());
 }

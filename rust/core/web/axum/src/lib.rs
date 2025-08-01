@@ -6,7 +6,7 @@ pub mod de {
     pub use vconfig::de::from_file_with_variants;
 
     #[doc(inline)]
-    pub use vconfig_codegen::axum_variants_config as variants_config;
+    pub use vconfig_codegen::axum_variant_config as vconfig;
 }
 
 pub mod default {

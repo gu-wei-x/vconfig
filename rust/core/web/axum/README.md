@@ -5,7 +5,7 @@ vconfig_axum is a wrap crate on vconfig which has macro and context to leverage 
 ## Axum apps!
 
 Let's write first Axum application leveraging vconfig! Start by creating a new binary-based
-Cargo project and changing into the new directory:
+Cargo project and changing into the new directory. Code could be found at [vconfig: axum-example](https://github.com/gu-wei-x/vconfig/tree/main/rust/examples/web/axum)
 
 ```sh
 cargo new axum-example --bin
@@ -100,12 +100,12 @@ impl VariantsProcessor for BrowserVariants {
 
 ### handlers: index.rs
 ```
-use vconfig_axum::de::variants_config;
+use vconfig_axum::de::vconfig;
 use vconfig_axum::serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
 #[serde(crate = "vconfig_axum::serde")]
-#[variants_config("index")]
+#[vconfig("index")]
 pub(crate) struct IndexConfig {
     welcome_msg: String,
 }

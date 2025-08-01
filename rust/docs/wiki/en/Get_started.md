@@ -20,8 +20,8 @@ Let's write first application leveraging vconfig! Start by creating a new binary
 Cargo project and changing into the new directory:
 
 ```sh
-cargo new test-variants --bin
-cd test-variants
+cargo new test-vconfig --bin
+cd test-vconfig
 cargo add vconfig
 ```
 **Note: todo pub the crate.**
@@ -88,7 +88,7 @@ Use command to run and check the output:
 ```sh
 > cargo run
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.20s
-     Running `test-variants.exe`
+     Running `test-vconfig.exe`
 Ok(Config { key1: "v1", key2: 5 })
 Ok(Config { key1: "v1", key2: 5 })
 ```

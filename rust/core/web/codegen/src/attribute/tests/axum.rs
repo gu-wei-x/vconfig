@@ -38,9 +38,9 @@ fn test_vconfig_axum_config() {
 
                     match vconfig_context.get_file("test") {
                         Some(path) => {
-                            let mut variants = vconfig_axum::default::DefaultVariants::default();
+                            let mut variants = vconfig_axum::DefaultVariants::default();
                             vconfig_context.build_variants(parts, &mut variants);
-                            let config_result = vconfig_axum::de::from_file_with_variants::<super::Test, _, _>(
+                            let config_result = vconfig_axum::de_from_file::<super::Test, _, _>(
                                 path,
                                 &variants,
                             );

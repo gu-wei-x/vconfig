@@ -25,7 +25,7 @@ fn from_str() -> Result<(), Box<dyn Error>> {
     let mut variants = DefaultVariants::default();
     _ = variants.add("variant1", "v1");
     _ = variants.add("variant2", "v2");
-    let result = vconfig::de::from_str_with_variants::<Config, _>(raw_str, &variants);
+    let result = vconfig::de::from_str::<Config, _>(raw_str, &variants);
     println!("{:?}", result); // Ok(Config { key1: "v1", key2: 5 })
     assert_eq!(
         result,
@@ -41,7 +41,7 @@ fn from_file() -> Result<(), Box<dyn Error>> {
     let mut variants = DefaultVariants::default();
     _ = variants.add("variant1", "v1");
     _ = variants.add("variant2", "v2");
-    let result = vconfig::de::from_file_with_variants::<Config, _, _>("basic.toml", &variants);
+    let result = vconfig::de::from_file::<Config, _, _>("basic.toml", &variants);
     println!("{:?}", result); // Ok(Config { key1: "v1", key2: 5 })
     assert_eq!(
         result,

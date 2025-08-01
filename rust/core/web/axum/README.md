@@ -100,8 +100,8 @@ impl VariantsProcessor for BrowserVariants {
 
 ### handlers: index.rs
 ```
-use vconfig_axum::de::vconfig;
 use vconfig_axum::serde::Deserialize;
+use vconfig_axum::vconfig;
 
 #[derive(Debug, Deserialize)]
 #[serde(crate = "vconfig_axum::serde")]

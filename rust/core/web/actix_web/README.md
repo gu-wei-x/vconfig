@@ -101,8 +101,8 @@ impl vconfig_actix_web::VariantsProcessor for Browservariants {
 ### handlers: index.rs
 ```
 use actix_web::Responder;
-use vconfig_actix_web::de::vconfig;
 use vconfig_actix_web::serde::Deserialize;
+use vconfig_actix_web::vconfig;
 
 #[derive(Debug, Deserialize)]
 #[serde(crate = "vconfig_actix_web::serde")]

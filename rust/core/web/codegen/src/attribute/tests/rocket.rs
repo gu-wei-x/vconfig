@@ -31,9 +31,9 @@ fn test_vconfig_rocket_config() {
 
                     match context.get_file("test") {
                         Some (path) => {
-                            let mut variants = vconfig_rocket::default::DefaultVariants::default();
+                            let mut variants = vconfig_rocket::DefaultVariants::default();
                             context.build_variants(request, &mut variants);
-                            let config_result = vconfig_rocket::de::from_file_with_variants::<super::Test, _ , _ >(path, &variants);
+                            let config_result = vconfig_rocket::de_from_file::<super::Test, _ , _ >(path, &variants);
                             match config_result {
                                 Ok(config) => rocket::request::Outcome::Success(config),
                                 _ => rocket::request::Outcome::Error((rocket::http::Status::InternalServerError, "Failed to deserialzie: Test")),

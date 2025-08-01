@@ -154,8 +154,8 @@ impl Fairing for VariantsConfigFairing {
 ### handlers: index.rs
 ```
 use rocket::get;
-use vconfig_rocket::de::vconfig;
 use vconfig_rocket::serde::Deserialize;
+use vconfig_rocket::vconfig;
 
 #[derive(Debug, Deserialize)]
 #[serde(crate = "vconfig_rocket::serde")]

@@ -26,9 +26,9 @@ fn test_vconfig_axum_config() {
 
                 async fn from_request_parts(parts: &mut axum::http::request::Parts,
                     _state: &S,) -> std::result::Result<Self, Self::Rejection> {
-                    let variants_context = parts
+                    let vconfig_context = parts
                                 .extensions
-                                .get::<std::sync::Arc<vconfig_axum::VariantsContext>>()
+                                .get::<std::sync::Arc<vconfig_axum::VConfigContext>>()
                                 .ok_or_else(|| {
                                     (
                                         axum::http::StatusCode::INTERNAL_SERVER_ERROR,
@@ -36,10 +36,10 @@ fn test_vconfig_axum_config() {
                                     )
                                 })?;
 
-                    match variants_context.get_file("test") {
+                    match vconfig_context.get_file("test") {
                         Some(path) => {
                             let mut variants = vconfig_axum::default::DefaultVariants::default();
-                            variants_context.build_variants(parts, &mut variants);
+                            vconfig_context.build_variants(parts, &mut variants);
                             let config_result = vconfig_axum::de::from_file_with_variants::<super::Test, _, _>(
                                 path,
                                 &variants,

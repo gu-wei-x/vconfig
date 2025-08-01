@@ -20,4 +20,4 @@ pub mod serde {
 }
 
 pub use builder::VariantsProcessor;
-pub use context::VariantsContext;
+pub use context::VConfigContext;

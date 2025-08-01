@@ -22,7 +22,7 @@ fn test_vconfig_rocket_config() {
             impl <'r> rocket::request::FromRequest<'r> for super::Test {
                 type Error = &'static str;
                 async fn from_request(request: &'r rocket::Request < '_ >) -> rocket::request::Outcome<Self, Self::Error> {
-                    let context = match request.rocket().state::<vconfig_rocket::VariantsContext>() {
+                    let context = match request.rocket().state::<vconfig_rocket::VConfigContext>() {
                         Some(context) => context,
                         None => {
                                     return rocket::request::Outcome::Error((rocket::http::Status::InternalServerError, "Failed to deserialzie: Test"));

@@ -40,9 +40,9 @@ pub(crate) fn variant_config(args: TokenStream, input: TokenStream) -> TokenStre
                             parts: &mut axum::http::request::Parts,
                             _state: &S,
                         ) -> std::result::Result<Self, Self::Rejection> {
-                            let variants_context = parts
+                            let vconfig_context = parts
                                 .extensions
-                                .get::<std::sync::Arc<vconfig_axum::VariantsContext>>()
+                                .get::<std::sync::Arc<vconfig_axum::VConfigContext>>()
                                 .ok_or_else(|| {
                                     (
                                         axum::http::StatusCode::INTERNAL_SERVER_ERROR,
@@ -50,10 +50,10 @@ pub(crate) fn variant_config(args: TokenStream, input: TokenStream) -> TokenStre
                                     )
                                 })?;
 
-                            match variants_context.get_file(#file) {
+                            match vconfig_context.get_file(#file) {
                                 Some(path) => {
                                     let mut variants = vconfig_axum::default::DefaultVariants::default();
-                                    variants_context.build_variants(parts, &mut variants);
+                                    vconfig_context.build_variants(parts, &mut variants);
                                     let config_result = vconfig_axum::de::from_file_with_variants::<super::#ident, _, _>(
                                         path,
                                         &variants,

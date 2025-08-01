@@ -6,13 +6,13 @@ use crate::builder::VariantsBuilder;
 use crate::builder::VariantsProcessor;
 use vconfig::fs::ConfigStore;
 
-pub struct VariantsContext {
+pub struct VConfigContext {
     configs: ConfigStore,
     builder: VariantsBuilder,
 }
 
-impl VariantsContext {
-    pub fn new(base_dir: &Path) -> Option<VariantsContext> {
+impl VConfigContext {
+    pub fn new(base_dir: &Path) -> Option<VConfigContext> {
         // config.
         let mut config_store = ConfigStore::new(&base_dir.to_string_lossy());
         config_store.with_ext("toml");

@@ -34,7 +34,7 @@ pub(crate) fn variant_config(args: TokenStream, input: TokenStream) -> TokenStre
                     impl<'r> rocket::request::FromRequest<'r> for super::#ident {
                         type Error = &'static str;
                         async fn from_request(request: &'r rocket::Request<'_>) -> rocket::request::Outcome<Self, Self::Error> {
-                            let context = match request.rocket().state::<vconfig_rocket::VariantsContext>() {
+                            let context = match request.rocket().state::<vconfig_rocket::VConfigContext>() {
                                 Some(context) => context,
                                 None => {
                                             return rocket::request::Outcome::Error((rocket::http::Status::InternalServerError, #error_msg));

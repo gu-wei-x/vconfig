@@ -101,7 +101,7 @@ mod variants_processors;
 use rocket::fairing::{self, Fairing, Info, Kind};
 use rocket::figment::value::magic::RelativePathBuf;
 use rocket::{Build, Orbit, Rocket};
-use vconfig_rocket::variantsContext;
+use vconfig_rocket::VConfigContext;
 
 pub(crate) struct VariantsConfigFairing;
 
@@ -129,11 +129,11 @@ impl Fairing for VariantsConfigFairing {
 
         match configured_dir {
             Ok(dir) => {
-                if let Some(mut variants_context) = variantsContext::new(&dir) {
+                if let Some(mut vconfig_context) = VConfigContext::new(&dir) {
                     // add all processor here.
-                    variants_context
+                    vconfig_context
                         .with_processor(variants_processors::browser::Browservariants::default());
-                    Ok(rocket.manage(variants_context))
+                    Ok(rocket.manage(vconfig_context))
                 } else {
                     // todo: log error.
                     Err(rocket)
@@ -145,8 +145,8 @@ impl Fairing for VariantsConfigFairing {
 
     async fn on_liftoff(&self, rocket: &Rocket<Orbit>) {
         let _config = rocket
-            .state::<variantsContext>()
-            .expect("variantsContext registered in on_ignite");
+            .state::<VConfigContext>()
+            .expect("VConfigContext registered in on_ignite");
     }
 }
 ```

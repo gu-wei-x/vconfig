@@ -1,5 +1,5 @@
-# vconfig
-
+vconfig
+===========================
 vconfig is a crate to deserialize Rust data from TOML-formatted like files/streams based on variant context.
 
 ```rust

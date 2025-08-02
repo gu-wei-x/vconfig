@@ -1,4 +1,9 @@
-# Use vconfig in Rocket apps
+Use vconfig in Rocket apps
+===========================
+[<img alt="github" src="https://img.shields.io/badge/github-guweix/vconfig_rocket-8da0cb?style=for-the-badge&labelColor=555555&logo=github" height="20">](https://github.com/gu-wei-x/vconfig)
+[<img alt="crates.io" src="https://img.shields.io/crates/v/vconfig_rocket.svg?style=for-the-badge&color=fc8d62&logo=rust" height="20">](https://crates.io/crates/vconfig_rocket)
+[<img alt="docs.rs" src="https://img.shields.io/badge/docs.rs-vconfig_rocket-66c2a5?style=for-the-badge&labelColor=555555&logo=docs.rs" height="20">](https://docs.rs/vconfig_rocket)
+[<img alt="build status" src="https://img.shields.io/github/actions/workflow/status/gu-wei-x/vconfig/ci.yml?branch=main&style=for-the-badge" height="20">](https://github.com/gu-wei-x/vconfig/actions?query=branch%3Amain)
 
 vconfig_rocket is a wrap crate on vconfig which has macro and context to leverage vconfig in Rocket apps.
 

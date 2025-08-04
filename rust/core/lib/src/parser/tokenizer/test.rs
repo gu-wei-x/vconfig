@@ -35,7 +35,9 @@ tokenizer_test_case!(test_tokenizer_eof, vec![""], [token::Kind::EOF]);
 
 tokenizer_test_case!(
     test_tokenizer_symbols,
-    vec!["&", ",", ":", ".", "=", "<", ">", "[", "]", "{", "}"],
+    vec![
+        "&", ",", ":", ".", "=", "<", ">", "[", "]", "{", "}", "\r\n", "\n"
+    ],
     vec![
         token::Kind::AMPERSAND,
         token::Kind::COMMA,
@@ -48,6 +50,8 @@ tokenizer_test_case!(
         token::Kind::RSQUARBRACKET,
         token::Kind::LCURLYBRACKET,
         token::Kind::RCURLYBRACKET,
+        token::Kind::NEWLINE,
+        token::Kind::NEWLINE,
         token::Kind::EOF
     ]
 );

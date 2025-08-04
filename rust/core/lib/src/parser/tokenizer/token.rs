@@ -21,7 +21,9 @@ pub enum Kind {
     LCURLYBRACKET = b'{',
     RCURLYBRACKET = b'}',
     WHITESPACE = b' ',
-    NEWLINE = b'\n',
+    CR = b'\r',
+    LF = b'\n',
+    NEWLINE,
 
     // raw string.
     DOUBLEQUOTEDSTRING = b'"',
@@ -94,6 +96,7 @@ pub fn tokenize(stream: &mut StrStream<'_>) -> Token {
         b'{' => tokenize_symbol(stream, Kind::LCURLYBRACKET),
         b'}' => tokenize_symbol(stream, Kind::RCURLYBRACKET),
         b' ' => tokenize_whitespace(stream),
+        b'\r' => tokenize_newline(stream),
         b'\n' => tokenize_newline(stream),
         b'"' => tokenize_double_quotated_string(stream),
         b'\'' => tokenize_single_quotated_string(stream),

@@ -1,6 +1,6 @@
 [package]
 name = "vconfig_actix_web"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Wei Gu <gu_wei_dev@outlook.com>"]
 edition = "2024"
 description = """
@@ -16,8 +16,8 @@ workspace = "../../../"
 
 [dependencies]
 actix-web = "4.11.0"
-vconfig = { version = "0.1.0", path = "../../lib" }
-vconfig_codegen = { version = "0.1.0", path = "../codegen", features = ["actix_web"] }
+vconfig = { version = "0.1.1", path = "../../lib" }
+vconfig_codegen = { version = "0.1.1", path = "../codegen", features = ["actix_web"] }
 
 [lints]
 workspace = true

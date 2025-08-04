@@ -1,6 +1,6 @@
 [package]
 name = "vconfig_axum"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Wei Gu <gu_wei_dev@outlook.com>"]
 edition = "2024"
 description = """
@@ -15,8 +15,8 @@ rust-version = "1.88"
 
 [dependencies]
 axum = { version = "0.8.4" }
-vconfig = { version = "0.1.0", path = "../../lib" }
-vconfig_codegen = { version = "0.1.0", path = "../codegen", features = ["axum"] }
+vconfig = { version = "0.1.1", path = "../../lib" }
+vconfig_codegen = { version = "0.1.1", path = "../codegen", features = ["axum"] }
 
 [lints]
 workspace = true

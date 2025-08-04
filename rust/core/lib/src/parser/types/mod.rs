@@ -16,7 +16,7 @@ pub(crate) fn parse_str<'a>(source: &'a str) -> Result<Table> {
     let tokenizer = tokenizer::Tokenizer::new(source);
     let tokens = tokenizer.into_vec();
     let mut token_stream: TokenSlice<'_, Token> = TokenSlice::new(&tokens);
-    if let Some(token) = token_stream.next_token() {
+    if let Some(token) = token_stream.peek_token() {
         let value_result = Table::from(source, &mut token_stream, token, false);
         match value_result {
             Ok(value) => {

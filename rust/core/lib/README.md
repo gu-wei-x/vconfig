@@ -9,7 +9,7 @@ vconfig is a crate to deserialize Rust data from TOML-formatted like files/strea
 
 ```rust
 use std::error::Error;
-use vconfig::default::Defaultvariants;
+use vconfig::default::DefaultVariants;
 use vconfig::serde::Deserialize;
 use vconfig::traits::Variants;
 
@@ -33,7 +33,7 @@ fn from_str() -> Result<(), Box<dyn Error>> {
         key2&variant2:v2 = "5"
         key2 = "3"
     "#;
-    let mut variants = Defaultvariants::default();
+    let mut variants = DefaultVariants::default();
     _ = variants.add("variant1", "v1");
     _ = variants.add("variant2", "v2");
     let result = vconfig::de::from_str::<Config, _>(raw_str, &variants);
@@ -49,7 +49,7 @@ fn from_str() -> Result<(), Box<dyn Error>> {
 }
 
 fn from_file() -> Result<(), Box<dyn Error>> {
-    let mut variants = Defaultvariants::default();
+    let mut variants = DefaultVariants::default();
     _ = variants.add("variant1", "v1");
     _ = variants.add("variant2", "v2");
     let result = vconfig::de::from_file::<Config, _, _>("basic.toml", &variants);

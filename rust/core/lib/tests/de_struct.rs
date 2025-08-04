@@ -4,6 +4,36 @@ use vconfig::serde::Deserialize;
 use vconfig::traits::Variants;
 
 #[test]
+fn test_de_struct_of_string_values_in_one_line() {
+    #[derive(Debug, Deserialize)]
+    #[serde(crate = "vconfig::serde")]
+    struct Config {
+        key0: String,
+        key1: String,
+    }
+
+    let raw_str = r#"key0&v1:1 = "v0"
+        key0 = "v1"
+        key1&v1:1 = "v2"
+        key1 = "v3"
+    "#;
+
+    let mut variants = DefaultVariants::default();
+    _ = variants.add("v1", "1");
+    let result = vconfig::de::from_str::<Config, _>(raw_str, &variants);
+    assert!(result.is_ok());
+    let config = result.unwrap();
+    assert_eq!(&config.key0, "v0");
+    assert_eq!(&config.key1, "v2");
+
+    let result = vconfig::de::from_str::<Config, _>(raw_str, &DefaultVariants::default());
+    assert!(result.is_ok());
+    let config = result.unwrap();
+    assert_eq!(&config.key0, "v1");
+    assert_eq!(&config.key1, "v3");
+}
+
+#[test]
 fn test_de_struct_of_string_values() {
     #[derive(Debug, Deserialize)]
     #[serde(crate = "vconfig::serde")]

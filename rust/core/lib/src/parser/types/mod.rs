@@ -7,6 +7,7 @@ pub(crate) mod value;
 pub(crate) mod tests;
 
 use crate::parser::{Token, tokenizer};
+use crate::types::error;
 use crate::types::result::Result;
 use crate::types::table::Table;
 use crate::types::value::Value;
@@ -17,16 +18,10 @@ pub(crate) fn parse_str<'a>(source: &'a str) -> Result<Table> {
     let tokens = tokenizer.into_vec();
     let mut token_stream: TokenSlice<'_, Token> = TokenSlice::new(&tokens);
     if let Some(token) = token_stream.peek_token() {
-        let value_result = Table::from(source, &mut token_stream, token, false);
+        let value_result = Table::from(source, &mut token_stream, token, false)?;
         match value_result {
-            Ok(value) => {
-                if let Value::Table(table) = value {
-                    Ok(table)
-                } else {
-                    Result::from(token)
-                }
-            }
-            _ => Result::from(token),
+            Value::Table(table) => Ok(table),
+            _ => error::Error::from_str("Root type must be table").into(),
         }
     } else {
         Ok(Table::default())

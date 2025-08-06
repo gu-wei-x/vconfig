@@ -1,6 +1,6 @@
 [package]
 name = "vconfig_rocket"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Wei Gu <gu_wei_dev@outlook.com>"]
 edition = "2024"
 description = """
@@ -16,8 +16,8 @@ workspace = "../../../"
 
 [dependencies]
 rocket = "0.5.1"
-vconfig = { version = "0.1.1", path = "../../lib" }
-vconfig_codegen = { version = "0.1.1", path = "../codegen", features = ["rocket"] }
+vconfig = { version = "0.1.2", path = "../../lib" }
+vconfig_codegen = { version = "0.1.2", path = "../codegen", features = ["rocket"] }
 
 [lints]
 workspace = true

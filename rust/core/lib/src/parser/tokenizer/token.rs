@@ -100,7 +100,7 @@ pub fn tokenize(stream: &mut StrStream<'_>) -> Token {
         b'\n' => tokenize_newline(stream),
         b'"' => tokenize_double_quotated_string(stream),
         b'\'' => tokenize_single_quotated_string(stream),
-        _ => tokenize_other(stream),
+        _ => tokenize_expression(stream),
     };
 
     token
@@ -152,9 +152,9 @@ fn tokenize_newline(stream: &mut StrStream<'_>) -> Token {
     Token::new(Kind::NEWLINE, start, end)
 }
 
-fn tokenize_other(stream: &mut StrStream<'_>) -> Token {
+fn tokenize_expression(stream: &mut StrStream<'_>) -> Token {
     let start = stream.current_token_start();
-    const TOKEN_START: &[u8] = b"&,;#:\".=[]{} \n'";
+    const TOKEN_START: &[u8] = b"&,;#:\".=[]{} \r\n'";
     let offset = stream
         .as_bstr()
         .offset_for(|b| TOKEN_START.contains_token(b))
@@ -252,5 +252,38 @@ mod test {
         assert_eq!(token.kind, token::Kind::LSQUARBRACKET);
         assert_eq!(token.start, 0);
         assert_eq!(token.end, 1);
+    }
+
+    #[test]
+    fn test_tokenize_expression_with_crlf() {
+        // WWindows
+        let input = "abc\r\n";
+        let mut stream = StrStream::new(input);
+        let token = token::tokenize(&mut stream);
+        assert_eq!(token.kind, token::Kind::EXP);
+        assert_eq!(token.start, 0);
+        assert_eq!(token.end, 3);
+    }
+
+    #[test]
+    fn test_tokenize_expression_with_lf() {
+        // Unix-like, macOS
+        let input = "abc\n";
+        let mut stream = StrStream::new(input);
+        let token = token::tokenize(&mut stream);
+        assert_eq!(token.kind, token::Kind::EXP);
+        assert_eq!(token.start, 0);
+        assert_eq!(token.end, 3);
+    }
+
+    #[test]
+    fn test_tokenize_expression_with_cr() {
+        // OS X
+        let input = "abc\r";
+        let mut stream = StrStream::new(input);
+        let token = token::tokenize(&mut stream);
+        assert_eq!(token.kind, token::Kind::EXP);
+        assert_eq!(token.start, 0);
+        assert_eq!(token.end, 3);
     }
 }
